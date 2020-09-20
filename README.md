@@ -1,4 +1,4 @@
-# SP-App
+# sp_flutter_app
 
 ## Getting Started
 
