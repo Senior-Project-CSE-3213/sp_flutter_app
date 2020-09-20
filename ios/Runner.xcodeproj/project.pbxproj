@@ -493,3 +493,11 @@
 	};
 	rootObject = 97C146E61CF9000F007C117D /* Project object */;
 }
+
+TargetAttributes = {
+    KNY3Z7DM3D = {
+        CreatedOnToolsVersion = 7.3.1;
+        LastSwiftMigration = 0910;
+        DevelopmentTeam = SeniorProject;
+    };
+};
