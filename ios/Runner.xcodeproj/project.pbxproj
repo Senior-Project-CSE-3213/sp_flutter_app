@@ -6,6 +6,14 @@
 	objectVersion = 46;
 	objects = {
 
+	TargetAttributes = {
+    KNY3Z7DM3D = {
+        CreatedOnToolsVersion = 7.3.1;
+        LastSwiftMigration = 0910;
+        DevelopmentTeam = SeniorProject;
+    };
+};
+
 /* Begin PBXBuildFile section */
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
@@ -493,11 +501,3 @@
 	};
 	rootObject = 97C146E61CF9000F007C117D /* Project object */;
 }
-
-TargetAttributes = {
-    KNY3Z7DM3D = {
-        CreatedOnToolsVersion = 7.3.1;
-        LastSwiftMigration = 0910;
-        DevelopmentTeam = SeniorProject;
-    };
-};
