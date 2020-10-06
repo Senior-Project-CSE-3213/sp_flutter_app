@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import './components/body.dart';
+import 'package:sp_flutter_app/presentation/screens/login/components/body.dart';
 
-class Authenticate extends StatelessWidget {
+class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
