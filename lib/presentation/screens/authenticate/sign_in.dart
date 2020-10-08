@@ -13,50 +13,43 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
-    final NetworkProvider network = Provider.of<NetworkProvider>(context);
-    if (network.isLoading) {
-      return Scaffold(
+    Size deviceSize = MediaQuery.of(context).size;
+    return Scaffold(
+      backgroundColor: Colors.grey[350],
+      appBar: AppBar(
         backgroundColor: Colors.grey[350],
-        appBar: AppBar(
-          backgroundColor: Colors.grey[350],
-          textTheme: TextTheme(
-            headline6: TextStyle(color: Colors.black),
-          ),
-          elevation: 0.0,
-          title: Text('Sign in to App'),
+        textTheme: TextTheme(
+          headline6: TextStyle(color: Colors.black),
         ),
-        body: Container(
-          child: Center(
-            child: Text("Loading..."),
-          ),
+        elevation: 0.0,
+        title: Text('Sign in to App'),
+      ),
+      body: Container(
+        padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
+        child: SingleChildScrollView(
+          child: Column(children: <Widget>[
+            Text(
+              "Login",
+              style: TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: deviceSize.height * 0.03),
+            TextField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Email',
+              ),
+            ),
+            SizedBox(height: deviceSize.height * 0.03),
+            TextField(
+              obscureText: true,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Password',
+              ),
+            ),
+          ]),
         ),
-      );
-    } else {
-      return Scaffold(
-        backgroundColor: Colors.grey[350],
-        appBar: AppBar(
-          backgroundColor: Colors.grey[350],
-          textTheme: TextTheme(
-            headline6: TextStyle(color: Colors.black),
-          ),
-          elevation: 0.0,
-          title: Text('Sign in to App'),
-        ),
-        body: Container(
-          padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
-          child: RaisedButton(
-              child: Text('Sign in anonymously'),
-              onPressed: () async {
-                dynamic result = await _auth.signInAnon();
-                if (result == null) {
-                  print('error signing in');
-                } else {
-                  print('signed in');
-                  print(result.uid);
-                }
-              }),
-        ),
-      );
-    }
+      ),
+    );
   }
 }
