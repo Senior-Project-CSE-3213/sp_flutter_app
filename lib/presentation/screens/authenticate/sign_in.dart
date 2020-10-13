@@ -26,29 +26,17 @@ class _SignInState extends State<SignIn> {
       ),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
-        child: SingleChildScrollView(
-          child: Column(children: <Widget>[
-            Text(
-              "Login",
-              style: TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: deviceSize.height * 0.03),
-            TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Email',
-              ),
-            ),
-            SizedBox(height: deviceSize.height * 0.03),
-            TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Password',
-              ),
-            ),
-          ]),
-        ),
+        child: RaisedButton(
+            child: Text('Sign in anonymously'),
+            onPressed: () async {
+              dynamic result = await _auth.signInAnon();
+              if (result == null) {
+                print('error signing in');
+              } else {
+                print('signed in');
+                print(result.uid);
+              }
+            }),
       ),
     );
   }
