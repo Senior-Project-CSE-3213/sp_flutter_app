@@ -3,9 +3,9 @@ import 'package:sp_flutter_app/presentation/widgets/event_map.dart';
 import 'package:sp_flutter_app/presentation/widgets/bottom_bar.dart';
 import 'package:sp_flutter_app/services/auth.dart';
 import 'package:sp_flutter_app/shared/constants.dart';
+import 'package:sp_flutter_app/presentation/widgets/notification_drawer.dart';
+import 'package:sp_flutter_app/presentation/widgets/main_drawer.dart';
 
-import 'file:///E:/SeniorProject/sp_flutter_app/lib/presentation/widgets/main_drawer.dart';
-import 'file:///E:/SeniorProject/sp_flutter_app/lib/presentation/widgets/notification_drawer.dart';
 
 class Home extends StatelessWidget {
   final AuthService _auth = AuthService();
