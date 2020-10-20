@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:sp_flutter_app/presentation/widgets/CustomAppBar.dart';
+import 'package:sp_flutter_app/presentation/widgets/CustomBottomNavBar.dart';
 import 'package:sp_flutter_app/presentation/widgets/Map.dart';
+
+
 import 'package:sp_flutter_app/services/auth.dart';
 
 class Home extends StatelessWidget {
@@ -27,7 +31,11 @@ class Home extends StatelessWidget {
             ),
           ],
         ),
-        body: Map(),
+
+        //body: Map(),
+        bottomNavigationBar: BottomBar(),
+
+
       ),
     );
   }
