@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:sp_flutter_app/data/providers/network_provider.dart';
 import 'package:sp_flutter_app/services/auth.dart';
 
 class SignIn extends StatefulWidget {
