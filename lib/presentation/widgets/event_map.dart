@@ -4,16 +4,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class EventMapState extends State<EventMap> {
   build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          GoogleMap(
-            initialCameraPosition: CameraPosition(
-              target: LatLng(24.142, -110.321),
-              zoom: 15,
-            ),
-          ),
-        ],
+    return GoogleMap(
+      initialCameraPosition: CameraPosition(
+        target: LatLng(24.142, -110.321),
+        zoom: 15,
       ),
     );
   }
