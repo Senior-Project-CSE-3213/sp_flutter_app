@@ -32,7 +32,7 @@ class _BodyState extends State<Body> {
         .of(context)
         .size;
     return _loading
-        ? CircularProgressIndicator()
+        ? Center(child:CircularProgressIndicator())
         : Background(
       child: Stack(
         children: [
@@ -77,6 +77,7 @@ class _BodyState extends State<Body> {
                       text: "SIGNUP",
                       press: () async {
                         if (_formKey.currentState.validate()) {
+                          setState(() => _loading = true);
                           dynamic result =
                           await _auth.registerWithEmailAndPassword(
                               _email, _password);

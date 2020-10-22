@@ -30,7 +30,7 @@ class _BodyState extends State<Body> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return _loading
-        ? CircularProgressIndicator()
+        ? Center(child: CircularProgressIndicator())
         : Background(
             child: Stack(
               children: [
@@ -75,6 +75,7 @@ class _BodyState extends State<Body> {
                             text: "LOGIN",
                             press: () async {
                               if (_formKey.currentState.validate()) {
+                                setState(() => _loading = true);
                                 dynamic result =
                                     await _auth.signInWithEmailAndPassword(
                                         _email, _password);
