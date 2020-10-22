@@ -3,16 +3,57 @@ import 'package:provider/provider.dart';
 import 'package:sp_flutter_app/data/models/user.dart';
 import 'package:sp_flutter_app/presentation/screens/authenticate/authenticate.dart';
 import 'package:sp_flutter_app/presentation/screens/home/home.dart';
+import 'package:sp_flutter_app/presentation/widgets/main_drawer.dart';
+import 'package:sp_flutter_app/presentation/widgets/notification_drawer.dart';
+import 'package:sp_flutter_app/shared/constants.dart';
 
 class Wrapper extends StatelessWidget {
+  final Widget child;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  Wrapper({
+    Key key,
+    @required this.child,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    final User user = Provider.of<User>(context);
+    final User user = Provider.of<User>(context, listen: true);
     // return either Home or Authenticate widget
     if (user == null) {
       return Authenticate();
     } else {
-      return Home();
+      return Scaffold(
+        backgroundColor: Colors.grey[350],
+        key: _scaffoldKey,
+        appBar: AppBar(
+          title: Text('Home'),
+          centerTitle: false,
+          backgroundColor: mainColor,
+          textTheme: TextTheme(
+            headline5: TextStyle(color: Colors.white),
+          ),
+          //elevation: 0.0,
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.chat),
+              onPressed: () {
+                print("Clicked chat");
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.notifications),
+              onPressed: () {
+                _scaffoldKey.currentState.openEndDrawer();
+              },
+            ),
+          ],
+        ),
+        drawer: MainDrawer(),
+        endDrawer: NotificationDrawer(),
+        body: child,
+        bottomNavigationBar: BottomAppBar(),
+      );
     }
   }
 }
