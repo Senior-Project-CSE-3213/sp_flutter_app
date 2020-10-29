@@ -24,7 +24,6 @@ class Background extends StatelessWidget {
               child: SvgPicture.asset(
                 "assets/svgs/top_wavy.svg",
                 height: size.height * 0.25,
-                width: double.infinity,
                 color: kPrimaryLightColor,
               ),
             ),
