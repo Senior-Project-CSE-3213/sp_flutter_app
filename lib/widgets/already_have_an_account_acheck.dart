@@ -4,6 +4,7 @@ import 'package:sp_flutter_app/shared/constants.dart';
 class AlreadyHaveAnAccountCheck extends StatelessWidget {
   final bool login;
   final Function press;
+
   const AlreadyHaveAnAccountCheck({
     Key key,
     this.login = true,

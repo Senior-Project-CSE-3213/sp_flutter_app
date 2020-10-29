@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:sp_flutter_app/widgets/text_field_container.dart';
 import 'package:sp_flutter_app/shared/constants.dart';
+import 'package:sp_flutter_app/widgets/text_field_container.dart';
 
 class RoundedInputField extends StatelessWidget {
   final String hintText;
   final IconData icon;
   final ValueChanged<String> onChanged;
   final Function validator;
+
   const RoundedInputField({
     Key key,
     this.hintText,

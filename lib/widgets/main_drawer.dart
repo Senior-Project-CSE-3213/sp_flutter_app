@@ -60,7 +60,7 @@ class MainDrawer extends StatelessWidget {
               ),
             ),
             onTap: () {
-              Navigator.of(context).pushNamed(eventsScreenRoute);
+              Navigator.of(context).pushNamed(eventMapScreenRoute);
             },
           ),
           ListTile(

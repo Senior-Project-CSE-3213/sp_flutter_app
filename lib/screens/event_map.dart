@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sp_flutter_app/shared/constants.dart';
 
-class EventMapState extends State<EventMap> with SingleTickerProviderStateMixin {
+class EventMapState extends State<EventMap>
+    with SingleTickerProviderStateMixin {
   AnimationController animationController;
   Animation degOneTranslationAnimation;
   Animation rotationAnimation;
@@ -35,7 +36,6 @@ class EventMapState extends State<EventMap> with SingleTickerProviderStateMixin 
             zoomControlsEnabled: false,
             initialCameraPosition: CameraPosition(
               target: LatLng(24.142, -110.321),
-
               zoom: 15,
             ),
           ),
@@ -150,19 +150,14 @@ class EventMapState extends State<EventMap> with SingleTickerProviderStateMixin 
             ],
           ),
         ),
-
       ],
     );
-
-
-
   }
 }
 
 class EventMap extends StatefulWidget {
   State<StatefulWidget> createState() => EventMapState();
 }
-
 
 class CircularButton extends StatelessWidget {
   final double width;

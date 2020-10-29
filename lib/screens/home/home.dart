@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sp_flutter_app/widgets/event_map.dart';
+
+import 'file:///E:/SeniorProject/sp_flutter_app/lib/screens/event_map.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -7,7 +8,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
   @override
   Widget build(BuildContext context) {
     return EventMap();
