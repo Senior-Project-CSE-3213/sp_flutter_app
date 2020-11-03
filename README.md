@@ -2,7 +2,7 @@
 
 ## Software Architecture
 
-![Architecture Diagram](https://i.ibb.co/1KPwk3L/MVVM-Provider-Architecture.png)
+![Architecture Diagram](https://i.ibb.co/VpwxtDK/arch-diagram.png)
 
 ## File Structure
 
