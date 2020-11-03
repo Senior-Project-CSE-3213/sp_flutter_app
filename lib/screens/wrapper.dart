@@ -4,8 +4,8 @@ import 'package:sp_flutter_app/models/user.dart';
 import 'package:sp_flutter_app/screens/authenticate/authenticate.dart';
 import 'package:sp_flutter_app/services/auth.dart';
 import 'package:sp_flutter_app/shared/constants.dart';
-import 'package:sp_flutter_app/widgets/main_drawer.dart';
-import 'package:sp_flutter_app/widgets/notification_drawer.dart';
+import 'package:sp_flutter_app/shared/widgets/main_drawer.dart';
+import 'package:sp_flutter_app/shared/widgets/notification_drawer.dart';
 
 class Wrapper extends StatelessWidget {
   final Widget child;

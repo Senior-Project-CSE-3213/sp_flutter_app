@@ -93,8 +93,6 @@ class _SignInState extends State<SignIn> {
                                   error = 'Error with email and/or password';
                                   loading = false;
                                 });
-                              } else {
-                                setState(() => loading = false);
                               }
                             }
                           },
