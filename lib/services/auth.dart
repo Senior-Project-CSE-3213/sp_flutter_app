@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart' as fbAuth;
-import 'package:sp_flutter_app/data/models/user.dart';
+import 'package:sp_flutter_app/models/user.dart';
 
 class AuthService {
   final fbAuth.FirebaseAuth _auth = fbAuth.FirebaseAuth.instance;
@@ -25,9 +25,30 @@ class AuthService {
     }
   }
 
-  // sign in with email/password
+  Future signInWithEmailAndPassword(String email, String password) async {
+    try {
+      fbAuth.UserCredential result = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      fbAuth.User user = result.user;
+      return _userFromFirebaseUser(user);
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
 
   // register with email/password
+  Future registerWithEmailAndPassword(String email, String password) async {
+    try {
+      fbAuth.UserCredential result = await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      fbAuth.User user = result.user;
+      return _userFromFirebaseUser(user);
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
 
   // sign out
   Future signOut() async {

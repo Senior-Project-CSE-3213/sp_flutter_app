@@ -41,5 +41,11 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+
+	<key>io.flutter.embedded_views_preview</key>
+    <string>YES</string>
+
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>So we can track you while you use the app</string>
 </dict>
 </plist>

@@ -8,7 +8,7 @@
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:sp_flutter_app/main.dart';
-import 'package:sp_flutter_app/presentation/screens/wrapper.dart';
+import 'package:sp_flutter_app/screens/wrapper.dart';
 
 void main() {
   testWidgets('Home contains \'Hello, world!\' text.',
