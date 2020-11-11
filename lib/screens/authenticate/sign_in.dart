@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:sp_flutter_app/services/auth.dart';
 import 'package:sp_flutter_app/shared/constants.dart';
 import 'package:sp_flutter_app/shared/loading.dart';
+import 'package:sp_flutter_app/viewmodels/user_viewmodel.dart';
 
 class SignIn extends StatefulWidget {
   final Function toggleView;
@@ -24,7 +25,8 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
-    final _auth = Provider.of<AuthService>(context);
+    // final _auth = Provider.of<AuthService>(context);
+    final _userViewModel = UserViewModel();
     return loading
         ? Loading()
         : Scaffold(
@@ -86,7 +88,7 @@ class _SignInState extends State<SignIn> {
                           onPressed: () async {
                             if (_formKey.currentState.validate()) {
                               setState(() => loading = true);
-                              dynamic result = await _auth
+                              dynamic result = await _userViewModel
                                   .signInWithEmailAndPassword(email, password);
                               if (result == null) {
                                 setState(() {

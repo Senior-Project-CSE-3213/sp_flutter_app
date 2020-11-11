@@ -6,6 +6,7 @@ import 'package:sp_flutter_app/services/auth.dart';
 import 'package:sp_flutter_app/shared/constants.dart';
 import 'package:sp_flutter_app/shared/widgets/main_drawer.dart';
 import 'package:sp_flutter_app/shared/widgets/notification_drawer.dart';
+import 'package:sp_flutter_app/viewmodels/user_viewmodel.dart';
 
 class Wrapper extends StatelessWidget {
   final Widget child;
@@ -18,10 +19,11 @@ class Wrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final auth = Provider.of<AuthService>(context);
+    // final auth = Provider.of<AuthService>(context);
+    final _userViewModel = UserViewModel();
     // return either Home or Authenticate widget or loading
     return StreamBuilder<User>(
-        stream: auth.user,
+        stream: _userViewModel.user,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.active) {
             User user = snapshot.data;

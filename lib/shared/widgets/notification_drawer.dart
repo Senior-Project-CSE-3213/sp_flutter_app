@@ -3,7 +3,6 @@ import 'package:sp_flutter_app/services/auth.dart';
 import 'package:sp_flutter_app/shared/constants.dart';
 
 class NotificationDrawer extends StatelessWidget {
-  final AuthService _auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
