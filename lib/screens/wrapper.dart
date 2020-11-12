@@ -23,7 +23,6 @@ class Wrapper extends StatelessWidget {
     return StreamBuilder<User>(
         stream: _userViewModel.userStream,
         builder: (context, snapshot) {
-          print(snapshot.connectionState);
           if (snapshot.connectionState == ConnectionState.active) {
             User user = snapshot.data;
             if (user == null) {
