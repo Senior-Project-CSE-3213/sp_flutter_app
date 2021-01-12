@@ -4,7 +4,6 @@ import 'package:sp_flutter_app/shared/constants.dart';
 
 class BottomBarState extends State<BottomBar> {
   int _selectedIndex = 0;
-  final AuthService _auth = AuthService();
 
   void _onItemTapped(int index) {
     setState(() {

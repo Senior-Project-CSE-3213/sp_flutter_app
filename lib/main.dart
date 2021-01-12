@@ -6,20 +6,23 @@ import 'package:sp_flutter_app/screens/help_screen.dart';
 import 'package:sp_flutter_app/screens/profile_screen.dart';
 import 'package:sp_flutter_app/screens/settings_screen.dart';
 import 'package:sp_flutter_app/screens/wrapper.dart';
-import 'package:sp_flutter_app/services/auth.dart';
 import 'package:sp_flutter_app/shared/constants.dart';
+import 'package:sp_flutter_app/viewmodels/user_viewmodel.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MultiProvider(
+  runApp(
+    MultiProvider(
       providers: [
-        Provider<AuthService>(create: (_) => AuthService()),
+        ChangeNotifierProvider(create: (_) => UserViewModel()),
       ],
       child: MaterialApp(initialRoute: eventMapScreenRoute, routes: {
         eventMapScreenRoute: (_) => Wrapper(child: EventMap()),
         profileScreenRoute: (_) => ProfileScreen(),
         helpScreenRoute: (_) => HelpScreen(),
         settingScreenRoute: (_) => SettingScreen(),
-      })));
+      }),
+    ),
+  );
 }
