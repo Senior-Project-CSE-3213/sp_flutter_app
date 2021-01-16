@@ -12,8 +12,13 @@ import 'viewmodels/user_viewmodel.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(
-    MultiProvider(
+  runApp(MainApp());
+}
+
+class MainApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => UserViewModel()),
       ],
@@ -23,6 +28,6 @@ void main() async {
         helpScreenRoute: (_) => HelpScreen(),
         settingScreenRoute: (_) => SettingScreen(),
       }),
-    ),
-  );
+    );
+  }
 }
