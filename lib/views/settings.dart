@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sp_flutter_app/shared/constants.dart';
+import '../shared/constants.dart';
 
 class SettingScreen extends StatelessWidget {
   @override

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'file:///E:/SeniorProject/sp_flutter_app/lib/screens/event_map.dart';
+import '../event_map.dart';
 
 class Home extends StatefulWidget {
   @override
