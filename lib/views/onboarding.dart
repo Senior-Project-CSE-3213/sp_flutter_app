@@ -42,7 +42,7 @@ class OnboardingView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Meet,\nPlay,\nChat',
+                  'Schedule,\nMeet Up,\nChat',
                   style: TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 42,
@@ -52,6 +52,73 @@ class OnboardingView extends StatelessWidget {
                   textAlign: TextAlign.left,
                 ),
               ],
+            ),
+          ),
+          Container(
+            height: size.height * 0.075,
+            margin: EdgeInsets.only(top: 16, left: 24, right: 24),
+            child: FlatButton(
+              onPressed: () {},
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(48),
+              ),
+              color: const Color(0xff246bfd),
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      "assets/svgs/envelop.svg",
+                      height: 24,
+                    ),
+                    SizedBox(width: 16),
+                    Text(
+                      'Continue with Email',
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 18,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Container(
+            height: size.height * 0.075,
+            margin: EdgeInsets.only(top: 16, left: 24, right: 24),
+            child: OutlineButton(
+              onPressed: () {},
+              borderSide: BorderSide(color: Colors.white),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(48),
+              ),
+              color: const Color(0xff246bfd),
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      "assets/svgs/google.svg",
+                      height: 24,
+                    ),
+                    SizedBox(width: 16),
+                    Text(
+                      'Continue with Gmail',
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 18,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
         ],
