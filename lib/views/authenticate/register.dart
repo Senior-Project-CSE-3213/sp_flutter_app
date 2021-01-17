@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sp_flutter_app/shared/constants.dart';
-import 'package:sp_flutter_app/shared/loading.dart';
-import 'package:sp_flutter_app/shared/response.dart';
-import 'package:sp_flutter_app/viewmodels/user_viewmodel.dart';
+import '../../shared/constants.dart';
+import '../../shared/loading.dart';
+import '../../shared/response.dart';
+import '../../viewmodels/user_viewmodel.dart';
 
-class SignIn extends StatefulWidget {
+class Register extends StatefulWidget {
   final Function toggleView;
 
-  SignIn({this.toggleView});
+  Register({this.toggleView});
 
   @override
-  _SignInState createState() => _SignInState();
+  _RegisterState createState() => _RegisterState();
 }
 
-class _SignInState extends State<SignIn> {
+class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
 
@@ -23,7 +23,7 @@ class _SignInState extends State<SignIn> {
   String password = '';
   String error = '';
 
-  Widget _signInScreen(BuildContext context, UserViewModel _userViewModel) {
+  Widget _registerScreen(BuildContext context, UserViewModel _userViewModel) {
     return Scaffold(
       backgroundColor: Colors.grey[350],
       appBar: AppBar(
@@ -32,11 +32,11 @@ class _SignInState extends State<SignIn> {
           headline6: TextStyle(color: Colors.white),
         ),
         elevation: 0.0,
-        title: Text('Sign in to App'),
+        title: Text('Sign up for the App'),
         actions: <Widget>[
           FlatButton.icon(
             icon: Icon(Icons.person),
-            label: Text('Register'),
+            label: Text('Sign In'),
             textColor: Colors.white,
             onPressed: () {
               widget.toggleView();
@@ -49,7 +49,6 @@ class _SignInState extends State<SignIn> {
         child: Form(
           key: _formKey,
           child: Column(
-            //mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               SizedBox(height: 20.0),
               TextFormField(
@@ -66,7 +65,7 @@ class _SignInState extends State<SignIn> {
                     textInputDecoration.copyWith(hintText: 'Enter password'),
                 obscureText: true,
                 validator: (val) => val.length < 6
-                    ? 'Password must be at least 6 chars long'
+                    ? 'Enter a password 6 or more characters long'
                     : null,
                 onChanged: (val) {
                   setState(() => password = val);
@@ -76,13 +75,13 @@ class _SignInState extends State<SignIn> {
               RaisedButton(
                 color: Colors.deepOrange[400],
                 child: Text(
-                  'Sign In',
+                  'Register',
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
                     setState(() => loading = true);
-                    await _userViewModel.signInWithEmailAndPassword(
+                    await _userViewModel.registerWithEmailAndPassword(
                         email, password);
                   }
                 },
@@ -110,11 +109,11 @@ class _SignInState extends State<SignIn> {
         setState(() {
           error = _userViewModel.viewModelResponse.exception;
         });
-        return _signInScreen(context, _userViewModel);
+        return _registerScreen(context, _userViewModel);
         break;
       case ResponseState.COMPLETE:
       default:
-        return _signInScreen(context, _userViewModel);
+        return _registerScreen(context, _userViewModel);
         break;
     }
   }

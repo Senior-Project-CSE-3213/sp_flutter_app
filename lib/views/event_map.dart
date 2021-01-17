@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:sp_flutter_app/shared/constants.dart';
+import '../shared/constants.dart';
 
 class EventMapState extends State<EventMap>
     with SingleTickerProviderStateMixin {
