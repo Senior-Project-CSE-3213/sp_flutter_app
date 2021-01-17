@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../views/onboarding.dart';
 import '../models/user.dart';
-import 'authenticate/authenticate.dart';
 import '../shared/constants.dart';
 import '../shared/widgets/main_drawer.dart';
 import '../shared/widgets/notification_drawer.dart';
@@ -31,7 +31,7 @@ class Wrapper extends StatelessWidget {
                 transitionBuilder: (Widget child, Animation<double> animation) {
                   return ScaleTransition(child: child, scale: animation);
                 },
-                child: Authenticate(),
+                child: OnboardingView(),
               );
             }
             return AnimatedSwitcher(
