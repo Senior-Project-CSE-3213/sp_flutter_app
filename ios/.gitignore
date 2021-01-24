@@ -32,3 +32,4 @@ Runner/GeneratedPluginRegistrant.*
 !default.perspectivev3
 
 Runner/GoogleService-Info.plist
+build/
