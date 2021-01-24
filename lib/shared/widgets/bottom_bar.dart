@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sp_flutter_app/services/auth.dart';
 import 'package:sp_flutter_app/shared/constants.dart';
 
 class BottomBarState extends State<BottomBar> {

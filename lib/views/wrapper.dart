@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../views/onboarding.dart';
+import 'onboarding/onboarding.dart';
 import '../models/user.dart';
 import '../shared/constants.dart';
 import '../shared/widgets/main_drawer.dart';
@@ -19,7 +19,7 @@ class Wrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _userViewModel = Provider.of<UserViewModel>(context);
-    // return either Home or Authenticate widget or loading
+    // return either Home or OnboardingView widget or loading
     return StreamBuilder<User>(
         stream: _userViewModel.userStream,
         builder: (context, snapshot) {
