@@ -1,27 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
+import 'package:sp_flutter_app/views/views.dart';
+import 'package:sp_flutter_app/views/wrapper.dart';
 import '../../shared/constants.dart';
 import '../../shared/loading.dart';
 import '../../shared/response.dart';
 import '../../viewmodels/user_viewmodel.dart';
 
 class SignIn extends StatefulWidget {
-  final Function toggleView;
-
-  SignIn({this.toggleView});
-
   @override
   _SignInState createState() => _SignInState();
 }
 
 class _SignInState extends State<SignIn> {
   final _formKey = GlobalKey<FormState>();
-  bool loading = false;
 
   // Text field state
   String email = '';
   String password = '';
-  String error = '';
 
   Widget _signInScreen(BuildContext context, UserViewModel _userViewModel) {
     return Scaffold(
@@ -39,7 +36,7 @@ class _SignInState extends State<SignIn> {
             label: Text('Register'),
             textColor: Colors.white,
             onPressed: () {
-              widget.toggleView();
+              Navigator.of(context).pushNamed(registerViewRoute);
             },
           )
         ],
@@ -81,17 +78,15 @@ class _SignInState extends State<SignIn> {
                 ),
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
-                    setState(() => loading = true);
                     await _userViewModel.signInWithEmailAndPassword(
                         email, password);
+                    if (_userViewModel?.viewModelResponse?.exception == null) {
+                      Navigator.of(context)
+                          .restorablePushReplacementNamed(mapViewRoute);
+                    }
                   }
                 },
               ),
-              SizedBox(height: 12.0),
-              Text(
-                error,
-                style: TextStyle(color: Colors.red, fontSize: 14.0),
-              )
             ],
           ),
         ),
@@ -107,9 +102,18 @@ class _SignInState extends State<SignIn> {
         return Loading();
         break;
       case ResponseState.ERROR:
-        setState(() {
-          error = _userViewModel.viewModelResponse.exception;
-        });
+        if (_userViewModel.viewModelResponse.showToast) {
+          Fluttertoast.cancel();
+          Fluttertoast.showToast(
+            msg: _userViewModel.viewModelResponse.exception,
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM,
+            backgroundColor: Colors.white,
+            textColor: Colors.red,
+            fontSize: 16,
+          );
+          _userViewModel.viewModelResponse.showToast = false;
+        }
         return _signInScreen(context, _userViewModel);
         break;
       case ResponseState.COMPLETE:

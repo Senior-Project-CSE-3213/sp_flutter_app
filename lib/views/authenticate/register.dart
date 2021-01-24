@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import '../../shared/constants.dart';
 import '../../shared/loading.dart';
@@ -6,22 +7,16 @@ import '../../shared/response.dart';
 import '../../viewmodels/user_viewmodel.dart';
 
 class Register extends StatefulWidget {
-  final Function toggleView;
-
-  Register({this.toggleView});
-
   @override
   _RegisterState createState() => _RegisterState();
 }
 
 class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
-  bool loading = false;
 
   // Text field state
   String email = '';
   String password = '';
-  String error = '';
 
   Widget _registerScreen(BuildContext context, UserViewModel _userViewModel) {
     return Scaffold(
@@ -39,7 +34,7 @@ class _RegisterState extends State<Register> {
             label: Text('Sign In'),
             textColor: Colors.white,
             onPressed: () {
-              widget.toggleView();
+              Navigator.of(context).pushNamed(signInViewRoute);
             },
           )
         ],
@@ -80,17 +75,15 @@ class _RegisterState extends State<Register> {
                 ),
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
-                    setState(() => loading = true);
                     await _userViewModel.registerWithEmailAndPassword(
                         email, password);
+                    if (_userViewModel?.viewModelResponse?.exception == null) {
+                      Navigator.of(context)
+                          .restorablePushReplacementNamed(mapViewRoute);
+                    }
                   }
                 },
               ),
-              SizedBox(height: 12.0),
-              Text(
-                error,
-                style: TextStyle(color: Colors.red, fontSize: 14.0),
-              )
             ],
           ),
         ),
@@ -106,9 +99,18 @@ class _RegisterState extends State<Register> {
         return Loading();
         break;
       case ResponseState.ERROR:
-        setState(() {
-          error = _userViewModel.viewModelResponse.exception;
-        });
+        if (_userViewModel.viewModelResponse.showToast) {
+          Fluttertoast.cancel();
+          Fluttertoast.showToast(
+            msg: _userViewModel.viewModelResponse.exception,
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM,
+            backgroundColor: Colors.white,
+            textColor: Colors.red,
+            fontSize: 16,
+          );
+          _userViewModel.viewModelResponse.showToast = false;
+        }
         return _registerScreen(context, _userViewModel);
         break;
       case ResponseState.COMPLETE:
