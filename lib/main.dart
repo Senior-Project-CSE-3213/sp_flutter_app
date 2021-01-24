@@ -1,10 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'views/event_map.dart';
-import 'views/help.dart';
-import 'views/profile.dart';
-import 'views/settings.dart';
+import 'package:sp_flutter_app/views/authenticate/register.dart';
+import 'package:sp_flutter_app/views/authenticate/sign_in.dart';
+import 'views/map/map.dart';
+import 'views/help/help.dart';
+import 'views/profile/profile.dart';
+import 'views/settings/settings.dart';
 import 'views/wrapper.dart';
 import 'shared/constants.dart';
 import 'viewmodels/user_viewmodel.dart';
@@ -22,11 +24,13 @@ class MainApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => UserViewModel()),
       ],
-      child: MaterialApp(initialRoute: eventMapScreenRoute, routes: {
-        eventMapScreenRoute: (_) => Wrapper(child: EventMap()),
-        profileScreenRoute: (_) => ProfileScreen(),
-        helpScreenRoute: (_) => HelpScreen(),
-        settingScreenRoute: (_) => SettingScreen(),
+      child: MaterialApp(initialRoute: mapViewRoute, routes: {
+        registerViewRoute: (_) => Register(),
+        signInViewRoute: (_) => SignIn(),
+        mapViewRoute: (_) => Wrapper(child: MapView()),
+        profileViewRoute: (_) => ProfileScreen(),
+        helpViewRoute: (_) => HelpScreen(),
+        settingViewRoute: (_) => SettingScreen(),
       }),
     );
   }

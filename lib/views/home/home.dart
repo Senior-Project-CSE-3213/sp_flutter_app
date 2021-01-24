@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../event_map.dart';
+import '../map/map.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -9,6 +9,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    return EventMap();
+    return MapView();
   }
 }

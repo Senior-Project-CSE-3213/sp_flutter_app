@@ -15,7 +15,10 @@ const mainColor = Colors.indigoAccent;
 const kPrimaryColor = Color(0xFF6C63FF);
 const kPrimaryLightColor = Color(0xFFDEDEDE);
 
-const profileScreenRoute = '/screens/profile_screen.dart';
-const settingScreenRoute = '/screens/settings_screen.dart';
-const helpScreenRoute = '/screens/help_screen.dart';
-const eventMapScreenRoute = '/screens/event_map.dart';
+const onboardingViewRoute = '/views/onboarding/onboarding.dart';
+const registerViewRoute = '/views/authentication/register.dart';
+const signInViewRoute = '/views/authentication/sign_in.dart';
+const profileViewRoute = '/views/profile/profile.dart';
+const settingViewRoute = '/views/settings/settings.dart';
+const helpViewRoute = '/views/help/help.dart';
+const mapViewRoute = '/views/map/map.dart';

@@ -27,7 +27,7 @@ class MainDrawer extends StatelessWidget {
                     shape: BoxShape.circle,
                     image: DecorationImage(
                         image: NetworkImage(
-                          'http://2.bp.blogspot.com/-uQGdZGmyng0/T83p7wQV2hI/AAAAAAAABtQ/gwqY3Gx-PYw/s1600/Bulldog.jpeg',
+                          'https://2.bp.blogspot.com/-uQGdZGmyng0/T83p7wQV2hI/AAAAAAAABtQ/gwqY3Gx-PYw/s1600/Bulldog.jpeg',
                         ),
                         fit: BoxFit.fill),
                   ),
@@ -48,7 +48,7 @@ class MainDrawer extends StatelessWidget {
               ),
             ),
             onTap: () {
-              Navigator.of(context).pushNamed(profileScreenRoute);
+              Navigator.of(context).pushNamed(profileViewRoute);
             },
           ),
           ListTile(
@@ -60,9 +60,8 @@ class MainDrawer extends StatelessWidget {
               ),
             ),
             onTap: () {
-              if (ModalRoute.of(context)?.settings?.name !=
-                  eventMapScreenRoute) {
-                Navigator.of(context).pushNamed(eventMapScreenRoute);
+              if (ModalRoute.of(context)?.settings?.name != mapViewRoute) {
+                Navigator.of(context).pushNamed(mapViewRoute);
               } else {
                 Navigator.pop(context);
               }
@@ -77,7 +76,7 @@ class MainDrawer extends StatelessWidget {
               ),
             ),
             onTap: () {
-              Navigator.of(context).pushNamed(settingScreenRoute);
+              Navigator.of(context).pushNamed(settingViewRoute);
             },
           ),
           ListTile(
@@ -89,7 +88,7 @@ class MainDrawer extends StatelessWidget {
               ),
             ),
             onTap: () {
-              Navigator.of(context).pushNamed(helpScreenRoute);
+              Navigator.of(context).pushNamed(helpViewRoute);
             },
           ),
           ListTile(
