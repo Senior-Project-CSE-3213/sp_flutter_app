@@ -33,3 +33,4 @@ Runner/GeneratedPluginRegistrant.*
 
 Runner/GoogleService-Info.plist
 build/
+Runner.xcodeproj/
