@@ -34,3 +34,5 @@ Runner/GeneratedPluginRegistrant.*
 Runner/GoogleService-Info.plist
 build/
 Runner.xcodeproj/
+*.xcscheme
+ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme
