@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sp_flutter_app/views/authenticate/sign_in_email.dart';
 import 'package:sp_flutter_app/views/authenticate/register.dart';
 import 'package:sp_flutter_app/views/authenticate/sign_in.dart';
 import 'views/map/map.dart';
@@ -25,6 +26,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => UserViewModel()),
       ],
       child: MaterialApp(initialRoute: mapViewRoute, routes: {
+        signInEmailViewRoute: (_) => SignInEmail(),
         registerViewRoute: (_) => Register(),
         signInViewRoute: (_) => SignIn(),
         mapViewRoute: (_) => Wrapper(child: MapView()),

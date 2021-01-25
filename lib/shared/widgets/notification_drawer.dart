@@ -10,7 +10,7 @@ class NotificationDrawer extends StatelessWidget {
           Container(
             width: double.infinity,
             padding: EdgeInsets.all(20),
-            color: mainColor,
+            color: kPrimaryColor,
             child: Center(
                 child: Column(
               children: <Widget>[

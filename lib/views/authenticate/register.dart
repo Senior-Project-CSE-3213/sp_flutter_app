@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
+import 'package:sp_flutter_app/shared/widgets/gradient_background.dart';
 import '../../shared/constants.dart';
 import '../../shared/loading.dart';
 import '../../shared/response.dart';
@@ -19,74 +21,63 @@ class _RegisterState extends State<Register> {
   String password = '';
 
   Widget _registerScreen(BuildContext context, UserViewModel _userViewModel) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.grey[350],
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: mainColor,
-        textTheme: TextTheme(
-          headline6: TextStyle(color: Colors.white),
-        ),
+        titleSpacing: 0.0,
+        backgroundColor: Colors.transparent,
         elevation: 0.0,
-        title: Text('Sign up for the App'),
-        actions: <Widget>[
-          FlatButton.icon(
-            icon: Icon(Icons.person),
-            label: Text('Sign In'),
-            textColor: Colors.white,
-            onPressed: () {
-              Navigator.of(context).pushNamed(signInViewRoute);
+        automaticallyImplyLeading: false, // Don't show the leading button
+        title: Container(
+          alignment: Alignment.topLeft,
+          child: GestureDetector(
+            onTap: () {
+              print("tapped");
             },
-          )
-        ],
-      ),
-      body: Container(
-        padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: <Widget>[
-              SizedBox(height: 20.0),
-              TextFormField(
-                decoration:
-                    textInputDecoration.copyWith(hintText: 'Enter email'),
-                validator: (val) => val.isEmpty ? 'Enter an email' : null,
-                onChanged: (val) {
-                  setState(() => email = val);
-                },
+            child: Padding(
+              padding: const EdgeInsets.all(kDefaultPadding * 2.0),
+              child: SvgPicture.asset(
+                "assets/svgs/arrow-left2.svg",
+                color: Colors.white,
+                height: 24,
+                width: 24,
               ),
-              SizedBox(height: 20.0),
-              TextFormField(
-                decoration:
-                    textInputDecoration.copyWith(hintText: 'Enter password'),
-                obscureText: true,
-                validator: (val) => val.length < 6
-                    ? 'Enter a password 6 or more characters long'
-                    : null,
-                onChanged: (val) {
-                  setState(() => password = val);
-                },
-              ),
-              SizedBox(height: 20.0),
-              RaisedButton(
-                color: Colors.deepOrange[400],
-                child: Text(
-                  'Register',
-                  style: TextStyle(color: Colors.white),
-                ),
-                onPressed: () async {
-                  if (_formKey.currentState.validate()) {
-                    await _userViewModel.registerWithEmailAndPassword(
-                        email, password);
-                    if (_userViewModel?.viewModelResponse?.exception == null) {
-                      Navigator.of(context)
-                          .restorablePushReplacementNamed(mapViewRoute);
-                    }
-                  }
-                },
-              ),
-            ],
+            ),
           ),
         ),
+      ),
+      body: Stack(
+        children: [
+          GradientBackground(),
+          Container(
+            margin: EdgeInsets.symmetric(
+              horizontal: kDefaultPadding * 2.0,
+              vertical: size.height * 0.15,
+            ),
+            color: Colors.transparent,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Sign Up",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 48,
+                    fontFamily: "Poppins",
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                Row(
+                  children: [
+                    Text("test"),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

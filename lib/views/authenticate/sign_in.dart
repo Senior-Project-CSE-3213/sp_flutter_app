@@ -24,7 +24,7 @@ class _SignInState extends State<SignIn> {
     return Scaffold(
       backgroundColor: Colors.grey[350],
       appBar: AppBar(
-        backgroundColor: mainColor,
+        backgroundColor: kPrimaryColor,
         textTheme: TextTheme(
           headline6: TextStyle(color: Colors.white),
         ),
