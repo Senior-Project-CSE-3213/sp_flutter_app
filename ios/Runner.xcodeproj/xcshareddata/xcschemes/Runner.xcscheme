@@ -62,7 +62,7 @@
       <EnvironmentVariables>
          <EnvironmentVariable
             key = "GOOGLE_MAP_API_KEY"
-            value = "AIzaSyAgQ4W35RmkmPcO9WG02j2-xmgCwopHnf8"
+            value = "REDACTED"
             isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>

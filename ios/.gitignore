@@ -10,9 +10,12 @@
 **/DerivedData/
 Icon?
 **/Pods/
+**/Runner.xcodeproj/
+*.
 **/.symlinks/
 profile
 xcuserdata
+xcschemes
 **/.generated/
 Flutter/App.framework
 Flutter/Flutter.framework
@@ -35,4 +38,4 @@ Runner/GoogleService-Info.plist
 build/
 Runner.xcodeproj/
 *.xcscheme
-ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme
+Runner.scscheme
