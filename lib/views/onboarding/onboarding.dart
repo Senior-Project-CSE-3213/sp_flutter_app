@@ -14,7 +14,7 @@ class OnboardingView extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: const Color(0xff181a25),
+      backgroundColor: kPrimaryColor,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -39,7 +39,7 @@ class OnboardingView extends StatelessWidget {
               ),
             ),
             Container(
-              margin: EdgeInsets.all(24),
+              margin: EdgeInsets.all(kDefaultPadding * 2.0),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -57,17 +57,18 @@ class OnboardingView extends StatelessWidget {
               ),
             ),
             Container(
-              height: size.height * 0.075,
-              margin: EdgeInsets.only(top: 16, left: 24, right: 24),
+              width: size.width,
+              margin: EdgeInsets.symmetric(horizontal: kDefaultPadding * 2.0),
               child: FlatButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamed(registerViewRoute);
+                  Navigator.of(context).pushNamed(signInEmailViewRoute);
                 },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(48),
                 ),
                 color: const Color(0xff246bfd),
-                child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(kDefaultPadding),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -92,18 +93,19 @@ class OnboardingView extends StatelessWidget {
               ),
             ),
             Container(
-              height: size.height * 0.075,
-              margin: EdgeInsets.only(top: 16, left: 24, right: 24),
+              margin: EdgeInsets.symmetric(
+                  horizontal: kDefaultPadding * 2.0, vertical: kDefaultPadding),
               child: OutlineButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamed(registerViewRoute);
+                  Navigator.of(context).pushNamed(signInEmailViewRoute);
                 },
                 borderSide: BorderSide(color: Colors.white),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(48),
                 ),
                 color: const Color(0xff246bfd),
-                child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(kDefaultPadding),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -125,6 +127,37 @@ class OnboardingView extends StatelessWidget {
                     ],
                   ),
                 ),
+              ),
+            ),
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Already registered?",
+                    style: TextStyle(
+                      color: Colors.grey[400],
+                      fontSize: 16,
+                      fontFamily: "Inter",
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  SizedBox(width: kDefaultPadding * 0.5),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushNamed(signInViewRoute);
+                    },
+                    child: Text(
+                      "Sign In",
+                      style: TextStyle(
+                        color: Colors.blue[600],
+                        fontSize: 16,
+                        fontFamily: "Inter",
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
