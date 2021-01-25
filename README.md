@@ -34,11 +34,11 @@ lib
   |
   ├── viewmodels                # ViewModels for handling state (data via Models) and interactions with the API
   |
-  ├── models                    # Model classes            
-  |
-  ├── screens                   # Various screens (e.g. event map screen)
+  ├── models                    # Model classes           
   |
   ├── services                  # Services (APIs) that interact with Firebase services
+  |
+  ├── shared                    # Shared components and constants
   |
   └── main.dart              
 ```
