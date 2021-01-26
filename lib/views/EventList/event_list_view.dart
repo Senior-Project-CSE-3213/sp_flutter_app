@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_svg/svg.dart';
 
 class EventListView extends StatefulWidget {
   @override
@@ -132,7 +133,7 @@ class BottomNavigationBar extends StatefulWidget {
 
 class _BottomNavigationBarState extends State<BottomNavigationBar> {
   int _selectedIndex = 0;
-  List<IconData> _iconList = [];
+  List<IconData> _iconList = []; //go away
 
   @override
   void initState() {
@@ -146,7 +147,7 @@ class _BottomNavigationBarState extends State<BottomNavigationBar> {
     List<Widget> _navBarItemList = [];
 
     for (var i = 0; i < _iconList.length; i++) {
-      //adding icons to bottom nav bar
+      //adding icons to bottom nav bar, refactoring here still
       _navBarItemList.add(buildNavBarItem(_iconList[i], i));
     }
 
@@ -184,10 +185,18 @@ class _BottomNavigationBarState extends State<BottomNavigationBar> {
 
           color: Colors.blueGrey[900]),
           //NOTE: these are not IconButtons so that we can have this indicator dot
-        child: Icon (
-          icon,
-          color: Colors.white,
-        ),
+        child: (index == 2 ? Align(
+          child: SvgPicture.asset (
+              "assets/svgs/magnifying_glass.svg",
+              width: 26,
+              height: 26,
+              color: Colors.white
+          ),
+        ) : Icon (
+            icon,
+            color: Colors.white,
+            size: 28,
+        ))
       ),
     );
   }
