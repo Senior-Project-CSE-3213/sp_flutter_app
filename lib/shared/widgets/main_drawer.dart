@@ -93,6 +93,18 @@ class MainDrawer extends StatelessWidget {
             },
           ),
           ListTile(
+            leading: Icon(Icons.event_note),
+            title: Text(
+              'Event Detail Example',
+              style: TextStyle(
+                fontSize: 18,
+              ),
+            ),
+            onTap: () {
+              Navigator.of(context).pushNamed(eventDetailScreenRoute);
+            },
+          ),
+          ListTile(
             leading: Icon(Icons.person),
             title: Text(
               'Logout',

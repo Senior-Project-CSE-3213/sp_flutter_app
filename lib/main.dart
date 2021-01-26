@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sp_flutter_app/views/event_detail_view.dart';
 import 'views/event_map.dart';
 import 'views/help.dart';
 import 'views/profile.dart';
@@ -27,6 +28,7 @@ class MainApp extends StatelessWidget {
         profileScreenRoute: (_) => ProfileScreen(),
         helpScreenRoute: (_) => HelpScreen(),
         settingScreenRoute: (_) => SettingScreen(),
+        eventDetailScreenRoute: (_) => EventDetailScreen()
       }),
     );
   }
