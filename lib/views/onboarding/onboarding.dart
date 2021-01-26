@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:sp_flutter_app/shared/constants.dart';
+import 'package:sp_flutter_app/shared/widgets/full_width_text_btn_with_icon.dart';
 
 class OnboardingView extends StatelessWidget {
   final onboardingSvgs = [
@@ -14,7 +15,7 @@ class OnboardingView extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: kPrimaryColor,
+      backgroundColor: primaryColor,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -56,78 +57,21 @@ class OnboardingView extends StatelessWidget {
                 ],
               ),
             ),
-            Container(
-              width: size.width,
+            FullWidthTextButtonWithIcon(
+              handleSubmit: () =>
+                  Navigator.of(context).pushNamed(usingEmailViewRoute),
+              svgAsset: "assets/svgs/envelop.svg",
+              text: "Continue with Email",
               margin: EdgeInsets.symmetric(horizontal: kDefaultPadding * 2.0),
-              child: FlatButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed(signInEmailViewRoute);
-                },
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(48),
-                ),
-                color: const Color(0xff246bfd),
-                child: Padding(
-                  padding: const EdgeInsets.all(kDefaultPadding),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(
-                        "assets/svgs/envelop.svg",
-                        height: 24,
-                      ),
-                      SizedBox(width: 16),
-                      Text(
-                        'Continue with Email',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 18,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
             ),
-            Container(
+            FullWidthTextButtonWithIcon(
+              handleSubmit: () =>
+                  Navigator.of(context).pushNamed(usingEmailViewRoute),
+              svgAsset: "assets/svgs/google.svg",
+              text: "Continue with Gmail",
               margin: EdgeInsets.symmetric(
                   horizontal: kDefaultPadding * 2.0, vertical: kDefaultPadding),
-              child: OutlineButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed(signInEmailViewRoute);
-                },
-                borderSide: BorderSide(color: Colors.white),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(48),
-                ),
-                color: const Color(0xff246bfd),
-                child: Padding(
-                  padding: const EdgeInsets.all(kDefaultPadding),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(
-                        "assets/svgs/google.svg",
-                        height: 24,
-                      ),
-                      SizedBox(width: 16),
-                      Text(
-                        'Continue with Gmail',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 18,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              outline: true,
             ),
             Container(
               child: Row(

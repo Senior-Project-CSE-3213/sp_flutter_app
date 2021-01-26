@@ -129,7 +129,7 @@ class MapState extends State<MapView> with SingleTickerProviderStateMixin {
                             getRadiansFromDegree(rotationAnimation.value)),
                         alignment: Alignment.center,
                         child: CircularButton(
-                            color: kPrimaryColor,
+                            color: primaryColor,
                             width: 60,
                             height: 60,
                             icon: Icon(

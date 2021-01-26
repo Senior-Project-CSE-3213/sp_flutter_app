@@ -45,7 +45,7 @@ class Wrapper extends StatelessWidget {
                 appBar: AppBar(
                   title: Text('Home'),
                   centerTitle: false,
-                  backgroundColor: kPrimaryColor,
+                  backgroundColor: primaryColor,
                   textTheme: TextTheme(
                     headline5: TextStyle(color: Colors.white),
                   ),

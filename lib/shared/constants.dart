@@ -13,13 +13,13 @@ const textInputDecoration = InputDecoration(
 
 const double kDefaultPadding = 16.0;
 
-const Color kPrimaryColor = Color(0xFF191A21);
-const Color kSecondaryColor = Color(0xFF7B61FF);
-const Color kBlueColor = Color(0xFF246BFD);
-const Color kPrimaryLightColor = Color(0xFFDEDEDE);
+const Color primaryColor = Color(0xFF191A21);
+const Color secondaryColor = Color(0xFF7B61FF);
+const Color blueColor = Color(0xFF246BFD);
+const Color primaryLightColor = Color(0xFFDEDEDE);
 
 const String onboardingViewRoute = '/views/onboarding/onboarding.dart';
-const String signInEmailViewRoute = '/views/authentication/sign_in_email.dart';
+const String usingEmailViewRoute = '/views/authentication/sign_in_email.dart';
 const String registerViewRoute = '/views/authentication/register.dart';
 const String signInViewRoute = '/views/authentication/sign_in.dart';
 const String profileViewRoute = '/views/profile/profile.dart';

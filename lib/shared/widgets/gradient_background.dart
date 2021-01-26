@@ -10,7 +10,7 @@ class GradientBackground extends StatelessWidget {
       children: [
         Container(
           decoration: BoxDecoration(
-            color: kPrimaryColor,
+            color: primaryColor,
           ),
         ),
         Positioned.fill(

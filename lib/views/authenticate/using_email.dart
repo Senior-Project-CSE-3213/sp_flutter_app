@@ -12,12 +12,12 @@ import '../../shared/loading.dart';
 import '../../shared/response.dart';
 import '../../viewmodels/user_viewmodel.dart';
 
-class Register extends StatefulWidget {
+class UsingEmail extends StatefulWidget {
   @override
-  _RegisterState createState() => _RegisterState();
+  _UsingEmailState createState() => _UsingEmailState();
 }
 
-class _RegisterState extends State<Register> {
+class _UsingEmailState extends State<UsingEmail> {
   // Text field state
   String email = '';
   bool error = false;
@@ -26,7 +26,9 @@ class _RegisterState extends State<Register> {
     if (!error && EmailValidator.validate(email)) {
       // set view model data
       // navigate
-      Navigator.of(context).pushNamed(registerViewRoute);
+      Navigator.of(context).pushNamed(registerViewRoute, arguments: {
+        email: email,
+      });
     }
     // otherwise maybe shake the input button?
     setState(() {
@@ -62,47 +64,7 @@ class _RegisterState extends State<Register> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              HeadingText(text: "Register"),
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: kDefaultPadding,
-                  bottom: kDefaultPadding,
-                ),
-                child: RichText(
-                  text: TextSpan(
-                    text: 'Using',
-                    style: TextStyle(
-                      color: Color(0xffadadb2),
-                      fontSize: 14,
-                      fontFamily: "Inter",
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: 0.50,
-                    ),
-                    children: [
-                      TextSpan(
-                        text: ' test@domain.coms ',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontFamily: "Inter",
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: 0.015,
-                        ),
-                      ),
-                      TextSpan(
-                        text: 'to register',
-                        style: TextStyle(
-                          color: Color(0xffadadb2),
-                          fontSize: 14,
-                          fontFamily: "Inter",
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: 0.50,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              HeadingText(text: "What's your email address?"),
               Padding(
                 padding: const EdgeInsets.symmetric(
                   vertical: kDefaultPadding * 2.0,
@@ -111,7 +73,7 @@ class _RegisterState extends State<Register> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SimpleInputLabel(text: "password"),
+                    SimpleInputLabel(text: "Your Email"),
                     SimpleTextInputField(
                       error: error,
                       handleSubmit: handleSubmit,

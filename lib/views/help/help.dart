@@ -7,7 +7,7 @@ class HelpScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Help'),
-        backgroundColor: kPrimaryColor,
+        backgroundColor: primaryColor,
       ),
       body: Center(
         child: Column(

@@ -15,7 +15,7 @@ class BottomBarState extends State<BottomBar> {
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.map),
-          backgroundColor: kPrimaryColor,
+          backgroundColor: primaryColor,
           label: 'Map',
         ),
         BottomNavigationBarItem(
@@ -28,7 +28,7 @@ class BottomBarState extends State<BottomBar> {
         ),
       ],
       currentIndex: _selectedIndex,
-      selectedItemColor: kPrimaryColor,
+      selectedItemColor: primaryColor,
       onTap: _onItemTapped,
     );
   }
