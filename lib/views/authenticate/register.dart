@@ -19,31 +19,70 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   // Text field state
-  String email = '';
-  bool error = false;
+  String password1 = '';
+  String password2 = '';
+  String preferredName = '';
+  bool preferredNameError = false;
+  bool pwd1Error = false;
+  bool pwd2Error = false;
 
-  void handleSubmit() {
-    if (!error && EmailValidator.validate(email)) {
-      // set view model data
-      // navigate
-      Navigator.of(context).pushNamed(registerViewRoute);
+  /*
+      Password Must Contain:
+      - Minimum 1 Upper case
+      - Minimum 1 lowercase
+      - Minimum 1 Numeric Number
+      - Minimum 1 Special Character
+      - Common Allow Character ( ! @ # $ & * ~ )
+    */
+  bool isPasswordCompliant(String password, [int minLength = 6]) {
+    if (password == null || password.isEmpty) {
+      return false;
     }
-    // otherwise maybe shake the input button?
-    setState(() {
-      error = true;
-    });
+
+    bool hasUppercase = password.contains(new RegExp(r'[A-Z]'));
+    bool hasDigits = password.contains(new RegExp(r'[0-9]'));
+    bool hasLowercase = password.contains(new RegExp(r'[a-z]'));
+    bool hasSpecialCharacters =
+        password.contains(new RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
+    bool hasMinLength = password.length > minLength;
+
+    return hasDigits &
+        hasUppercase &
+        hasLowercase &
+        hasSpecialCharacters &
+        hasMinLength;
   }
 
-  void handleEmailChange(String changedEmail) {
-    if (!EmailValidator.validate(changedEmail)) {
+  void handleSubmit() {
+    setState(() {
+      preferredNameError = false;
+      pwd1Error = false;
+      pwd2Error = false;
+    });
+    if (preferredName.isEmpty) {
       setState(() {
-        error = true;
-        email = changedEmail;
+        preferredNameError = true;
+      });
+      return;
+    }
+    if (password1 != password2 || !isPasswordCompliant(password1)) {
+      setState(() {
+        pwd1Error = true;
+        pwd2Error = true;
+      });
+      return;
+    }
+    Navigator.of(context).pushNamed(registerViewRoute);
+  }
+
+  void handlePasswordChange(String pwd, bool pwd1) {
+    if (pwd1) {
+      setState(() {
+        password1 = pwd;
       });
     } else {
       setState(() {
-        error = false;
-        email = changedEmail;
+        password2 = pwd;
       });
     }
   }
@@ -111,17 +150,35 @@ class _RegisterState extends State<Register> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SimpleInputLabel(text: "password"),
+                    SimpleInputLabel(text: "Preferred Name"),
                     SimpleTextInputField(
-                      error: error,
+                      error: preferredNameError,
                       handleSubmit: handleSubmit,
-                      handleChange: handleEmailChange,
+                      handleChange: (val) {
+                        setState(() {
+                          preferredName = val;
+                        });
+                      },
+                    ),
+                    SimpleInputLabel(text: "Password"),
+                    SimpleTextInputField(
+                      error: pwd1Error,
+                      obscure: true,
+                      handleSubmit: handleSubmit,
+                      handleChange: (pwd) => handlePasswordChange(pwd, true),
+                    ),
+                    SimpleInputLabel(text: "Confirm Password"),
+                    SimpleTextInputField(
+                      error: pwd2Error,
+                      obscure: true,
+                      handleSubmit: handleSubmit,
+                      handleChange: (pwd) => handlePasswordChange(pwd, false),
                     ),
                     SizedBox(height: kDefaultPadding * 2.0),
                     FullWidthTextButtonWithIcon(
                       handleSubmit: handleSubmit,
                       svgAsset: "assets/svgs/envelop.svg",
-                      text: "Continue with Email",
+                      text: "Register with Email",
                     ),
                   ],
                 ),
