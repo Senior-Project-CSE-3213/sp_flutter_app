@@ -26,7 +26,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => UserViewModel()),
       ],
       child: MaterialApp(initialRoute: mapViewRoute, routes: {
-        usingEmailViewRoute: (_) => Register(),
+        usingEmailViewRoute: (_) => UsingEmail(),
         registerViewRoute: (_) => Register(),
         signInViewRoute: (_) => SignIn(),
         mapViewRoute: (_) => Wrapper(child: MapView()),

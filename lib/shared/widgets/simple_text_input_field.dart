@@ -6,11 +6,13 @@ class SimpleTextInputField extends StatelessWidget {
   const SimpleTextInputField({
     Key key,
     @required this.error,
-    @required this.handleSubmit,
+    this.obscure = false,
+    this.handleSubmit,
     @required this.handleChange,
   }) : super(key: key);
 
   final bool error;
+  final bool obscure;
   final void Function() handleSubmit;
   final void Function(String) handleChange;
 
@@ -18,6 +20,7 @@ class SimpleTextInputField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       autofocus: true,
+      obscureText: obscure ? true : false,
       onSubmitted: (_) => handleSubmit,
       onChanged: handleChange,
       style: TextStyle(
