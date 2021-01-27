@@ -54,9 +54,8 @@ class _EventListViewState extends State<EventListView> {
                  children: [
                    Padding(
                     padding: const EdgeInsets.only(top: 10),
-
                      child: Container (
-                       height: 120,
+                       height: 160,
                        width: size.width,
 
                       //I'm going to look at this: 
@@ -70,9 +69,9 @@ class _EventListViewState extends State<EventListView> {
                             CreateSponsoredEventCard("Dawgs After Dark",
                             "The Hump","Thursday, 9:30PM"),
                             CreateSponsoredEventCard("Cowbell yell",
-                            "Bettersworth","Sunday, 5:00PM"),
-                            CreateSponsoredEventCard("Ted X Talk",
-                            "The Hump","Tuesday, 12:30PM"),
+                            "Bettersworth Auditorium","Sunday, 5:00PM"),
+                            CreateSponsoredEventCard("Become an RA interest meeting",
+                            "Taylor Auditorium","Wednesday, 7:30PM"),
                          ],
                        ) 
                      ),
@@ -86,7 +85,7 @@ class _EventListViewState extends State<EventListView> {
                   Column (  
                     children: [
                       Container (
-                        padding: const EdgeInsets.only(left: 20.0),
+                        padding: const EdgeInsets.only(left: 20.0,),
                         child: 
                         Text ( 
                             "Latest Events",
@@ -105,8 +104,10 @@ class _EventListViewState extends State<EventListView> {
                         IconButton (
                           icon: Icon(Icons.view_headline),
                           color: Colors.black,
+                          tooltip: "Filter lastest events by...",
                           onPressed: () {
                             //select filtering option
+                            print("Filter latest events button pressed");
                           },
                           iconSize: 30,
                         ),
@@ -127,9 +128,28 @@ class _EventListViewState extends State<EventListView> {
                //scrollable row for latest event cards
                Row(
                  children: [
-                   
+                   Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                     child: Container (
+                       height: 307,
+                       width: size.width,
+
+                       child: ListView (
+                         scrollDirection: Axis.vertical,
+                         children: <Widget>[
+                            CreateLatestEventCard("Intramural Football",
+                            "Intramural Fields","Friday, 6:30PM"),
+                            CreateLatestEventCard("Dawgs After Dark",
+                            "The Hump","Thursday, 9:30PM"),
+                            CreateLatestEventCard("Cowbell yell",
+                            "Bettersworth Auditorium","Sunday, 5:00PM"),
+                            CreateLatestEventCard("Become an RA interest meeting",
+                            "Taylor Auditorium","Wednesday, 7:30PM"),
+                         ],
+                       ) 
+                     ),
+                   )
                  ],
-                  //todo make method for loading in json data and making cards
                ),
              ]
           )
@@ -139,6 +159,7 @@ class _EventListViewState extends State<EventListView> {
   }
 }
 
+// ignore: must_be_immutable
 class CreateSponsoredEventCard extends StatelessWidget {
   String _eventTitle;
   String _eventLocation;
@@ -150,69 +171,210 @@ class CreateSponsoredEventCard extends StatelessWidget {
     _eventTime = time;
   }
 
-  //todo getters and setters
+  String getEventTitle() {
+    return this._eventTitle;
+  }
+
+  String getEventLocation() {
+    return this._eventLocation;
+  }
+
+  String getEventTime() {
+    return this._eventTime;
+  }
+
+  void setEventTitle(String title) {
+    this._eventTitle = title;
+  }
+
+  void setEventLocation(String location) {
+    this._eventLocation = location;
+  }
+
+  void setEventTime(String time) {
+    this._eventTime = time;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Flexible (
       child: Padding(
-        padding: const EdgeInsets.only(left: 10, right: 10),
+        padding: const EdgeInsets.all(10),
         child: Container (
-          height: 140,
-          width: 180,
-          padding: const EdgeInsets.all(10),
+          height: 140, //height should remain same
+          width: 180, //width could possible stretch, make a min and max for this?
+          padding: const EdgeInsets.all(15), //this is padding for text inside the card
           decoration: BoxDecoration(
             gradient: LinearGradient(colors: [
                 Colors.blue.shade700, Colors.deepPurpleAccent],
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.all(Radius.circular(24)),
+            borderRadius: BorderRadius.all(Radius.circular(28)),
             boxShadow: [
               BoxShadow(
                 color: Colors.blue.shade700.withOpacity(0.4), blurRadius: 4, spreadRadius: 2
               )
             ]
           ),
-          child: Column (
+          child: Column ( //column holds all text on container
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
+            children: <Widget>[ //this starts the children of the card
               Expanded(
                 child: Container (
                   child: Text(
-                    this._eventTitle, style: TextStyle(
+                    this._eventTitle, style: TextStyle( //event title at top
                       color: Colors.white,
-                      fontSize: 18,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
-                    )
+                    ),
+                    overflow: TextOverflow.fade,
                   ),
                 ),
               ),
 
+              SizedBox(height: 2,), //spacer
+
+              Expanded(
+                child: Container (
+                  child: Column (
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        this._eventLocation, style: TextStyle( //event loc in middle
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        overflow: TextOverflow.fade,
+                      ),
+
+                      SizedBox(height: 2,),
+
+                      Text(
+                        this._eventTime, style: TextStyle( //event loc in middle
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        overflow: TextOverflow.fade,
+                      ),
+                    ],
+                  )
+                ),
+              ),
+            ],
+          )
+        ),
+      ),
+    );
+  }
+}
+
+// ignore: must_be_immutable
+class CreateLatestEventCard extends StatelessWidget {
+  String _eventTitle;
+  String _eventLocation;
+  String _eventTime;
+
+  CreateLatestEventCard(String title, String location, String time) {
+    _eventTitle = title;
+    _eventLocation = location;
+    _eventTime = time;
+  }
+
+  String getEventTitle() {
+    return this._eventTitle;
+  }
+
+  String getEventLocation() {
+    return this._eventLocation;
+  }
+
+  String getEventTime() {
+    return this._eventTime;
+  }
+
+  void setEventTitle(String title) {
+    this._eventTitle = title;
+  }
+
+  void setEventLocation(String location) {
+    this._eventLocation = location;
+  }
+
+  void setEventTime(String time) {
+    this._eventTime = time;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Flexible (
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Container (
+          height: 100, //height should remain same
+          width: 180, //width could possible stretch, make a min and max for this?
+          padding: const EdgeInsets.all(15), //this is padding for text inside the card
+          decoration: BoxDecoration(
+            gradient: LinearGradient(colors: [
+                Colors.deepOrangeAccent, Colors.deepPurpleAccent],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.all(Radius.circular(28)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.orange.shade100.withOpacity(0.4), blurRadius: 4, spreadRadius: 2
+              )
+            ]
+          ),
+          child: Column ( //column holds all text on container
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[ //this starts the children of the card
               Expanded(
                 child: Container (
                   child: Text(
-                    this._eventLocation, style: TextStyle(
+                    this._eventTitle, style: TextStyle( //event title at top
                       color: Colors.white,
-                      fontSize: 14,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
-                    )
+                    ),
+                    overflow: TextOverflow.fade,
                   ),
                 ),
               ),
 
-              SizedBox(height: 2,),
+              SizedBox(height: 2,), //spacer
 
               Expanded(
                 child: Container (
-                  child: Text(
-                    this._eventTime, style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    )
-                  ),
+                  child: Row (
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        this._eventLocation, style: TextStyle( //event loc in middle
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        overflow: TextOverflow.fade,
+                      ),
+
+                      Text(
+                        this._eventTime, style: TextStyle( //event loc in middle
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        overflow: TextOverflow.fade,
+                      ),
+                    ],
+                  )
                 ),
               ),
             ],
