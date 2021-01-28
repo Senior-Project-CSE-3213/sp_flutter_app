@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:sp_flutter_app/shared/constants.dart';
 
 class EventListView extends StatefulWidget {
   @override
@@ -58,9 +60,9 @@ class _EventListViewState extends State<EventListView> {
                        height: 160,
                        width: size.width,
 
-                      //I'm going to look at this: 
-                      //https://www.youtube.com/watch?v=neXfa4J752A&ab_channel=CodeX
-                      // to make it have indicator dots and maybe stackable
+                      //testing indicator dots for horizontal scroll here
+                      //https://www.youtube.com/watch?v=neXfa4J752A&feature=emb_logo&ab_channel=CodeX
+
                        child: ListView (
                          scrollDirection: Axis.horizontal,
                          children: <Widget>[
@@ -78,6 +80,7 @@ class _EventListViewState extends State<EventListView> {
                    )
                  ],
                ),
+
                //latest evnents and filter button
                Row(
                 children: [
@@ -131,7 +134,7 @@ class _EventListViewState extends State<EventListView> {
                    Padding(
                     padding: const EdgeInsets.only(top: 10),
                      child: Container (
-                       height: 307,
+                       height: 304,
                        width: size.width,
 
                        child: ListView (
@@ -315,7 +318,7 @@ class CreateLatestEventCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: Container (
-          height: 100, //height should remain same
+          height: 80, //height should remain same
           width: 180, //width could possible stretch, make a min and max for this?
           padding: const EdgeInsets.all(15), //this is padding for text inside the card
           decoration: BoxDecoration(
@@ -324,7 +327,7 @@ class CreateLatestEventCard extends StatelessWidget {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.all(Radius.circular(28)),
+            borderRadius: BorderRadius.all(Radius.circular(14)),
             boxShadow: [
               BoxShadow(
                 color: Colors.orange.shade100.withOpacity(0.4), blurRadius: 4, spreadRadius: 2
@@ -442,18 +445,15 @@ class _BottomNavigationBarState extends State<BottomNavigationBar> {
         decoration: index == _selectedIndex ? BoxDecoration (
           color: Colors.amber[900],
           gradient: new RadialGradient(
-            colors: [Colors.amber[900], Colors.blueGrey[900]],
+            colors: [Colors.white, mainColor],
           center: Alignment(0, 0.7),
           radius: 0.12,
           tileMode: TileMode.clamp,
           stops: [0.3,0.7]
           ),
         ) : BoxDecoration (
-          border: Border (
-            bottom: BorderSide(width: 4, color: Colors.blueGrey[900]),
-          ),
-
-          color: Colors.blueGrey[900]),
+          
+        color: mainColor),
           //NOTE: these are not IconButtons so that we can have this indicator dot
         child: (index == 2 ? Align(
           child: SvgPicture.asset (
