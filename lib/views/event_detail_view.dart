@@ -12,41 +12,192 @@ class EventDetailScreen extends StatelessWidget {
     @required this.child,
   }) : super(key: key);
 
-  _sendMessageArea() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 8),
-      height: 50,
-      color: Colors.blueAccent[400],
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: TextField(
-              decoration: InputDecoration.collapsed(
-                  hintText: "Send a question",
-                  hintStyle: TextStyle(color: Colors.white)),
-              textCapitalization: TextCapitalization.sentences,
-            ),
-          ),
+  _subNavBar(BuildContext context) {
+    return new Positioned(
+      top: 10.0,
+      left: 0.0,
+      right: 0.0,
+      height: 30,
+      child: AppBar(
+        leading: new IconButton(
+          icon: new Icon(Icons.arrow_back_ios, color: Colors.white),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        backgroundColor:
+            mainColor.withOpacity(0), //You can make this transparent
+        elevation: 0.0, //No shadow
+        actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.send),
-            onPressed: () {},
-            iconSize: 25,
-            color: Colors.blue.shade900,
-          )
+            icon: Icon(Icons.notifications, color: Colors.white),
+            onPressed: () {
+              _scaffoldKey.currentState.openEndDrawer();
+            },
+          ),
         ],
       ),
     );
+  }
+
+  _sendMessageArea() {
+    return Container(
+      child: ListTile(
+          title: Container(
+            height: 45,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(15)),
+                //boxShadow: _boxShadow(new Offset(2, 2)),
+                color: altSecondaryColor),
+            padding: EdgeInsets.all(10),
+            child: TextFormField(
+              style: TextStyle(color: Colors.white),
+              cursorColor: altPrimaryColor,
+              decoration: InputDecoration.collapsed(
+                hintText: "Send a question",
+                hintStyle: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+              textCapitalization: TextCapitalization.sentences,
+            ),
+          ),
+          leading: ButtonTheme(
+            minWidth: 95.0,
+            height: 45.0,
+            child: RaisedButton(
+              child: Text("Sign Up", style: TextStyle(fontSize: 20)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(15.0))),
+              onPressed: () {
+                print('Clicked Sign Up button');
+              },
+              color: altSecondaryColor,
+              textColor: Colors.white,
+              padding: EdgeInsets.all(8.0),
+              splashColor: altPrimaryColor,
+            ),
+          ),
+          trailing: IconButton(
+            icon: Icon(Icons.send),
+            onPressed: () {},
+            iconSize: 30,
+            color: altSecondaryColor,
+          )),
+    );
+  }
+
+  _listViewHorizontal(bool showDecoration) {
+    return Container(
+        height: 105,
+        decoration: (showDecoration)
+            ? new BoxDecoration(color: Colors.blueAccent[400])
+            : null,
+        child: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[];
+          },
+          body: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (BuildContext context, int index) {
+              return ChoiceChip(
+                selected: false,
+                onSelected: (bool selected) {
+                  print("clicked on participant $index");
+                },
+                backgroundColor: Colors.white,
+                avatar: CircleAvatar(
+                    radius: 35,
+                    backgroundColor: altPrimaryColor,
+                    child: Icon(Icons.person)),
+                label: Text(
+                  'Name $index',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: altPrimaryColor,
+                  ),
+                ),
+                labelPadding:
+                    EdgeInsets.only(left: 10, right: 20, bottom: 30, top: 30),
+              );
+            },
+            itemCount: 20,
+          ),
+        ));
+  }
+
+  _listViewVertical() {
+    return Container(
+        width: 250,
+        height: 180,
+        padding: EdgeInsets.all(10),
+        decoration: new BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.zero),
+          color: altSecondaryColor,
+        ),
+        child: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[];
+          },
+          body: ListView.builder(
+            itemBuilder: (BuildContext context, int index) {
+              return Container(
+                height: 80,
+                alignment: Alignment.center,
+                child: Chip(
+                  avatar: CircleAvatar(
+                      backgroundColor: altPrimaryColor,
+                      child: Icon(Icons.person)),
+                  label: Text('Name $index'),
+                  labelPadding:
+                      EdgeInsets.only(left: 40, right: 40, bottom: 20, top: 20),
+                ),
+              );
+            },
+            itemCount: 20,
+          ),
+        ));
+  }
+
+  _boxShadow(Offset offset) {
+    return [
+      BoxShadow(
+        color: Colors.black,
+        offset: offset,
+        blurRadius: 10.0,
+        spreadRadius: 2.0,
+      ),
+      BoxShadow(
+        color: Colors.white,
+        offset: const Offset(0.0, 0.0),
+        blurRadius: 0.0,
+        spreadRadius: 0.0,
+      ),
+    ];
+  }
+
+  _shadow(Offset offset) {
+    return <Shadow>[
+      Shadow(
+        offset: offset,
+        blurRadius: 3.0,
+        color: Color.fromARGB(255, 0, 0, 0),
+      ),
+      Shadow(
+        offset: offset,
+        blurRadius: 8.0,
+        color: Color.fromARGB(125, 0, 0, 255),
+      ),
+    ];
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+          //bottomNavigationBar: _sendNavigationBar(),
+          floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
           key: _scaffoldKey,
           endDrawer: NotificationDrawer(),
           body: Stack(alignment: Alignment.center, children: <Widget>[
             Container(
-              color: Colors.blue[900], // Your screen background color
+              color: altPrimaryColor, // screen background color
             ),
             SizedBox(
               width: 500,
@@ -65,11 +216,10 @@ class EventDetailScreen extends StatelessWidget {
                           'My Dark, Twisted Football Tournament',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            fontSize: 22,
-                            //height: 5,
-                          ),
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              fontSize: 22,
+                              shadows: _shadow(new Offset(5, 5))),
                         ),
                       ),
                     ),
@@ -77,20 +227,27 @@ class EventDetailScreen extends StatelessWidget {
                       flex: 2,
                       child: Container(
                           alignment: Alignment.center,
-                          //height: 100,
-                          color: Colors.blueAccent[400],
+                          decoration: BoxDecoration(
+                              color: altSecondaryColor,
+                              boxShadow: _boxShadow(new Offset(5, 5))),
                           child: Row(
                             children: <Widget>[
-                              Container(
-                                margin: EdgeInsets.all(20),
-                                padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(100),
-                                    border: Border.all(
-                                        width: 2, color: Colors.blue[900])),
-                                child: Icon(
-                                  Icons.person,
-                                  color: Colors.blue[900],
+                              GestureDetector(
+                                onTap: () {
+                                  print("Clicked event creator profile");
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.all(20),
+                                  padding: EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(100),
+                                      border: Border.all(
+                                          width: 2, color: altPrimaryColor),
+                                      boxShadow: _boxShadow(new Offset(2, 2))),
+                                  child: Icon(
+                                    Icons.person,
+                                    color: altPrimaryColor,
+                                  ),
                                 ),
                               ),
                               Text(
@@ -107,10 +264,11 @@ class EventDetailScreen extends StatelessWidget {
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(100),
                                     border: Border.all(
-                                        width: 2, color: Colors.blue[900])),
+                                        width: 2, color: altPrimaryColor),
+                                    boxShadow: _boxShadow(new Offset(2, 2))),
                                 child: Icon(
                                   Icons.calendar_view_day,
-                                  color: Colors.blue[900],
+                                  color: altPrimaryColor,
                                 ),
                               ),
                               Text(
@@ -129,7 +287,8 @@ class EventDetailScreen extends StatelessWidget {
                       child: Container(
                           alignment: Alignment.center,
                           // height: 180,
-                          padding: EdgeInsets.all(10),
+                          padding: EdgeInsets.only(
+                              left: 20, right: 20, top: 30, bottom: 20),
                           child: freshPrinceText),
                     ),
                     Flexible(
@@ -139,36 +298,44 @@ class EventDetailScreen extends StatelessWidget {
                           //height: 180,
                           child: Row(
                             children: <Widget>[
+                              GestureDetector(
+                                onTap: () {
+                                  print("Clicked map");
+                                },
+                                child: Container(
+                                  width: 200,
+                                  height: 120,
+                                  margin: EdgeInsets.all(20),
+                                  padding: EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.rectangle,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0)),
+                                      image: DecorationImage(
+                                          image: NetworkImage(
+                                            'https://cdn.wccftech.com/wp-content/uploads/2017/03/Google-Maps.jpg',
+                                          ),
+                                          fit: BoxFit.fill),
+                                      boxShadow: _boxShadow(new Offset(5, 5))),
+                                ),
+                              ),
                               Container(
-                                width: 175,
-                                height: 120,
-                                margin: EdgeInsets.all(20),
-                                padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.rectangle,
-                                  image: DecorationImage(
-                                      image: NetworkImage(
-                                        'https://cdn.wccftech.com/wp-content/uploads/2017/03/Google-Maps.jpg',
-                                      ),
-                                      fit: BoxFit.fill),
+                                child: Flexible(
+                                  child: Text(
+                                    'X miles from you...',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 22,
+                                    ),
+                                  ),
                                 ),
                               ),
-                              Spacer(),
-                              Text(
-                                'X miles from you...',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 22,
-                                ),
-                              ),
-                              Spacer()
                             ],
                           )),
                     ),
                     Container(
-                      alignment: Alignment.bottomLeft,
-                      // height: 180,
-                      padding: EdgeInsets.only(left: 20),
+                      alignment: Alignment.center,
+                      height: 60,
                       child: Text(
                         'PARTICIPANTS',
                         textAlign: TextAlign.center,
@@ -179,87 +346,10 @@ class EventDetailScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Container(
-                      child: Row(children: <Widget>[
-                        Container(
-                            width: 250,
-                            height: 180,
-                            padding: EdgeInsets.all(10),
-                            child: NestedScrollView(
-                              headerSliverBuilder: (BuildContext context,
-                                  bool innerBoxIsScrolled) {
-                                return <Widget>[
-                                  // SliverAppBar(
-                                  //   title: Text('NestedScrollView'),
-                                  // )
-                                ];
-                              },
-                              body: ListView.builder(
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Container(
-                                    height: 80,
-                                    color: Colors.blueAccent[400],
-                                    // color: Colors.primaries[
-                                    //     index % Colors.primaries.length],
-                                    alignment: Alignment.center,
-                                    child: Chip(
-                                      avatar: CircleAvatar(
-                                          backgroundColor: Colors.blue.shade900,
-                                          child: Icon(Icons.person)),
-                                      label: Text('Name $index'),
-                                      labelPadding: EdgeInsets.only(
-                                          left: 40,
-                                          right: 40,
-                                          bottom: 20,
-                                          top: 20),
-                                    ),
-                                  );
-                                },
-                                itemCount: 20,
-                              ),
-                            )),
-                        Spacer(),
-                        RaisedButton(
-                          child: Text(
-                            "Sign Up",
-                            style: TextStyle(fontSize: 30),
-                          ),
-                          onPressed: () {
-                            print('Clicked Sign Up button');
-                          },
-                          color: Colors.blueAccent[400],
-                          textColor: Colors.white,
-                          padding: EdgeInsets.all(8.0),
-                          splashColor: Colors.blue[900],
-                        ),
-                        Spacer()
-                      ]),
-                    )
+                    _listViewHorizontal(false),
                   ])),
             ),
-            new Positioned(
-              top: 10.0,
-              left: 0.0,
-              right: 0.0,
-              height: 30,
-              child: AppBar(
-                leading: new IconButton(
-                  icon: new Icon(Icons.arrow_back_ios, color: Colors.white),
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-                backgroundColor:
-                    mainColor.withOpacity(0), //You can make this transparent
-                elevation: 0.0, //No shadow
-                actions: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.notifications, color: Colors.white),
-                    onPressed: () {
-                      _scaffoldKey.currentState.openEndDrawer();
-                    },
-                  ),
-                ],
-              ),
-            ),
+            _subNavBar(context),
             new Container(
                 alignment: Alignment.bottomCenter, child: _sendMessageArea()),
           ])),

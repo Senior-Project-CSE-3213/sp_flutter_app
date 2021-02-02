@@ -15,6 +15,10 @@ const mainColor = Colors.indigoAccent;
 const kPrimaryColor = Color(0xFF6C63FF);
 const kPrimaryLightColor = Color(0xFFDEDEDE);
 
+const altPrimaryColor = Color(0xFF0D47A1);
+const altSecondaryColor = Color(0xFF2979FF);
+//const altSecondaryColor = Colors.lightBlueAccent;
+
 const profileScreenRoute = '/screens/profile_screen.dart';
 const settingScreenRoute = '/screens/settings_screen.dart';
 const helpScreenRoute = '/screens/help_screen.dart';
