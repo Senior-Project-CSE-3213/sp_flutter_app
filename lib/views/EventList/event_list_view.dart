@@ -60,22 +60,30 @@ class _EventListViewState extends State<EventListView> {
                        height: 160,
                        width: size.width,
 
-                      //testing indicator dots for horizontal scroll here
-                      //https://www.youtube.com/watch?v=neXfa4J752A&feature=emb_logo&ab_channel=CodeX
-
-                       child: ListView (
-                         scrollDirection: Axis.horizontal,
-                         children: <Widget>[
-                            CreateSponsoredEventCard("Intramural Football",
-                            "Intramural Fields","Friday, 6:30PM"),
-                            CreateSponsoredEventCard("Dawgs After Dark",
-                            "The Hump","Thursday, 9:30PM"),
-                            CreateSponsoredEventCard("Cowbell yell",
-                            "Bettersworth Auditorium","Sunday, 5:00PM"),
-                            CreateSponsoredEventCard("Become an RA interest meeting",
-                            "Taylor Auditorium","Wednesday, 7:30PM"),
-                         ],
-                       ) 
+                       child:
+                          Container(
+                            height: 200,
+                            child: Swiper(
+                              autoplay: true,
+                              itemCount: 4, //make dynamic
+                              itemBuilder: (BuildContext context, int index) {
+                                return ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: CreateSponsoredEventCard("Become an RA interest meeting", //pull from a list of cards
+                                  "Taylor Auditorium","Wednesday, 7:30PM"),
+                                  
+                                );
+                              },     
+                              pagination: new SwiperPagination(
+                                margin: new EdgeInsets.all(10.0), //to make this actually outside
+                                //by making the card area bigger bug not the actual card
+                                builder: new DotSwiperPaginationBuilder(
+                                   color: Colors.white, activeColor: Colors.blue),
+                              ),
+                              viewportFraction: 0.8,
+                              scale: 1,
+                            ),
+                          )
                      ),
                    )
                  ],
@@ -87,6 +95,8 @@ class _EventListViewState extends State<EventListView> {
                   //latest event
                   Column (  
                     children: [
+                      SizedBox(height: 30,),
+
                       Container (
                         padding: const EdgeInsets.only(left: 20.0,),
                         child: 
@@ -101,6 +111,8 @@ class _EventListViewState extends State<EventListView> {
                   //filter button
                   Column (
                     children: <Widget>[
+                      
+                      
                       Container (
                         padding: const EdgeInsets.only(left: 180.0, top: 20),
                         child: 
@@ -164,38 +176,14 @@ class _EventListViewState extends State<EventListView> {
 
 // ignore: must_be_immutable
 class CreateSponsoredEventCard extends StatelessWidget {
-  String _eventTitle;
-  String _eventLocation;
-  String _eventTime;
+  String eventTitle;
+  String eventLocation;
+  String eventTime;
 
   CreateSponsoredEventCard(String title, String location, String time) {
-    _eventTitle = title;
-    _eventLocation = location;
-    _eventTime = time;
-  }
-
-  String getEventTitle() {
-    return this._eventTitle;
-  }
-
-  String getEventLocation() {
-    return this._eventLocation;
-  }
-
-  String getEventTime() {
-    return this._eventTime;
-  }
-
-  void setEventTitle(String title) {
-    this._eventTitle = title;
-  }
-
-  void setEventLocation(String location) {
-    this._eventLocation = location;
-  }
-
-  void setEventTime(String time) {
-    this._eventTime = time;
+    eventTitle = title;
+    eventLocation = location;
+    eventTime = time;
   }
 
   @override
@@ -205,7 +193,7 @@ class CreateSponsoredEventCard extends StatelessWidget {
         padding: const EdgeInsets.all(10),
         child: Container (
           height: 140, //height should remain same
-          width: 180, //width could possible stretch, make a min and max for this?
+          width: 220, //width could possible stretch, make a min and max for this?
           padding: const EdgeInsets.all(15), //this is padding for text inside the card
           decoration: BoxDecoration(
             gradient: LinearGradient(colors: [
@@ -227,7 +215,7 @@ class CreateSponsoredEventCard extends StatelessWidget {
               Expanded(
                 child: Container (
                   child: Text(
-                    this._eventTitle, style: TextStyle( //event title at top
+                    this.eventTitle, style: TextStyle( //event title at top
                       color: Colors.white,
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -246,7 +234,7 @@ class CreateSponsoredEventCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        this._eventLocation, style: TextStyle( //event loc in middle
+                        this.eventLocation, style: TextStyle( //event loc in middle
                           color: Colors.white,
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
@@ -257,7 +245,7 @@ class CreateSponsoredEventCard extends StatelessWidget {
                       SizedBox(height: 2,),
 
                       Text(
-                        this._eventTime, style: TextStyle( //event loc in middle
+                        this.eventTime, style: TextStyle( //event loc in middle
                           color: Colors.white,
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
@@ -278,38 +266,14 @@ class CreateSponsoredEventCard extends StatelessWidget {
 
 // ignore: must_be_immutable
 class CreateLatestEventCard extends StatelessWidget {
-  String _eventTitle;
-  String _eventLocation;
-  String _eventTime;
+  String eventTitle;
+  String eventLocation;
+  String eventTime;
 
   CreateLatestEventCard(String title, String location, String time) {
-    _eventTitle = title;
-    _eventLocation = location;
-    _eventTime = time;
-  }
-
-  String getEventTitle() {
-    return this._eventTitle;
-  }
-
-  String getEventLocation() {
-    return this._eventLocation;
-  }
-
-  String getEventTime() {
-    return this._eventTime;
-  }
-
-  void setEventTitle(String title) {
-    this._eventTitle = title;
-  }
-
-  void setEventLocation(String location) {
-    this._eventLocation = location;
-  }
-
-  void setEventTime(String time) {
-    this._eventTime = time;
+    eventTitle = title;
+    eventLocation = location;
+    eventTime = time;
   }
 
   @override
@@ -341,7 +305,7 @@ class CreateLatestEventCard extends StatelessWidget {
               Expanded(
                 child: Container (
                   child: Text(
-                    this._eventTitle, style: TextStyle( //event title at top
+                    this.eventTitle, style: TextStyle( //event title at top
                       color: Colors.white,
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -360,7 +324,7 @@ class CreateLatestEventCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        this._eventLocation, style: TextStyle( //event loc in middle
+                        this.eventLocation, style: TextStyle( //event loc in middle
                           color: Colors.white,
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
@@ -369,7 +333,7 @@ class CreateLatestEventCard extends StatelessWidget {
                       ),
 
                       Text(
-                        this._eventTime, style: TextStyle( //event loc in middle
+                        this.eventTime, style: TextStyle( //event loc in middle
                           color: Colors.white,
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
