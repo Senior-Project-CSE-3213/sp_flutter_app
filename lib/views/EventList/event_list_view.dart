@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:sp_flutter_app/shared/constants.dart';
+import 'package:filter_list/filter_list.dart';
 
 class EventListView extends StatefulWidget {
   @override
@@ -10,6 +11,32 @@ class EventListView extends StatefulWidget {
 }
 
 class _EventListViewState extends State<EventListView> {
+  List<String> countList = [
+    "Alphabetical",
+    "Date Newest - Oldest",
+    "Date Oldest - Newest",
+    "Sport"
+  ];
+  List<String> selectedCountList = [];
+
+  void _openFilterDialog() async {
+    await FilterListDialog.display(context,
+        allTextList: countList,
+        height: 380,
+        borderRadius: 20,
+        headlineText: "Select Filters",
+        searchFieldHintText: "Search Here",
+        selectedTextList: selectedCountList, onApplyButtonClick: (list) {
+      if (list != null) {
+        setState(() {
+          selectedCountList = List.from(list);
+        });
+      }
+      Navigator.pop(context);
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -35,6 +62,7 @@ class _EventListViewState extends State<EventListView> {
         //now we can do all the view stuff here in the body
         body: Container (
           height: size.height,
+          width: size.width,
           child: Column (
             mainAxisAlignment: MainAxisAlignment.start,
              children: <Widget>[
@@ -57,31 +85,34 @@ class _EventListViewState extends State<EventListView> {
                    Padding(
                     padding: const EdgeInsets.only(top: 10),
                      child: Container (
-                       height: 160,
+                       height: size.height / 4,
                        width: size.width,
 
                        child:
                           Container(
-                            height: 200,
+                            height: size.height / 4,
                             child: Swiper(
+
                               autoplay: true,
-                              itemCount: 4, //make dynamic
+                              itemCount: 6, //make dynamic based on number of jsons parsed
                               itemBuilder: (BuildContext context, int index) {
                                 return ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
-                                  child: CreateSponsoredEventCard("Become an RA interest meeting", //pull from a list of cards
+                                  child: 
+                                  
+                                  //todo based on width, make a card from a json index
+                                  CreateSponsoredEventCard("Become an RA interest meeting", 
                                   "Taylor Auditorium","Wednesday, 7:30PM"),
                                   
                                 );
                               },     
                               pagination: new SwiperPagination(
-                                margin: new EdgeInsets.all(10.0), //to make this actually outside
-                                //by making the card area bigger bug not the actual card
+                                margin: new EdgeInsets.all(20.0), 
                                 builder: new DotSwiperPaginationBuilder(
                                    color: Colors.white, activeColor: Colors.blue),
                               ),
-                              viewportFraction: 0.8,
-                              scale: 1,
+                              viewportFraction: 0.9,
+                              scale: 0.9,
                             ),
                           )
                      ),
@@ -112,7 +143,6 @@ class _EventListViewState extends State<EventListView> {
                   Column (
                     children: <Widget>[
                       
-                      
                       Container (
                         padding: const EdgeInsets.only(left: 180.0, top: 20),
                         child: 
@@ -120,10 +150,7 @@ class _EventListViewState extends State<EventListView> {
                           icon: Icon(Icons.view_headline),
                           color: Colors.black,
                           tooltip: "Filter lastest events by...",
-                          onPressed: () {
-                            //select filtering option
-                            print("Filter latest events button pressed");
-                          },
+                          onPressed:  _openFilterDialog,
                           iconSize: 30,
                         ),
                       ),
@@ -146,7 +173,7 @@ class _EventListViewState extends State<EventListView> {
                    Padding(
                     padding: const EdgeInsets.only(top: 10),
                      child: Container (
-                       height: 304,
+                       height: size.height / 3,
                        width: size.width,
 
                        child: ListView (
@@ -192,7 +219,7 @@ class CreateSponsoredEventCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: Container (
-          height: 140, //height should remain same
+          height: 160, //height should remain same
           width: 220, //width could possible stretch, make a min and max for this?
           padding: const EdgeInsets.all(15), //this is padding for text inside the card
           decoration: BoxDecoration(
@@ -210,52 +237,65 @@ class CreateSponsoredEventCard extends StatelessWidget {
           ),
           child: Column ( //column holds all text on container
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[ //this starts the children of the card
-              Expanded(
-                child: Container (
-                  child: Text(
-                    this.eventTitle, style: TextStyle( //event title at top
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+            children: <Widget>[             
+              //this starts the children of the card       
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container (
+                    child:
+                      Text(
+                        this.eventTitle, style: 
+                        TextStyle( //event loc in middle
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                      ),
+                      overflow: TextOverflow.fade,
                     ),
-                    overflow: TextOverflow.fade,
                   ),
-                ),
+                ],
               ),
 
-              SizedBox(height: 2,), //spacer
+              SizedBox(height: 5,),
 
-              Expanded(
-                child: Container (
-                  child: Column (
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container (
+                    child:
                       Text(
-                        this.eventLocation, style: TextStyle( //event loc in middle
+                        this.eventLocation, style: 
+                        TextStyle( //event loc in middle
                           color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        overflow: TextOverflow.fade,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
                       ),
-
-                      SizedBox(height: 2,),
-
-                      Text(
-                        this.eventTime, style: TextStyle( //event loc in middle
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        overflow: TextOverflow.fade,
-                      ),
-                    ],
-                  )
-                ),
+                      overflow: TextOverflow.fade,
+                    ),
+                  ),
+                ],
               ),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container (
+                    child:
+                      Text(
+                        this.eventTime, style: 
+                        TextStyle( //event loc in middle
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                      ),
+                      overflow: TextOverflow.fade,
+                    ),
+                  ),
+                ],
+              ),
+
+              SizedBox(height: 15,),
             ],
           )
         ),
@@ -404,7 +444,7 @@ class _BottomNavigationBarState extends State<BottomNavigationBar> {
       },
 
       child: Container (
-        height: 50,
+        height: 60,
         width: MediaQuery.of(context).size.width / _iconList.length,
         decoration: index == _selectedIndex ? BoxDecoration (
           color: Colors.amber[900],
