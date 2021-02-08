@@ -20,7 +20,7 @@ class SimpleInputLabel extends StatelessWidget {
       child: Text(
         "$text".toUpperCase(),
         style: TextStyle(
-          color: Color(0xffadadb2),
+          color: labelTextColor,
           fontSize: 14,
           fontFamily: "Inter",
           fontWeight: FontWeight.w700,
