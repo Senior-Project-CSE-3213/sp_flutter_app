@@ -22,13 +22,10 @@ class _UsingEmailState extends State<UsingEmail> {
   String email = '';
   bool error = false;
 
-  void handleSubmit() {
+  void handleSubmit({dynamic success}) {
     if (!error && EmailValidator.validate(email)) {
-      // set view model data
-      // navigate
-      Navigator.of(context).pushNamed(registerViewRoute, arguments: {
-        email: email,
-      });
+      // call success function
+      if (success != null && success is Function) success();
     }
     // otherwise maybe shake the input button?
     setState(() {
@@ -54,41 +51,53 @@ class _UsingEmailState extends State<UsingEmail> {
     Size size = MediaQuery.of(context).size;
     return ScaffoldWithGradient(
       children: [
-        Container(
-          margin: EdgeInsets.symmetric(
-            horizontal: kDefaultPadding * 2.0,
-            vertical: size.height * 0.15,
-          ),
-          color: Colors.transparent,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              HeadingText(text: "What's your email address?"),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: kDefaultPadding * 2.0,
+        SingleChildScrollView(
+          child: Container(
+            margin: EdgeInsets.symmetric(
+              horizontal: kDefaultPadding * 2.0,
+              vertical: size.height * 0.15,
+            ),
+            color: Colors.transparent,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                HeadingText(text: "What's your email address?"),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: kDefaultPadding * 2.0,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SimpleInputLabel(text: "Your Email"),
+                      SimpleTextInputField(
+                        error: error,
+                        handleSubmit: handleSubmit,
+                        handleChange: handleEmailChange,
+                      ),
+                      SizedBox(height: kDefaultPadding * 2.0),
+                      FullWidthTextButtonWithIcon(
+                        handleSubmit: ({success}) {
+                          handleSubmit(
+                            success: () => {
+                              _userViewModel.registrationEmail = email,
+                              Navigator.of(context)
+                                  .pushNamed(registerViewRoute, arguments: {
+                                email: email,
+                              }),
+                            },
+                          );
+                        },
+                        svgAsset: "assets/svgs/envelop.svg",
+                        text: "Continue with Email",
+                      ),
+                    ],
+                  ),
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SimpleInputLabel(text: "Your Email"),
-                    SimpleTextInputField(
-                      error: error,
-                      handleSubmit: handleSubmit,
-                      handleChange: handleEmailChange,
-                    ),
-                    SizedBox(height: kDefaultPadding * 2.0),
-                    FullWidthTextButtonWithIcon(
-                      handleSubmit: handleSubmit,
-                      svgAsset: "assets/svgs/envelop.svg",
-                      text: "Continue with Email",
-                    ),
-                  ],
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ],
