@@ -10,13 +10,17 @@ class FullWidthTextButtonWithIcon extends StatelessWidget {
     @required this.text,
     this.outline,
     this.margin,
+    this.svgColor,
+    this.color,
   }) : super(key: key);
 
-  final void Function() handleSubmit;
+  final void Function({dynamic success}) handleSubmit;
   final String svgAsset;
   final String text;
   final outline;
   final EdgeInsets margin;
+  final Color color;
+  final Color svgColor;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +33,7 @@ class FullWidthTextButtonWithIcon extends StatelessWidget {
           SvgPicture.asset(
             "$svgAsset",
             height: 24,
+            color: svgColor,
           ),
           SizedBox(width: 16),
           Text(
@@ -49,7 +54,7 @@ class FullWidthTextButtonWithIcon extends StatelessWidget {
       margin: margin != null ? margin : EdgeInsets.all(0.0),
       child: outline != null
           ? OutlineButton(
-              onPressed: handleSubmit,
+              onPressed: () => handleSubmit(),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(48),
               ),
@@ -58,7 +63,7 @@ class FullWidthTextButtonWithIcon extends StatelessWidget {
               child: child,
             )
           : FlatButton(
-              onPressed: handleSubmit,
+              onPressed: () => handleSubmit(),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(48),
               ),
