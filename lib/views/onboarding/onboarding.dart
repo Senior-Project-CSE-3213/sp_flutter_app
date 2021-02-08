@@ -58,14 +58,15 @@ class OnboardingView extends StatelessWidget {
               ),
             ),
             FullWidthTextButtonWithIcon(
-              handleSubmit: () =>
-                  Navigator.of(context).pushNamed(usingEmailViewRoute),
+              handleSubmit: ({success}) {
+                Navigator.of(context).pushNamed(usingEmailViewRoute);
+              },
               svgAsset: "assets/svgs/envelop.svg",
-              text: "Continue with Email",
+              text: "Register with Email",
               margin: EdgeInsets.symmetric(horizontal: kDefaultPadding * 2.0),
             ),
             FullWidthTextButtonWithIcon(
-              handleSubmit: () =>
+              handleSubmit: ({success}) =>
                   Navigator.of(context).pushNamed(usingEmailViewRoute),
               svgAsset: "assets/svgs/google.svg",
               text: "Continue with Gmail",
