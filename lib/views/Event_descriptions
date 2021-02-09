@@ -1,0 +1,83 @@
+class Event {
+  final String imagePath,
+      title,
+      description,
+      location,
+      time,
+      punchline1,
+      punchline2,
+  final List categoryIds, galleryImages;
+
+  Event(
+      {this.imagePath,
+      this.title,
+      this.description,
+      this.location,
+      this.duration,
+      this.galleryImages});
+}
+
+final soccer = Event(
+    imagePath: "",
+    title: "soccer",
+    description: "Goal",
+    location: "Starkville multiplex",
+    duration: "90M",
+    punchLine1: "Goal!",
+    punchLine2: " Wavin Flags",
+    galleryImages: //to be linked from firestore[],
+    categoryIds: [0, 1]);
+
+final basketball = Event(
+    imagePath: "//images to be linked via firestore",
+    title: "Basketball Tournament",
+    description:
+        "Guest list fill up fast so be sure to apply before handto secure a spot.",
+    location: "Humprey collisieum",
+    duration: "2H",
+    punchLine1: "Go Dawgs",
+    punchLine2: "Lets beat them.",
+    categoryIds: [
+      0,2],
+    galleryImages: [
+      //Image links ...
+    ]);
+
+final football = Event(
+    imagePath: "//link through firestore",
+    title: "MSU vs Ole miss",
+    description: "College Football",
+    location: "DW stadium",
+    duration: "4h",
+    punchLine1: "BULLDOGS",
+    punchLine2: "Hail State.",
+    galleryImages: [
+      "//links..."
+    ],
+    categoryIds: [
+      0,
+      1
+    ]);
+
+final marathon = Event(
+    imagePath: "//link..",
+    title: "Burn some calories",
+    description: "Marathon for lives",
+    location: "Chadwick lake",
+    duration: "1d",
+    punchLine1: "Run Run Run",
+    punchLine2: "Hello there",
+    galleryImages: [
+      "//runimages"
+    ],
+    categoryIds: [
+      0,
+      3
+    ]);
+
+final events = [
+  soccer,
+  basketball,
+  football,
+  marathon,
+];
