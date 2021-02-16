@@ -58,150 +58,145 @@ class _EventListViewState extends State<EventListView> {
             ),
 
             //now we can do all the view stuff here in the body
-            body: Container(
-                height: size.height,
-                width: size.width,
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      //sponsored events row
-                      Row(
-                        children: [
+            body: Container (
+          height: size.height,
+          width: size.width,
+          child: Column (
+            mainAxisAlignment: MainAxisAlignment.start,
+             children: <Widget>[
+               //sponsored events row
+               Row (
+                  children: [
+                    Container (
+                      padding: const EdgeInsets.only(left: 20.0, top: 20),
+                      child: 
+                      Text ( 
+                          "Sponsored Events",
+                          style: TextStyle(color: Colors.grey[900], fontWeight: FontWeight.bold, fontSize: 20),
+                      ),
+                    )
+                  ],
+               ),
+               // card view row 
+               Row (
+                 children: [
+                   Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                     child: Container (
+                       height: size.height / 4,
+                       width: size.width,
+
+                       child:
                           Container(
-                            padding: const EdgeInsets.only(left: 20.0, top: 20),
-                            child: Text(
-                              "Sponsored Events",
-                              style: TextStyle(
-                                  color: Colors.grey[900],
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20),
+                            height: size.height / 4,
+                            child: Swiper(
+
+                              autoplay: true,
+                              itemCount: 6, //make dynamic based on number of jsons parsed
+                              itemBuilder: (BuildContext context, int index) {
+                                return ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: 
+                                  
+                                  //todo based on width, make a card from a json index
+                                  CreateSponsoredEventCard("Become an RA interest meeting", 
+                                  "Taylor Auditorium","Wednesday, 7:30PM"),
+                                  
+                                );
+                              },     
+                              pagination: new SwiperPagination(
+                                margin: new EdgeInsets.all(20.0), 
+                                builder: new DotSwiperPaginationBuilder(
+                                   color: Colors.white, activeColor: Colors.blue),
+                              ),
+                              viewportFraction: 0.9,
+                              scale: 0.9,
                             ),
                           )
-                        ],
-                      ),
-                      // card view row
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Container(
-                                height: size.height / 4,
-                                width: size.width,
-                                child: Container(
-                                  height: size.height / 4,
-                                  child: Swiper(
-                                    autoplay: true,
-                                    itemCount:
-                                        6, //make dynamic based on number of jsons parsed
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child:
+                     ),
+                   )
+                 ],
+               ),
 
-                                            //todo based on width, make a card from a json index
-                                            CreateSponsoredEventCard(
-                                                "Become an RA interest meeting",
-                                                "Taylor Auditorium",
-                                                "Wednesday, 7:30PM"),
-                                      );
-                                    },
-                                    pagination: new SwiperPagination(
-                                      margin: new EdgeInsets.all(20.0),
-                                      builder: new DotSwiperPaginationBuilder(
-                                          color: Colors.white,
-                                          activeColor: Colors.blue),
-                                    ),
-                                    viewportFraction: 0.9,
-                                    scale: 0.9,
-                                  ),
-                                )),
-                          )
-                        ],
+               //latest evnents and filter button
+               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [    
+                  SizedBox(height: 30,),
+                  //latest event
+                  Column (  
+                    children: [
+                      SizedBox(height: 30,),
+                      Container (
+                        child: 
+                        Text ( 
+                            "Latest Events",
+                            style: TextStyle(color: Colors.grey[900], fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
+                      )
+                    ],
+                  ),
+
+                  //filter button
+                  Column (
+                    children: <Widget>[
+                      
+                      Container (
+                        padding: const EdgeInsets.only(left: 180.0, top: 20), //take away this
+                        child: 
+                        IconButton (
+                          icon: Icon(Icons.view_headline),
+                          color: Colors.black,
+                          tooltip: "Filter lastest events by...",
+                          onPressed:  _openFilterDialog,
+                          iconSize: 30,
+                        ),
                       ),
 
-                      //latest evnents and filter button
-                      Row(
-                        children: [
-                          //latest event
-                          Column(
-                            children: [
-                              SizedBox(
-                                height: 30,
-                              ),
-                              Container(
-                                padding: const EdgeInsets.only(
-                                  left: 20.0,
-                                ),
-                                child: Text(
-                                  "Latest Events",
-                                  style: TextStyle(
-                                      color: Colors.grey[900],
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
-                                ),
-                              )
-                            ],
-                          ),
+                      Container (
+                        padding: const EdgeInsets.only(left: 180.0, top: 0),
+                        child: 
+                        Text ( 
+                            "Filter",
+                            style: TextStyle(color: Colors.grey[900], fontWeight: FontWeight.bold, fontSize: 12),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 30,),
+                ],
+               ),
+               //scrollable row for latest event cards
+               Row(
+                 children: [
+                   Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                     child: Container (
+                       height: size.height / 3, //use up reste of space
+                       width: size.width,
 
-                          //filter button
-                          Column(
-                            children: <Widget>[
-                              Container(
-                                padding:
-                                    const EdgeInsets.only(left: 180.0, top: 20),
-                                child: IconButton(
-                                  icon: Icon(Icons.view_headline),
-                                  color: Colors.black,
-                                  tooltip: "Filter lastest events by...",
-                                  onPressed: _openFilterDialog,
-                                  iconSize: 30,
-                                ),
-                              ),
-                              Container(
-                                padding:
-                                    const EdgeInsets.only(left: 180.0, top: 0),
-                                child: Text(
-                                  "Filter",
-                                  style: TextStyle(
-                                      color: Colors.grey[900],
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12),
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                      //scrollable row for latest event cards
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Container(
-                                height: size.height / 3,
-                                width: size.width,
-                                child: ListView(
-                                  scrollDirection: Axis.vertical,
-                                  children: <Widget>[
-                                    CreateLatestEventCard("Intramural Football",
-                                        "Intramural Fields", "Friday, 6:30PM"),
-                                    CreateLatestEventCard("Dawgs After Dark",
-                                        "The Hump", "Thursday, 9:30PM"),
-                                    CreateLatestEventCard(
-                                        "Cowbell yell",
-                                        "Bettersworth Auditorium",
-                                        "Sunday, 5:00PM"),
-                                    CreateLatestEventCard(
-                                        "Become an RA interest meeting",
-                                        "Taylor Auditorium",
-                                        "Wednesday, 7:30PM"),
-                                  ],
-                                )),
-                          )
-                        ],
-                      ),
-                    ]))));
+                       child: ListView (
+                         scrollDirection: Axis.vertical,
+                         children: <Widget>[
+                            CreateLatestEventCard("Intramural Football",
+                            "Intramural Fields","Friday, 6:30PM"),
+                            CreateLatestEventCard("Dawgs After Dark",
+                            "The Hump","Thursday, 9:30PM"),
+                            CreateLatestEventCard("Cowbell yell",
+                            "Bettersworth Auditorium","Sunday, 5:00PM"),
+                            CreateLatestEventCard("Become an RA interest meeting",
+                            "Taylor Auditorium","Wednesday, 7:30PM"),
+                         ],
+                       ) 
+                     ),
+                   )
+                 ],
+               ),
+             ]
+          )
+        )
+      )
+    );
   }
 }
 
