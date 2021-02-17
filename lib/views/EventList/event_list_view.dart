@@ -62,13 +62,15 @@ class _EventListViewState extends State<EventListView> {
           height: size.height,
           width: size.width,
           child: Column (
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
              children: <Widget>[
+              SizedBox(height: 20,),
+               
                //sponsored events row
                Row (
                   children: [
                     Container (
-                      padding: const EdgeInsets.only(left: 20.0, top: 20),
+                      padding: const EdgeInsets.only(left: 40.0),
                       child: 
                       Text ( 
                           "Sponsored Events",
@@ -80,9 +82,7 @@ class _EventListViewState extends State<EventListView> {
                // card view row 
                Row (
                  children: [
-                   Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                     child: Container (
+                      Container (
                        height: size.height / 4,
                        width: size.width,
 
@@ -113,65 +113,63 @@ class _EventListViewState extends State<EventListView> {
                               scale: 0.9,
                             ),
                           )
-                     ),
-                   )
+                     ), 
                  ],
                ),
 
                //latest evnents and filter button
-               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [    
-                  SizedBox(height: 30,),
-                  //latest event
-                  Column (  
-                    children: [
-                      SizedBox(height: 30,),
-                      Container (
-                        child: 
-                        Text ( 
-                            "Latest Events",
-                            style: TextStyle(color: Colors.grey[900], fontWeight: FontWeight.bold, fontSize: 20),
-                        ),
-                      )
-                    ],
-                  ),
+               Padding(
+                 padding: const EdgeInsets.only(left:40,right:20),
+                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [    
+                    
+                    //latest event
+                    Column (  
+                      children: [
+                        SizedBox(height: 10,),
+                        Container (
+                          child: 
+                          Text ( 
+                              "Latest Events",
+                              style: TextStyle(color: Colors.grey[900], fontWeight: FontWeight.bold, fontSize: 20),
+                          ),
+                        )
+                      ],
+                    ),
 
-                  //filter button
-                  Column (
-                    children: <Widget>[
-                      
-                      Container (
-                        padding: const EdgeInsets.only(left: 180.0, top: 20), //take away this
-                        child: 
-                        IconButton (
-                          icon: Icon(Icons.view_headline),
-                          color: Colors.black,
-                          tooltip: "Filter lastest events by...",
-                          onPressed:  _openFilterDialog,
-                          iconSize: 30,
+                    //filter button
+                    Column (
+                      children: <Widget>[
+                        
+                        Container ( //take away this
+                          child: 
+                          IconButton (
+                            icon: Icon(Icons.view_headline),
+                            color: Colors.black,
+                            tooltip: "Filter lastest events by...",
+                            onPressed:  _openFilterDialog,
+                            iconSize: 30,
+                          ),
                         ),
-                      ),
 
-                      Container (
-                        padding: const EdgeInsets.only(left: 180.0, top: 0),
-                        child: 
-                        Text ( 
-                            "Filter",
-                            style: TextStyle(color: Colors.grey[900], fontWeight: FontWeight.bold, fontSize: 12),
+                        Container (
+                          child: 
+                          Text ( 
+                              "Filter",
+                              style: TextStyle(color: Colors.grey[900], fontWeight: FontWeight.bold, fontSize: 12),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 30,),
-                ],
+                      ],
+                    ),
+                    
+                  ],
+                 ),
                ),
                //scrollable row for latest event cards
                Row(
-                 children: [
-                   Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                     child: Container (
+                 children: [ 
+                      Container (
                        height: size.height / 3, //use up reste of space
                        width: size.width,
 
@@ -189,7 +187,6 @@ class _EventListViewState extends State<EventListView> {
                          ],
                        ) 
                      ),
-                   )
                  ],
                ),
              ]
