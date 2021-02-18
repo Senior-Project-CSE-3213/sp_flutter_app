@@ -59,13 +59,13 @@ class _BottomNavBarState extends State<BottomNavBar> {
               ? BoxDecoration(
                   color: Colors.amber[900],
                   gradient: new RadialGradient(
-                      colors: [Colors.white, mainColor],
+                      colors: [Color.fromRGBO(213,92,5,1), Color.fromRGBO(25,28,35,1)],
                       center: Alignment(0, 0.7),
                       radius: 0.12,
                       tileMode: TileMode.clamp,
                       stops: [0.3, 0.7]),
                 )
-              : BoxDecoration(color: mainColor),
+              : BoxDecoration(color: Color.fromRGBO(25,28,35,1)),
           //NOTE: these are not IconButtons so that we can have this indicator dot
           child: (index == 2
               ? Align(
@@ -74,7 +74,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 )
               : Icon(
                   icon,
-                  color: Colors.white,
+                  color: (index == 0 ? Color.fromRGBO(125,62,255,1) : Colors.white),
                   size: 28,
                 ))),
     );

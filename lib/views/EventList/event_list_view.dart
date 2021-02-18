@@ -42,6 +42,7 @@ class _EventListViewState extends State<EventListView> {
 
     return SafeArea(
         child: Scaffold(
+          backgroundColor: Color.fromRGBO(25,28,35,1),
             bottomNavigationBar: BottomNavBar(
               defaultSelectedIndex: 0,
               onChange: (val) {
@@ -74,7 +75,7 @@ class _EventListViewState extends State<EventListView> {
                       child: 
                       Text ( 
                           "Sponsored Events",
-                          style: TextStyle(color: Colors.grey[900], fontWeight: FontWeight.bold, fontSize: 20),
+                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
                       ),
                     )
                   ],
@@ -132,7 +133,7 @@ class _EventListViewState extends State<EventListView> {
                           child: 
                           Text ( 
                               "Latest Events",
-                              style: TextStyle(color: Colors.grey[900], fontWeight: FontWeight.bold, fontSize: 20),
+                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
                           ),
                         )
                       ],
@@ -146,7 +147,7 @@ class _EventListViewState extends State<EventListView> {
                           child: 
                           IconButton (
                             icon: Icon(Icons.view_headline),
-                            color: Colors.black,
+                            color: Colors.white,
                             tooltip: "Filter lastest events by...",
                             onPressed:  _openFilterDialog,
                             iconSize: 30,
@@ -157,7 +158,7 @@ class _EventListViewState extends State<EventListView> {
                           child: 
                           Text ( 
                               "Filter",
-                              style: TextStyle(color: Colors.grey[900], fontWeight: FontWeight.bold, fontSize: 12),
+                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
                           ),
                         ),
                       ],
@@ -222,17 +223,12 @@ class CreateSponsoredEventCard extends StatelessWidget {
                 15), //this is padding for text inside the card
             decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Colors.blue.shade700, Colors.deepPurpleAccent],
+                  colors: [Color.fromRGBO(109,135,214,1), Color.fromRGBO(74,194,237,1)], //or 16,60,98 to 37,139,191
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
                 borderRadius: BorderRadius.all(Radius.circular(28)),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.blue.shade700.withOpacity(0.4),
-                      blurRadius: 4,
-                      spreadRadius: 2)
-                ]),
+                ),
             child: Column(
               //column holds all text on container
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -263,6 +259,7 @@ class CreateSponsoredEventCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    SizedBox(width:10),
                     Container(
                       child: Text(
                         this.eventLocation,
@@ -279,9 +276,10 @@ class CreateSponsoredEventCard extends StatelessWidget {
                 ),
 
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
+                      padding: const EdgeInsets.only(left: 10.0),
                       child: Text(
                         this.eventTime,
                         style: TextStyle(
@@ -293,6 +291,8 @@ class CreateSponsoredEventCard extends StatelessWidget {
                         overflow: TextOverflow.fade,
                       ),
                     ),
+
+                    Icon(Icons.account_circle_rounded, color: Colors.white, size:50),
                   ],
                 ),
 
@@ -331,17 +331,12 @@ class CreateLatestEventCard extends StatelessWidget {
                 15), //this is padding for text inside the card
             decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Colors.deepOrangeAccent, Colors.deepPurpleAccent],
+                  colors: [Color.fromRGBO(40,47,67,1), Color.fromRGBO(65,47,72,1)],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
                 borderRadius: BorderRadius.all(Radius.circular(14)),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.orange.shade100.withOpacity(0.4),
-                      blurRadius: 4,
-                      spreadRadius: 2)
-                ]),
+                ),
             child: Column(
               //column holds all text on container
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -387,8 +382,8 @@ class CreateLatestEventCard extends StatelessWidget {
                         this.eventTime,
                         style: TextStyle(
                           //event loc in middle
-                          color: Colors.white,
-                          fontSize: 14,
+                          color: Color.fromRGBO(203,115,239,1),
+                          fontSize: 15,
                           fontWeight: FontWeight.w500,
                         ),
                         overflow: TextOverflow.fade,
