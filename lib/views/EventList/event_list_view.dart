@@ -59,10 +59,11 @@ class _EventListViewState extends State<EventListView> {
             ),
 
             //now we can do all the view stuff here in the body
+            //around this whole container we should have kdefaultpadding * 2.0 for top and bottom and *0.15 for left and right
             body: Container (
-          height: size.height,
-          width: size.width,
-          child: Column (
+            height: size.height,
+            width: size.width,
+            child: Column (
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
              children: <Widget>[
               SizedBox(height: 20,),
@@ -118,6 +119,8 @@ class _EventListViewState extends State<EventListView> {
                  ],
                ),
 
+              //in between this padding widget, soooo within it instead of the padding, we will
+              //have top and bottom paddingof kdefaultpadding * 2.0
                //latest evnents and filter button
                Padding(
                  padding: const EdgeInsets.only(left:40,right:20),
@@ -169,6 +172,7 @@ class _EventListViewState extends State<EventListView> {
                ),
                //scrollable row for latest event cards
                Row(
+                 //inbetween cards we will have kdefaultpadding
                  children: [ 
                       Container (
                        height: size.height / 3, //use up reste of space
