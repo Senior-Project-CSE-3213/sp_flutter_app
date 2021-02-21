@@ -7,7 +7,7 @@ import 'package:sp_flutter_app/shared/constants.dart';
 class BottomNavBar extends StatefulWidget {
   final int defaultSelectedIndex;
   final Function(int) onChange;
-  final List<IconData> iconList; //this is just the rep icons
+  final List<IconData> iconList; 
 
   BottomNavBar(
       {this.defaultSelectedIndex = 0,
@@ -53,7 +53,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         });
       },
       child: Container(
-          height: 60,
+          height: 65,
           width: MediaQuery.of(context).size.width / _iconList.length,
           decoration: index == _selectedIndex
               ? BoxDecoration(
