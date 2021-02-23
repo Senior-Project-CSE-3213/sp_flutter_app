@@ -105,6 +105,18 @@ class MainDrawer extends StatelessWidget {
             },
           ),
           ListTile(
+            leading: Icon(Icons.event_note),
+            title: Text(
+              'All User Profiles',
+              style: TextStyle(
+                fontSize: 18,
+              ),
+            ),
+            onTap: () {
+              Navigator.of(context).pushNamed(allUserProfilesScreenRoute);
+            },
+          ),
+          ListTile(
             leading: Icon(Icons.person),
             title: Text(
               'Logout',

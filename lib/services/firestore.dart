@@ -5,11 +5,9 @@ import 'package:sp_flutter_app/models/user_profile.dart';
 class FirestoreService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<DocumentReference> addUserProfile(UserProfile userProfileModel) async {
-    return await _firestore
+  Future<DocumentReference> addUserProfile(UserProfile userProfileModel) async => await _firestore
         .collection("user_profiles")
         .add(userProfileModel.toFirebase());
-  }
 
   Future<bool> updateUserProfile(
       UserProfile userProfileModel, DocumentReference ref) async {

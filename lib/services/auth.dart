@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart' as fbAuth;
+import 'package:sp_flutter_app/models/event.dart';
 import 'package:sp_flutter_app/models/user.dart';
+import 'package:sp_flutter_app/services/database.dart';
 
 class AuthService {
   // Singleton instance
@@ -47,6 +49,18 @@ class AuthService {
     fbAuth.UserCredential result = await _auth.createUserWithEmailAndPassword(
         email: email, password: password);
     fbAuth.User user = result.user;
+
+    Event genericEvent = new Event(
+        eventName: user.displayName,
+        eventDescription: "Generic description",
+        eventDate: new DateTime.now());
+
+    List<Event> events = new List<Event>();
+    events.add(genericEvent);
+
+    // create simple user doc (update later for use with the actual system)
+    await DatabaseService(uid: user.uid).updateSimpleUserData(
+        "New User", email, "601-111-2222", events, new List<Event>());
     return _userFromFirebaseUser(user);
   }
 

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sp_flutter_app/models/user.dart';
+import 'package:sp_flutter_app/services/database.dart';
+import 'package:sp_flutter_app/views/user_profiles.dart';
 import '../shared/constants.dart';
 import '../shared/widgets/notification_drawer.dart';
 import 'package:sp_flutter_app/views/wrapper.dart';
@@ -83,76 +87,21 @@ class EventDetailScreen extends StatelessWidget {
     );
   }
 
-  _listViewHorizontal(bool showDecoration) {
-    return Container(
-        height: 105,
-        decoration: (showDecoration)
-            ? new BoxDecoration(color: Colors.blueAccent[400])
-            : null,
-        child: NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return <Widget>[];
-          },
-          body: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (BuildContext context, int index) {
-              return ChoiceChip(
-                selected: false,
-                onSelected: (bool selected) {
-                  print("clicked on participant $index");
-                },
-                backgroundColor: Colors.white,
-                avatar: CircleAvatar(
-                    radius: 35,
-                    backgroundColor: altPrimaryColor,
-                    child: Icon(Icons.person)),
-                label: Text(
-                  'Name $index',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: altPrimaryColor,
-                  ),
-                ),
-                labelPadding:
-                    EdgeInsets.only(left: 10, right: 20, bottom: 30, top: 30),
-              );
-            },
-            itemCount: 20,
-          ),
-        ));
-  }
-
-  _listViewVertical() {
-    return Container(
-        width: 250,
-        height: 180,
-        padding: EdgeInsets.all(10),
-        decoration: new BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.zero),
-          color: altSecondaryColor,
-        ),
-        child: NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return <Widget>[];
-          },
-          body: ListView.builder(
-            itemBuilder: (BuildContext context, int index) {
-              return Container(
-                height: 80,
-                alignment: Alignment.center,
-                child: Chip(
-                  avatar: CircleAvatar(
-                      backgroundColor: altPrimaryColor,
-                      child: Icon(Icons.person)),
-                  label: Text('Name $index'),
-                  labelPadding:
-                      EdgeInsets.only(left: 40, right: 40, bottom: 20, top: 20),
-                ),
-              );
-            },
-            itemCount: 20,
-          ),
-        ));
+  _participantScrollView(bool showDecoration) {
+    return StreamProvider<List<User>>.value(
+      value: DatabaseService().profiles,
+      child: Container(
+          height: 105,
+          decoration: (showDecoration)
+              ? new BoxDecoration(color: Colors.blueAccent[400])
+              : null,
+          child: NestedScrollView(
+              headerSliverBuilder:
+                  (BuildContext context, bool innerBoxIsScrolled) {
+                return <Widget>[];
+              },
+              body: SimpleUserDataList(direction: Axis.horizontal))),
+    );
   }
 
   _boxShadow(Offset offset) {
@@ -346,7 +295,7 @@ class EventDetailScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    _listViewHorizontal(false),
+                    _participantScrollView(false),
                   ])),
             ),
             _subNavBar(context),
