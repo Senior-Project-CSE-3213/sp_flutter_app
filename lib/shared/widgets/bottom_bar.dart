@@ -52,31 +52,34 @@ class _BottomNavBarState extends State<BottomNavBar> {
           print("Switching to bottom nav index $_selectedIndex");
         });
       },
-      child: Container(
-          height: 65,
-          width: MediaQuery.of(context).size.width / _iconList.length,
-          decoration: index == _selectedIndex
-              ? BoxDecoration(
-                  color: Colors.amber[900],
-                  gradient: new RadialGradient(
-                      colors: [Color.fromRGBO(213,92,5,1), Color.fromRGBO(25,28,35,1)],
-                      center: Alignment(0, 0.7),
-                      radius: 0.12,
-                      tileMode: TileMode.clamp,
-                      stops: [0.3, 0.7]),
-                )
-              : BoxDecoration(color: Color.fromRGBO(25,28,35,1)),
-          //NOTE: these are not IconButtons so that we can have this indicator dot
-          child: (index == 2
-              ? Align(
-                  child: SvgPicture.asset("assets/svgs/magnifying_glass.svg",
-                      width: 26, height: 26, color: Colors.white),
-                )
-              : Icon(
-                  icon,
-                  color: (index == 0 ? Color.fromRGBO(125,62,255,1) : Colors.white),
-                  size: 28,
-                ))),
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 15),
+        child: Container(
+            height: 50,
+            width: MediaQuery.of(context).size.width / _iconList.length,
+            decoration: index == _selectedIndex
+                ? BoxDecoration(
+                    color: Colors.amber[900],
+                    gradient: new RadialGradient(
+                        colors: [Color.fromRGBO(213,92,5,1), Color.fromRGBO(25,28,35,1)],
+                        center: Alignment(0, 0.7),
+                        radius: 0.12,
+                        tileMode: TileMode.clamp,
+                        stops: [0.3, 0.7]),
+                  )
+                : BoxDecoration(color: Color.fromRGBO(25,28,35,1)),
+            //NOTE: these are not IconButtons so that we can have this indicator dot
+            child: (index == 2
+                ? Align(
+                    child: SvgPicture.asset("assets/svgs/magnifying_glass.svg",
+                        width: 26, height: 26, color: Colors.white),
+                  )
+                : Icon(
+                    icon,
+                    color: (index == 0 ? Color.fromRGBO(125,62,255,1) : Colors.white),
+                    size: 28,
+                  ))),
+      ),
     );
   }
 }

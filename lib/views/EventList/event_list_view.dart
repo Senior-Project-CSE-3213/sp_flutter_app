@@ -54,7 +54,7 @@ class _EventListViewState extends State<EventListView> {
               iconList: [
                 Icons.add_circle,
                 Icons.home,
-                Icons.find_in_page, //this one is irrelevant
+                Icons.find_in_page, 
                 Icons.person,
               ],
             ),
@@ -67,7 +67,6 @@ class _EventListViewState extends State<EventListView> {
                   width: size.width,
                   child: Column(
                       children: <Widget>[
-                        //sponsored events row
                         Row(
                           children: [
                             Container(
@@ -82,7 +81,6 @@ class _EventListViewState extends State<EventListView> {
                             )
                           ],
                         ),
-                        // card view row
                         Row(
                           children: [
                             Container(
@@ -99,8 +97,7 @@ class _EventListViewState extends State<EventListView> {
                                       return ClipRRect(
                                         borderRadius: BorderRadius.circular(10),
                                         child:
-
-                                            //todo based on width, make a card from a json index
+                                            //todo JSON file loader and count number of jsons
                                             CreateSponsoredEventCard(
                                                 "Become an RA interest meeting",
                                                 "Taylor Auditorium",
@@ -144,7 +141,6 @@ class _EventListViewState extends State<EventListView> {
                                 ],
                               ),
 
-                              //filter button
                               Column(
                                 children: <Widget>[
                                   Container(
@@ -171,16 +167,18 @@ class _EventListViewState extends State<EventListView> {
                             ],
                           ),
                         ),
-
                         Row(
-                          //init data needs to be dynamic based on json data
                           children: [
                             Container(
-                                height: size.height / 3.0 - kDefaultPadding * 2, //use up reste of space
+                                //this is a bodge, figure out how to take up the rest of the 
+                                //space and take it all up without pushing everything
+                                //out of the way you greedy widget
+                                height: size.height / 2.9 - kDefaultPadding * 2,
                                 width: size.width - kDefaultPadding * 0.30, 
                                 child: ListView(
                                   scrollDirection: Axis.vertical,
                                   children: <Widget>[
+                                    //todo JSON file loader and count number of jsons
                                     CreateLatestEventCard("Intramural Football",
                                         "Intramural Fields", "Friday, 6:30PM"),
                                     SizedBox(
@@ -229,11 +227,11 @@ class CreateSponsoredEventCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: Container(
-            height: 160, //height should remain same
+            height: 160, 
             width:
-                220, //width could possible stretch, make a min and max for this?
+                220, 
             padding: const EdgeInsets.all(
-                15), //this is padding for text inside the card
+                15), 
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
@@ -307,7 +305,8 @@ class CreateSponsoredEventCard extends StatelessWidget {
                         overflow: TextOverflow.fade,
                       ),
                     ),
-                    Icon(Icons.account_circle_rounded,
+                    
+                    Icon(Icons.playlist_add_check_sharp, //flutter icon
                         color: Colors.white, size: 50),
                   ],
                 ),
@@ -340,11 +339,11 @@ class CreateLatestEventCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: Container(
-            height: 80, //height should remain same
+            height: 80, 
             width:
-                180, //width could possible stretch, make a min and max for this?
+                180, 
             padding: const EdgeInsets.all(
-                15), //this is padding for text inside the card
+                15),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
@@ -361,13 +360,11 @@ class CreateLatestEventCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                //this starts the children of the card
                 Expanded(
                   child: Container(
                     child: Text(
                       this.eventTitle,
                       style: TextStyle(
-                        //event title at top
                         color: Colors.white,
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -390,7 +387,6 @@ class CreateLatestEventCard extends StatelessWidget {
                       Text(
                         this.eventLocation,
                         style: TextStyle(
-                          //event loc in middle
                           color: Colors.white,
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
@@ -400,7 +396,6 @@ class CreateLatestEventCard extends StatelessWidget {
                       Text(
                         this.eventTime,
                         style: TextStyle(
-                          //event loc in middle
                           color: Color.fromRGBO(203, 115, 239, 1),
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
