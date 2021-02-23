@@ -14,6 +14,7 @@ const textInputDecoration = InputDecoration(
 const mainColor = Colors.indigoAccent;
 const kPrimaryColor = Color(0xFF6C63FF);
 const kPrimaryLightColor = Color(0xFFDEDEDE);
+const kDefaultPadding = 16.0;
 
 const profileScreenRoute = '/screens/profile_screen.dart';
 const settingScreenRoute = '/screens/settings_screen.dart';
