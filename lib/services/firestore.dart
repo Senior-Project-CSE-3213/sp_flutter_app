@@ -46,4 +46,10 @@ class FirestoreService {
       // handle different?
     }
   }
+
+  Future<void> getEvents() async {
+    QuerySnapshot querySnapshot = await _firestore.collection("events").get();
+
+    final eventData = querySnapshot.docs.map((doc) => doc.data()).toList();
+  }
 }
