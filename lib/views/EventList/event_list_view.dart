@@ -167,15 +167,8 @@ class _EventListViewState extends State<EventListView> {
                             ],
                           ),
                         ),
-                        Row(
-                          children: [
-                            Container(
-                                //this is a bodge, figure out how to take up the rest of the 
-                                //space and take it all up without pushing everything
-                                //out of the way you greedy widget
-                                height: size.height / 2.9 - kDefaultPadding * 2,
-                                width: size.width - kDefaultPadding * 0.30, 
-                                child: ListView(
+                        Expanded (
+                          child: ListView(
                                   scrollDirection: Axis.vertical,
                                   children: <Widget>[
                                     //todo JSON file loader and count number of jsons
@@ -201,9 +194,8 @@ class _EventListViewState extends State<EventListView> {
                                         "Taylor Auditorium",
                                         "Wednesday, 7:30PM"),
                                   ],
-                                )),
-                          ],
-                        ),
+                                )
+                        )
                       ])),
             )));
   }
