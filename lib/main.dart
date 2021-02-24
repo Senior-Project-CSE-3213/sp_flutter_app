@@ -29,7 +29,7 @@ class MainApp extends StatelessWidget {
         profileScreenRoute: (context) => ProfileScreen(),
         helpScreenRoute: (_) => HelpScreen(),
         settingScreenRoute: (_) => SettingScreen(),
-        eventDetailScreenRoute: (_) => EventDetailScreen(),
+        eventDetailScreenRoute: (context) => EventDetailScreen(),
         allUserProfilesScreenRoute: (_) => UserProfiles()
       }),
     );

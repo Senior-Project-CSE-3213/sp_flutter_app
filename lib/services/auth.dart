@@ -40,6 +40,18 @@ class AuthService {
     fbAuth.UserCredential result = await _auth.signInWithEmailAndPassword(
         email: email, password: password);
     fbAuth.User user = result.user;
+
+    // Event genericEvent = new Event(
+    //     eventName: user.displayName,
+    //     eventDescription: "Generic description",
+    //     eventDate: new DateTime.now());
+
+    // List<Event> events = new List<Event>();
+    // events.add(genericEvent);
+
+    // // create simple user doc (update later for use with the actual system)
+    // await DatabaseService(uid: user.uid).updateSimpleUserData(
+    //     "New User", email, "601-111-2222", events, new List<Event>());
     return _userFromFirebaseUser(user);
   }
 

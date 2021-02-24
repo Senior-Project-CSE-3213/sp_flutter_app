@@ -16,8 +16,8 @@ class DatabaseService {
       'displayName': name,
       'email': email,
       'phoneNumber': phone,
-      // 'myEvents': myEvents,
-      // 'eventsSignedUpFor': eventsSignedUpFor
+      // 'myEvents': myEvents.map((e) => e.toMap()).toList(),
+      // 'eventsSignedUpFor': eventsSignedUpFor.map((e) => e.toMap()).toList()
     });
   }
 
@@ -28,8 +28,8 @@ class DatabaseService {
       username: snapshot['displayName'],
       email: snapshot['email'],
       phoneNumber: snapshot['phoneNumber'],
-      // myEvents: snapshot['myEvents'],
-      // eventsSignedUpFor: snapshot['eventsSignedUpFor']
+      // myEvents: snapshot['myEvents'] as List,
+      // eventsSignedUpFor: snapshot['eventsSignedUpFor'] as List
     );
   }
 
@@ -41,8 +41,8 @@ class DatabaseService {
         username: doc.data()['displayName'] ?? '',
         email: doc.data()['email'] ?? '',
         phoneNumber: doc.data()['phoneNumber'] ?? '',
-        // myEvents: doc.data()['myEvents'] ?? new List<Event>(),
-        // eventsSignedUpFor: doc.data()['eventsSignedUpFor'] ?? new List<Event>(),
+        // myEvents: doc.data()['myEvents'] as List,
+        // eventsSignedUpFor: doc.data()['eventsSignedUpFor'] as List,
       );
     }).toList();
   }

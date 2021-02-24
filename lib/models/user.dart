@@ -6,8 +6,8 @@ class User {
   String email;
   String phoneNumber;
 
-  List<Event> myEvents;
-  List<Event> eventsSignedUpFor;
+  List<Event> myEvents = new List<Event>();
+  List<Event> eventsSignedUpFor = new List<Event>();
 
   User(
       {this.uid,
@@ -25,8 +25,10 @@ class User {
     username = data['displayName'];
     email = data['email'];
     phoneNumber = data['phoneNumber'];
-    // myEvents = data['myEvents'];
-    // eventsSignedUpFor = data['eventsSignedUpFor'];
+    myEvents = new List<Event>();
+    eventsSignedUpFor = new List<Event>();
+    // myEvents = data['myEvents'] as List;
+    // eventsSignedUpFor = data['eventsSignedUpFor'] as List;
   }
 
   Map<String, dynamic> toFirebase() {
@@ -35,8 +37,8 @@ class User {
       'displayName': username,
       'email': email,
       'phoneNumber': phoneNumber,
-      // 'myEvents': myEvents,
-      // 'eventsSignedUpFor': eventsSignedUpFor
+      // 'myEvents': myEvents.map((e) => e.toMap()).toList(),
+      // 'eventsSignedUpFor': eventsSignedUpFor.map((e) => e.toMap()).toList()
     };
   }
 
@@ -66,13 +68,13 @@ class User {
 
   update() => this.toFirebase();
 
-  createNewEvent(final EventArguments args) {
-    Event newEvent = new Event(
-        creator: this,
-        eventName: args.eventName,
-        eventDescription: args.eventDescription,
-        eventDate: args.eventDate);
+  // createNewEvent(final EventArguments args) {
+  //   Event newEvent = new Event(
+  //       creator: this,
+  //       eventName: args.eventName,
+  //       eventDescription: args.eventDescription,
+  //       eventDate: args.eventDate);
 
-    this.myEvents.add(newEvent);
-  }
+  //   this.myEvents.add(newEvent);
+  // }
 }

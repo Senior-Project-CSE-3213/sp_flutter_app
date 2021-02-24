@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:sp_flutter_app/models/event.dart';
 import 'package:sp_flutter_app/models/user.dart';
 import 'package:sp_flutter_app/services/database.dart';
 import 'package:sp_flutter_app/views/user_profiles.dart';
@@ -8,12 +10,10 @@ import '../shared/widgets/notification_drawer.dart';
 import 'package:sp_flutter_app/views/wrapper.dart';
 
 class EventDetailScreen extends StatelessWidget {
-  final Widget child;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   EventDetailScreen({
     Key key,
-    @required this.child,
   }) : super(key: key);
 
   _subNavBar(BuildContext context) {
@@ -138,6 +138,8 @@ class EventDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final EventArguments args = ModalRoute.of(context).settings.arguments;
+    Event event = args.event;
     return SafeArea(
       child: Scaffold(
           //bottomNavigationBar: _sendNavigationBar(),
@@ -162,7 +164,8 @@ class EventDetailScreen extends StatelessWidget {
                         alignment: Alignment.center,
                         padding: EdgeInsets.all(20),
                         child: Text(
-                          'My Dark, Twisted Football Tournament',
+                          event.eventName,
+                          //'My Dark, Twisted Football Tournament',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -200,28 +203,17 @@ class EventDetailScreen extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                'Created by \nKanye West',
+                                'Created by \n' + event.creator.username,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 22,
                                 ),
                               ),
                               Spacer(),
-                              Container(
-                                margin: EdgeInsets.all(20),
-                                padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(100),
-                                    border: Border.all(
-                                        width: 2, color: altPrimaryColor),
-                                    boxShadow: _boxShadow(new Offset(2, 2))),
-                                child: Icon(
-                                  Icons.calendar_view_day,
-                                  color: altPrimaryColor,
-                                ),
-                              ),
                               Text(
-                                'Starts \n2/14/21',
+                                'Starts \n' +
+                                    new DateFormat("M-dd-yyyy \n@h:mm a'")
+                                        .format(event.eventDate),
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 22,
@@ -238,7 +230,9 @@ class EventDetailScreen extends StatelessWidget {
                           // height: 180,
                           padding: EdgeInsets.only(
                               left: 20, right: 20, top: 30, bottom: 20),
-                          child: freshPrinceText),
+                          child: Text(event.eventDescription,
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 22))),
                     ),
                     Flexible(
                       flex: 6,

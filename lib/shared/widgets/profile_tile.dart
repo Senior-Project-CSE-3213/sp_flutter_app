@@ -15,7 +15,6 @@ class ProfileChip extends StatelessWidget {
         child: ChoiceChip(
           selected: false,
           onSelected: (bool selected) {
-            print("clicked on participant " + profile.username);
             Navigator.pushNamed(context, profileScreenRoute,
                 arguments: ProfileArguments(user: profile));
           },
