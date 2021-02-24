@@ -53,9 +53,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
         });
       },
       child: Padding(
-        padding: const EdgeInsets.only(bottom: 15),
+        padding: const EdgeInsets.only(bottom: 25),
         child: Container(
-            height: 50,
+            height: 40,
             width: MediaQuery.of(context).size.width / _iconList.length,
             decoration: index == _selectedIndex
                 ? BoxDecoration(
