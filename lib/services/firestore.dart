@@ -47,9 +47,17 @@ class FirestoreService {
     }
   }
 
-  Future<void> getEvents() async {
-    QuerySnapshot querySnapshot = await _firestore.collection("events").get();
+  Future<void> getSponseredEvents() async {
+    QuerySnapshot querySnapshot = await _firestore.collection("sEvents").get();
 
-    final eventData = querySnapshot.docs.map((doc) => doc.data()).toList();
+    final sEventData = querySnapshot.docs.map((doc) => doc.data()).toList();
+    return sEventData;
+  }
+
+  Future<void> getLatestEvents() async {
+    QuerySnapshot querySnapshot = await _firestore.collection("lEvents").get();
+
+    final lEventData = querySnapshot.docs.map((doc) => doc.data()).toList();
+    return lEventData;
   }
 }
