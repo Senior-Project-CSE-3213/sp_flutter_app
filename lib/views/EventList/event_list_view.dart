@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:filter_list/filter_list.dart';
 import 'package:sp_flutter_app/shared/constants.dart';
 import 'package:sp_flutter_app/shared/widgets/bottom_bar.dart';
-import 'package:sp_flutter_app/services/firestore.dart' as firestore;
 
 class EventListView extends StatefulWidget {
   @override
   _EventListViewState createState() => _EventListViewState();
 }
+
+//todo mimic drible more
 
 class _EventListViewState extends State<EventListView> {
   List<String> countList = [
@@ -19,8 +19,8 @@ class _EventListViewState extends State<EventListView> {
     "Soonest",
     "Latest"
   ];
-
   List<String> selectedCountList = [];
+
   void _openFilterDialog() async {
     await FilterListDialog.display(context,
         allTextList: countList,
@@ -37,12 +37,6 @@ class _EventListViewState extends State<EventListView> {
       Navigator.pop(context);
     });
   }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //       firestore.FirestoreService().getSEventData() as List<String>;
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -61,148 +55,134 @@ class _EventListViewState extends State<EventListView> {
               iconList: [
                 Icons.add_circle,
                 Icons.home,
-                Icons.find_in_page,
+                Icons.find_in_page, 
                 Icons.person,
               ],
             ),
+
             body: Padding(
-              padding: const EdgeInsets.only(
-                  top: kDefaultPadding,
-                  bottom: kDefaultPadding,
-                  left: kDefaultPadding * 0.15,
-                  right: kDefaultPadding * 0.15),
+              padding: const EdgeInsets.only(top: kDefaultPadding, bottom: kDefaultPadding,
+                                             left: kDefaultPadding * 0.15, right: kDefaultPadding * 0.15),
               child: Container(
                   height: size.height,
                   width: size.width,
-                  child: Column(children: <Widget>[
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.only(
-                              bottom: kDefaultPadding,
-                              left: 2 * kDefaultPadding),
-                          child: Text(
-                            "Sponsored Events",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20),
-                          ),
-                        )
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Container(
-                            height: size.height / 4,
-                            width: size.width - kDefaultPadding * 0.30,
-                            child: Container(
-                              height: size.height / 4,
-                              child: Swiper(
-                                autoplay: true,
-                                itemCount:
-                                    6, //make dynamic based on number of jsons parsed
-                                itemBuilder: (BuildContext context, int index) {
-                                  return ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child:
-                                        //todo JSON file loader and count number of jsons
-                                        CreateSponsoredEventCard(
-                                            "Become an RA interest meeting",
-                                            "Taylor Auditorium",
-                                            "Wednesday, 7:30PM"),
-                                  );
-                                },
-                                pagination: new SwiperPagination(
-                                  margin: new EdgeInsets.all(20.0),
-                                  builder: new DotSwiperPaginationBuilder(
-                                      color: Colors.white,
-                                      activeColor: Colors.blue),
-                                ),
-                                viewportFraction: 0.9,
-                                scale: 0.9,
-                              ),
-                            )),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          bottom: kDefaultPadding,
-                          top: kDefaultPadding,
-                          left: kDefaultPadding * 2,
-                          right: kDefaultPadding * 2),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          //latest event
-                          Column(
-                            children: [
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                child: Text(
-                                  "Latest Events",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
-                                ),
-                              )
-                            ],
-                          ),
-
-                          Column(
-                            children: <Widget>[
-                              Container(
-                                //take away this
-                                child: IconButton(
-                                  icon: Icon(Icons.view_headline),
-                                  color: Colors.white,
-                                  tooltip: "Filter lastest events by...",
-                                  onPressed: _openFilterDialog,
-                                  iconSize: 30,
-                                ),
-                              ),
-                              Container(
-                                child: Text(
-                                  "Filter",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                        child: ListView(
-                      scrollDirection: Axis.vertical,
+                  child: Column(
                       children: <Widget>[
-                        //todo JSON file loader and count number of jsons
-                        CreateLatestEventCard("Intramural Football",
-                            "Intramural Fields", "Friday, 6:30PM"),
-                        SizedBox(
-                          height: 5,
-                        ), //replace with kdefaultpadding
-                        CreateLatestEventCard(
-                            "Dawgs After Dark", "The Hump", "Thursday, 9:30PM"),
-                        SizedBox(
-                          height: 5,
-                        ), //replace with kdefaultpadding
-                        CreateLatestEventCard("Cowbell yell",
-                            "Bettersworth Auditorium", "Sunday, 5:00PM"),
-                        SizedBox(
-                          height: 5,
-                        ), //replace with kdefaultpadding
-                        CreateLatestEventCard("Become an RA interest meeting",
-                            "Taylor Auditorium", "Wednesday, 7:30PM"),
-                      ],
-                    ))
-                  ])),
+                        Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.only(bottom: kDefaultPadding, left: 2 * kDefaultPadding),
+                              child: Text(
+                                "Sponsored Events",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20),
+                              ),
+                            )
+                          ],
+                        ),
+
+                        //todo colors and gradients for cards
+                        //todo different fonts and icons
+                        //make sure that if there's too much text it just fades to ...
+                        Container(
+                          height: 200,
+                          child: ListView (
+                             scrollDirection: Axis.horizontal,
+                                  children: <Widget>[
+                                    CreateSponsoredEventCard(
+                                        "Become an RA interest meeting",
+                                        "Taylor Auditorium",
+                                        "Wednesday, 7:30PM"),
+
+                                    CreateSponsoredEventCard("Intramural Football",
+                                        "Intramural Fields", "Friday, 6:30PM"),
+                                    
+                                    CreateSponsoredEventCard("Dawgs After Dark",
+                                        "The Hump", "Thursday, 9:30PM"),
+                                     
+                                    CreateSponsoredEventCard(
+                                        "Cowbell yell",
+                                        "Bettersworth Auditorium",
+                                        "Sunday, 5:00PM"),
+                                    
+                                  ]
+                          ),
+                        ),
+
+                        Padding (
+                          padding: const EdgeInsets.only(bottom: kDefaultPadding, top: kDefaultPadding, 
+                          left: kDefaultPadding * 2, right: kDefaultPadding * 2),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              //latest event
+                              Column(
+                                children: [
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Container(
+                                    child: Text(
+                                      "Latest Events",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
+                                  )
+                                ],
+                              ),
+
+                              Column(
+                                children: <Widget>[
+                                  Container(
+                                    //take away this
+                                    child: IconButton(
+                                      icon: Icon(Icons.view_headline),
+                                      color: Colors.white,
+                                      onPressed: _openFilterDialog,
+                                      iconSize: 30,
+                                    ),
+                                  ),
+                                  Container(
+                                    child: Text(
+                                      "Filter",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 12),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded (
+                          child: ListView(
+                                  scrollDirection: Axis.vertical,
+                                  children: <Widget>[
+                                    CreateLatestEventCard("Intramural Football",
+                                        "Intramural Fields", "Friday, 6:30PM"),
+                                    
+                                    CreateLatestEventCard("Dawgs After Dark",
+                                        "The Hump", "Thursday, 9:30PM"),
+                                     
+                                    CreateLatestEventCard(
+                                        "Cowbell yell",
+                                        "Bettersworth Auditorium",
+                                        "Sunday, 5:00PM"),
+                                    
+                                    CreateLatestEventCard(
+                                        "Become an RA interest meeting",
+                                        "Taylor Auditorium",
+                                        "Wednesday, 7:30PM"),
+                                  ],
+                                )
+                        )
+                      ])),
             )));
   }
 }
@@ -225,9 +205,11 @@ class CreateSponsoredEventCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: Container(
-            height: 160,
-            width: 220,
-            padding: const EdgeInsets.all(15),
+            height: 160, 
+            width:
+                280, 
+            padding: const EdgeInsets.all(
+                15), 
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
@@ -247,19 +229,19 @@ class CreateSponsoredEventCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                      child: Text(
+                    SizedBox(
+                    width: 200.0,
+                    child: 
+                      Text(
                         this.eventTitle,
                         style: TextStyle(
-                          //event loc in middle
                           color: Colors.white,
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                         overflow: TextOverflow.fade,
                       ),
-                    ),
-                  ],
+                    )],
                 ),
 
                 SizedBox(
@@ -267,33 +249,37 @@ class CreateSponsoredEventCard extends StatelessWidget {
                 ),
 
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(width: 10),
-                    Container(
-                      child: Text(
+                    SizedBox(
+                    width: 200.0,
+                    child: 
+                      Text(
                         this.eventLocation,
                         style: TextStyle(
-                          //event loc in middle
                           color: Colors.white,
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
                         overflow: TextOverflow.fade,
                       ),
-                    ),
-                  ],
+                    )],
                 ),
 
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Container(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: Text(
+                   
+                    Icon(Icons.playlist_add_check_sharp, //flutter icon
+                        color: Colors.white, size: 50),
+                       
+                    SizedBox(width: 80,),
+                    SizedBox(
+                    width: 100.0,
+                    child: 
+                      Text(
                         this.eventTime,
                         style: TextStyle(
-                          //event loc in middle
                           color: Colors.white,
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -301,14 +287,7 @@ class CreateSponsoredEventCard extends StatelessWidget {
                         overflow: TextOverflow.fade,
                       ),
                     ),
-                    Icon(Icons.playlist_add_check_sharp, //flutter icon
-                        color: Colors.white,
-                        size: 50),
                   ],
-                ),
-
-                SizedBox(
-                  height: 15,
                 ),
               ],
             )),
@@ -335,14 +314,16 @@ class CreateLatestEventCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: Container(
-            height: 80,
-            width: 180,
-            padding: const EdgeInsets.all(15),
+            height: 80, 
+            width:
+                180, 
+            padding: const EdgeInsets.all(
+                15),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
                   Color.fromRGBO(40, 47, 67, 1),
-                  Color.fromRGBO(65, 47, 72, 1)
+                  Color.fromRGBO(40, 47, 67, 1)
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
