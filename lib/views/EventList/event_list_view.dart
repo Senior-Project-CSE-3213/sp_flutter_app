@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:filter_list/filter_list.dart';
@@ -8,8 +10,6 @@ class EventListView extends StatefulWidget {
   @override
   _EventListViewState createState() => _EventListViewState();
 }
-
-//todo mimic drible more
 
 class _EventListViewState extends State<EventListView> {
   List<String> countList = [
@@ -36,6 +36,10 @@ class _EventListViewState extends State<EventListView> {
       }
       Navigator.pop(context);
     });
+  }
+
+  void _addEvent() async {
+
   }
 
   @override
@@ -135,6 +139,20 @@ class _EventListViewState extends State<EventListView> {
                                 ],
                               ),
 
+                              Column (
+                                 children: <Widget>[
+                                  Container(
+                                    //take away this
+                                    child: IconButton(
+                                      icon: Icon(Icons.add),
+                                      color: Colors.white,
+                                      onPressed: _addEvent,
+                                      iconSize: 30,
+                                    ),
+                                  ),
+                                 ]
+                              ),
+
                               Column(
                                 children: <Widget>[
                                   Container(
@@ -213,8 +231,8 @@ class CreateSponsoredEventCard extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Color.fromRGBO(109, 135, 214, 1),
-                  Color.fromRGBO(74, 194, 237, 1)
+                  Color.fromRGBO(27,109,255, 1),
+                  Color.fromRGBO(39,82,228, 1)
                 ], //or 16,60,98 to 37,139,191
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,

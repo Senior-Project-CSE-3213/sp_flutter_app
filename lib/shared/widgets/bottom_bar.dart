@@ -55,7 +55,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       child: Padding(
         padding: const EdgeInsets.only(bottom: 25),
         child: Container(
-            height: 40,
+            height: 55,
             width: MediaQuery.of(context).size.width / _iconList.length,
             decoration: index == _selectedIndex
                 ? BoxDecoration(
