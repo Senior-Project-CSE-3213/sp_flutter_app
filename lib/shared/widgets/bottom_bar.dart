@@ -57,7 +57,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         child: Container(
             height: 55,
             width: MediaQuery.of(context).size.width / _iconList.length,
-            decoration: index == _selectedIndex
+            decoration: (index == _selectedIndex && index != 0)
                 ? BoxDecoration(
                     color: Colors.amber[900],
                     gradient: new RadialGradient(
@@ -74,9 +74,24 @@ class _BottomNavBarState extends State<BottomNavBar> {
                     child: SvgPicture.asset("assets/svgs/magnifying_glass.svg",
                         width: 26, height: 26, color: Colors.white),
                   )
-                : Icon(
+                : index == 0 
+                ? Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Icon(
+                        icon,
+                        color: Color.fromRGBO(125,62,255,1),
+                        size: 38,
+                      ),
+                      Icon(
+                        Icons.add,
+                        color: Colors.white,
+                        size: 26,
+                      ),
+                    ],
+                  ) : Icon(
                     icon,
-                    color: (index == 0 ? Color.fromRGBO(125,62,255,1) : Colors.white),
+                    color: Colors.white,
                     size: 28,
                   ))),
       ),
