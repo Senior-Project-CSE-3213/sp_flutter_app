@@ -1,5 +1,7 @@
 class UserProfile {
   String uid;
+  String preferredName;
+  String username;
   String firstName;
   String lastName;
   String profPicture;
@@ -13,6 +15,8 @@ class UserProfile {
 
   UserProfile(
       {this.uid,
+      this.preferredName,
+      this.username,
       this.firstName,
       this.lastName,
       this.profPicture,
@@ -23,6 +27,8 @@ class UserProfile {
 
   UserProfile.fromFirebase(Map<String, dynamic> data) {
     uid = data['uid'];
+    preferredName = data['preferredName'];
+    username = data['username'];
     firstName = data['firstName'];
     lastName = data['lastName'];
     profPicture = data['profPicture'];
@@ -35,6 +41,8 @@ class UserProfile {
   Map<String, dynamic> toFirebase() {
     return {
       'uid': uid,
+      'preferredName': preferredName,
+      'username': username,
       'lastname': lastName,
       'firstName': firstName,
       'profPicture': profPicture,
@@ -43,6 +51,30 @@ class UserProfile {
       'followers': followers,
       'following': following,
     };
+  }
+
+  String getUid() {
+    return uid;
+  }
+
+  setUid(String uid) {
+    this.uid = uid;
+  }
+
+  String getPreferredName() {
+    return preferredName;
+  }
+
+  setPreferredName(String name) {
+    this.preferredName = name;
+  }
+
+  String getUsername() {
+    return username;
+  }
+
+  setUsername(String username) {
+    this.username = username;
   }
 
   String getFirstName() {

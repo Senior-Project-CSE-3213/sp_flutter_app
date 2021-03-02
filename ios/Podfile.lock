@@ -295,6 +295,9 @@ PODS:
     - GoogleUtilities/UserDefaults (~> 6.6)
     - PromisesObjC (~> 1.2)
   - Flutter (1.0.0)
+  - fluttertoast (0.0.2):
+    - Flutter
+    - Toast
   - geoflutterfire (0.0.1):
     - Flutter
   - google_maps_flutter (0.0.1):
@@ -366,6 +369,7 @@ PODS:
   - nanopb/decode (1.30905.0)
   - nanopb/encode (1.30905.0)
   - PromisesObjC (1.2.11)
+  - Toast (4.0.0)
 
 DEPENDENCIES:
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
@@ -373,6 +377,7 @@ DEPENDENCIES:
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
+  - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - geoflutterfire (from `.symlinks/plugins/geoflutterfire/ios`)
   - google_maps_flutter (from `.symlinks/plugins/google_maps_flutter/ios`)
   - location (from `.symlinks/plugins/location/ios`)
@@ -400,6 +405,7 @@ SPEC REPOS:
     - leveldb-library
     - nanopb
     - PromisesObjC
+    - Toast
 
 EXTERNAL SOURCES:
   cloud_firestore:
@@ -412,6 +418,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_core/ios"
   Flutter:
     :path: Flutter
+  fluttertoast:
+    :path: ".symlinks/plugins/fluttertoast/ios"
   geoflutterfire:
     :path: ".symlinks/plugins/geoflutterfire/ios"
   google_maps_flutter:
@@ -436,6 +444,7 @@ SPEC CHECKSUMS:
   FirebaseFirestore: 8c158bdde010fa397386333a74570eaef033e62d
   FirebaseInstallations: 6f5f680e65dc374397a483c32d1799ba822a395b
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
+  fluttertoast: 6122fa75143e992b1d3470f61000f591a798cc58
   geoflutterfire: 2a6493e01fb6eef1a6c9046b1baf9a943d0c5ffe
   google_maps_flutter: c7f9c73576de1fbe152a227bfd6e6c4ae8088619
   GoogleAppMeasurement: 67458367830514fb20fd9e233496f1eef9d90185
@@ -449,6 +458,7 @@ SPEC CHECKSUMS:
   location: 3a2eed4dd2fab25e7b7baf2a9efefe82b512d740
   nanopb: c43f40fadfe79e8b8db116583945847910cbabc9
   PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f
+  Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
 
 PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
 

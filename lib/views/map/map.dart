@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import '../shared/constants.dart';
+import '../../shared/constants.dart';
 
-class EventMapState extends State<EventMap>
-    with SingleTickerProviderStateMixin {
+class MapState extends State<MapView> with SingleTickerProviderStateMixin {
   AnimationController animationController;
   Animation degOneTranslationAnimation;
   Animation rotationAnimation;
@@ -130,7 +129,7 @@ class EventMapState extends State<EventMap>
                             getRadiansFromDegree(rotationAnimation.value)),
                         alignment: Alignment.center,
                         child: CircularButton(
-                            color: mainColor,
+                            color: primaryColor,
                             width: 60,
                             height: 60,
                             icon: Icon(
@@ -155,8 +154,8 @@ class EventMapState extends State<EventMap>
   }
 }
 
-class EventMap extends StatefulWidget {
-  State<StatefulWidget> createState() => EventMapState();
+class MapView extends StatefulWidget {
+  State<StatefulWidget> createState() => MapState();
 }
 
 class CircularButton extends StatelessWidget {

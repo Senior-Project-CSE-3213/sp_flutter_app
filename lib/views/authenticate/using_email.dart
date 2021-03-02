@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
@@ -6,52 +7,47 @@ import 'package:sp_flutter_app/shared/widgets/heading_text.dart';
 import 'package:sp_flutter_app/shared/widgets/scaffold_with_gradient.dart';
 import 'package:sp_flutter_app/shared/widgets/simple_input_label.dart';
 import 'package:sp_flutter_app/shared/widgets/simple_text_input_field.dart';
-import 'package:sp_flutter_app/utils/helpers.dart';
 import '../../shared/constants.dart';
 import '../../shared/loading.dart';
 import '../../shared/response.dart';
 import '../../viewmodels/user_viewmodel.dart';
 
-class SignIn extends StatefulWidget {
+class UsingEmail extends StatefulWidget {
   @override
-  _SignInState createState() => _SignInState();
+  _UsingEmailState createState() => _UsingEmailState();
 }
 
-class _SignInState extends State<SignIn> {
+class _UsingEmailState extends State<UsingEmail> {
   // Text field state
-  String password = '';
   String email = '';
-  bool emailError = false;
-  bool pwdError = false;
+  bool error = false;
 
-  bool handleSubmit() {
+  void handleSubmit({dynamic success}) {
+    if (!error && EmailValidator.validate(email)) {
+      // call success function
+      if (success != null && success is Function) success();
+    }
+    // otherwise maybe shake the input button?
     setState(() {
-      emailError = false;
-      pwdError = false;
+      error = true;
     });
-    if (email.isEmpty) {
-      setState(() {
-        emailError = true;
-      });
-      return false;
-    }
-    if (!isPasswordCompliant(password)) {
-      setState(() {
-        pwdError = true;
-      });
-      return false;
-    }
-    return true;
   }
 
-  void handlePasswordChange(String pwd) {
-    setState(() {
-      password = pwd;
-    });
+  void handleEmailChange(String changedEmail) {
+    if (!EmailValidator.validate(changedEmail)) {
+      setState(() {
+        error = true;
+        email = changedEmail;
+      });
+    } else {
+      setState(() {
+        error = false;
+        email = changedEmail;
+      });
+    }
   }
 
   Widget _registerScreen(BuildContext context, UserViewModel _userViewModel) {
-    final UserViewModel _userViewModel = Provider.of<UserViewModel>(context);
     Size size = MediaQuery.of(context).size;
     return ScaffoldWithGradient(
       children: [
@@ -66,7 +62,7 @@ class _SignInState extends State<SignIn> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                HeadingText(text: "Sign In"),
+                HeadingText(text: "What's your email address?"),
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     vertical: kDefaultPadding * 2.0,
@@ -75,33 +71,27 @@ class _SignInState extends State<SignIn> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SimpleInputLabel(text: "Email"),
+                      SimpleInputLabel(text: "Your Email"),
                       SimpleTextInputField(
-                        error: emailError,
+                        error: error,
                         handleSubmit: handleSubmit,
-                        handleChange: (val) {
-                          setState(() {
-                            email = val;
-                          });
-                        },
-                      ),
-                      SimpleInputLabel(text: "Password"),
-                      SimpleTextInputField(
-                        error: pwdError,
-                        obscure: true,
-                        handleSubmit: handleSubmit,
-                        handleChange: (pwd) => handlePasswordChange(pwd),
+                        handleChange: handleEmailChange,
                       ),
                       SizedBox(height: kDefaultPadding * 2.0),
                       FullWidthTextButtonWithIcon(
-                        handleSubmit: ({success}) async {
-                          if (handleSubmit()) {
-                            await _userViewModel.signInWithEmailAndPassword(
-                                email, password);
-                          }
+                        handleSubmit: ({success}) {
+                          handleSubmit(
+                            success: () => {
+                              _userViewModel.registrationEmail = email,
+                              Navigator.of(context)
+                                  .pushNamed(registerViewRoute, arguments: {
+                                email: email,
+                              }),
+                            },
+                          );
                         },
                         svgAsset: "assets/svgs/envelop.svg",
-                        text: "Sign In with Email",
+                        text: "Continue with Email",
                       ),
                     ],
                   ),

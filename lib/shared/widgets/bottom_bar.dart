@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sp_flutter_app/services/auth.dart';
 import 'package:sp_flutter_app/shared/constants.dart';
 
 class BottomBarState extends State<BottomBar> {
@@ -16,7 +15,7 @@ class BottomBarState extends State<BottomBar> {
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.map),
-          backgroundColor: mainColor,
+          backgroundColor: primaryColor,
           label: 'Map',
         ),
         BottomNavigationBarItem(
@@ -29,7 +28,7 @@ class BottomBarState extends State<BottomBar> {
         ),
       ],
       currentIndex: _selectedIndex,
-      selectedItemColor: mainColor,
+      selectedItemColor: primaryColor,
       onTap: _onItemTapped,
     );
   }

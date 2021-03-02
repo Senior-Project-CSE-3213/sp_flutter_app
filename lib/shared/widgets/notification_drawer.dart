@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sp_flutter_app/services/auth.dart';
 import 'package:sp_flutter_app/shared/constants.dart';
 
 class NotificationDrawer extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -12,7 +10,7 @@ class NotificationDrawer extends StatelessWidget {
           Container(
             width: double.infinity,
             padding: EdgeInsets.all(20),
-            color: mainColor,
+            color: primaryColor,
             child: Center(
                 child: Column(
               children: <Widget>[

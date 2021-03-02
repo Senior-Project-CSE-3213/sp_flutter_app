@@ -4,8 +4,9 @@ class Response<ResultType> {
   ResponseState state;
   ResultType data;
   String exception;
+  bool showToast;
 
-  Response({this.state, this.data, this.exception});
+  Response({this.state, this.data, this.exception, this.showToast});
 
   static Response<ResultType> loading<ResultType>() {
     return Response(state: ResponseState.LOADING);
@@ -16,6 +17,7 @@ class Response<ResultType> {
   }
 
   static Response<ResultType> error<ResultType>(String exception) {
-    return Response(state: ResponseState.ERROR, exception: exception);
+    return Response(
+        state: ResponseState.ERROR, exception: exception, showToast: true);
   }
 }
