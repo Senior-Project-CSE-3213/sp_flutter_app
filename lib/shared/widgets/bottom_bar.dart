@@ -10,7 +10,7 @@ class BottomNavBar extends StatefulWidget {
   final List<IconData> iconList; 
 
   BottomNavBar(
-      {this.defaultSelectedIndex = 0,
+      {this.defaultSelectedIndex = 1,
       @required this.iconList,
       @required this.onChange});
 
@@ -19,7 +19,7 @@ class BottomNavBar extends StatefulWidget {
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
   List<IconData> _iconList = []; //go away
 
   @override
@@ -48,7 +48,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
       onTap: () {
         widget.onChange(index);
         setState(() {
-          _selectedIndex = index;
+          if (index != 0) {
+            _selectedIndex = index;
+          }
+          
           print("Switching to bottom nav index $_selectedIndex");
         });
       },

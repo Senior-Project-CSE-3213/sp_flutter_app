@@ -50,7 +50,7 @@ class _EventListViewState extends State<EventListView> {
         child: Scaffold(
             backgroundColor: Color.fromRGBO(25, 28, 35, 1),
             bottomNavigationBar: BottomNavBar(
-              defaultSelectedIndex: 0,
+              defaultSelectedIndex: 1,
               onChange: (val) {
                 setState(() {
                   //we don't need to do anything right now
