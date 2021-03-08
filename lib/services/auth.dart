@@ -19,12 +19,17 @@ class AuthService {
 
   // create user model based on firebase user
   User _userFromFirebaseUser(fbAuth.User user) {
-    return user != null ? User(uid: user.uid) : null;
+    return user != null ? User(uid: user.uid, email: user.email) : null;
   }
 
   // auth change user stream
   Stream<User> get user {
     return _auth.authStateChanges().map(_userFromFirebaseUser);
+  }
+
+  // get user data
+  User getCurrentUser() {
+    return _userFromFirebaseUser(_auth.currentUser);
   }
 
   // sign in anonymously
