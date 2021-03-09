@@ -5,17 +5,23 @@ import 'package:sp_flutter_app/models/event.dart';
 import 'package:sp_flutter_app/models/user.dart';
 import 'package:sp_flutter_app/services/database.dart';
 import 'package:sp_flutter_app/shared/loading.dart';
+import 'package:sp_flutter_app/viewmodels/user_viewmodel.dart';
 import 'package:sp_flutter_app/views/user_profiles.dart';
 import '../shared/constants.dart';
 import '../shared/widgets/notification_drawer.dart';
 import 'package:sp_flutter_app/views/wrapper.dart';
 
-class EventDetailScreen extends StatelessWidget {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
+class EventDetailScreen extends StatefulWidget {
   EventDetailScreen({
     Key key,
   }) : super(key: key);
+
+  @override
+  _EventDetailScreenState createState() => _EventDetailScreenState();
+}
+
+class _EventDetailScreenState extends State<EventDetailScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   _subNavBar(BuildContext context) {
     return new Positioned(
@@ -43,50 +49,51 @@ class EventDetailScreen extends StatelessWidget {
     );
   }
 
-  _sendMessageArea() {
-    return Container(
-      child: ListTile(
-          title: Container(
-            height: 45,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(15)),
-                //boxShadow: _boxShadow(new Offset(2, 2)),
-                color: altSecondaryColor),
-            padding: EdgeInsets.all(10),
-            child: TextFormField(
-              style: TextStyle(color: Colors.white),
-              cursorColor: altPrimaryColor,
-              decoration: InputDecoration.collapsed(
-                hintText: "Send a question",
-                hintStyle: TextStyle(color: Colors.white, fontSize: 20),
-              ),
-              textCapitalization: TextCapitalization.sentences,
-            ),
-          ),
-          leading: ButtonTheme(
-            minWidth: 95.0,
-            height: 45.0,
-            child: RaisedButton(
-              child: Text("Sign Up", style: TextStyle(fontSize: 20)),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(15.0))),
-              onPressed: () {
-                print('Clicked Sign Up button');
-              },
-              color: altSecondaryColor,
-              textColor: Colors.white,
-              padding: EdgeInsets.all(8.0),
-              splashColor: altPrimaryColor,
-            ),
-          ),
-          trailing: IconButton(
-            icon: Icon(Icons.send),
-            onPressed: () {},
-            iconSize: 30,
-            color: altSecondaryColor,
-          )),
-    );
-  }
+  // _sendMessageArea(BuildContext context, Event event, User loggedUser) {
+  //   return Container(
+  //     child: ListTile(
+  //         title: Container(
+  //           height: 45,
+  //           decoration: BoxDecoration(
+  //               borderRadius: BorderRadius.all(Radius.circular(15)),
+  //               //boxShadow: _boxShadow(new Offset(2, 2)),
+  //               color: altSecondaryColor),
+  //           padding: EdgeInsets.all(10),
+  //           child: TextFormField(
+  //             style: TextStyle(color: Colors.white),
+  //             cursorColor: altPrimaryColor,
+  //             decoration: InputDecoration.collapsed(
+  //               hintText: "Send a question",
+  //               hintStyle: TextStyle(color: Colors.white, fontSize: 20),
+  //             ),
+  //             textCapitalization: TextCapitalization.sentences,
+  //           ),
+  //         ),
+  //         leading: ButtonTheme(
+  //           minWidth: 95.0,
+  //           height: 45.0,
+  //           child: RaisedButton(
+  //             child: Text("Sign Up", style: TextStyle(fontSize: 20)),
+  //             shape: RoundedRectangleBorder(
+  //                 borderRadius: BorderRadius.all(Radius.circular(15.0))),
+  //             onPressed: () async {
+  //               print('Clicked Sign Up button');
+  //               await event.addParticipant(context, loggedUser);
+  //             },
+  //             color: altSecondaryColor,
+  //             textColor: Colors.white,
+  //             padding: EdgeInsets.all(8.0),
+  //             splashColor: altPrimaryColor,
+  //           ),
+  //         ),
+  //         trailing: IconButton(
+  //           icon: Icon(Icons.send),
+  //           onPressed: () {},
+  //           iconSize: 30,
+  //           color: altSecondaryColor,
+  //         )),
+  //   );
+  // }
 
   _participantScrollView(bool showDecoration, List<User> participants) {
     return StreamProvider<List<User>>.value(
@@ -141,7 +148,57 @@ class EventDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final EventArguments args = ModalRoute.of(context).settings.arguments;
+    final _user = Provider.of<UserViewModel>(context).user;
     Event event = args.event;
+
+    _sendMessageArea(BuildContext context, Event event, User loggedUser) {
+      return Container(
+        child: ListTile(
+            title: Container(
+              height: 45,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                  //boxShadow: _boxShadow(new Offset(2, 2)),
+                  color: altSecondaryColor),
+              padding: EdgeInsets.all(10),
+              child: TextFormField(
+                style: TextStyle(color: Colors.white),
+                cursorColor: altPrimaryColor,
+                decoration: InputDecoration.collapsed(
+                  hintText: "Send a question",
+                  hintStyle: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                textCapitalization: TextCapitalization.sentences,
+              ),
+            ),
+            leading: ButtonTheme(
+              minWidth: 95.0,
+              height: 45.0,
+              child: RaisedButton(
+                child: Text("Sign Up", style: TextStyle(fontSize: 20)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(15.0))),
+                onPressed: () async {
+                  print('Clicked Sign Up button');
+                  await event
+                      .addParticipant(context, loggedUser)
+                      .then((value) => setState(() {}));
+                },
+                color: altSecondaryColor,
+                textColor: Colors.white,
+                padding: EdgeInsets.all(8.0),
+                splashColor: altPrimaryColor,
+              ),
+            ),
+            trailing: IconButton(
+              icon: Icon(Icons.send),
+              onPressed: () {},
+              iconSize: 30,
+              color: altSecondaryColor,
+            )),
+      );
+    }
+
     return StreamBuilder<List<User>>(
         stream: DatabaseService(uid: event.creator.uid, thisUser: event.creator)
             .profiles,
@@ -313,7 +370,7 @@ class EventDetailScreen extends StatelessWidget {
                     _subNavBar(context),
                     new Container(
                         alignment: Alignment.bottomCenter,
-                        child: _sendMessageArea()),
+                        child: _sendMessageArea(context, event, _user)),
                   ])),
             );
           } else {

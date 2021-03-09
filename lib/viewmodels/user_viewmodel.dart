@@ -45,19 +45,6 @@ class UserViewModel extends ChangeNotifier {
       // await DatabaseService(uid: user.uid)
       //     .updateSimpleUserData(user.username, user.email, user.phoneNumber);
 
-      var people = new List<String>();
-      people.add(user.uid);
-      people.add('qQ9QXNx915g7Xsi8TwSILwAs2ZI2');
-
-      // TODO: Delete this
-      // Event genericEvent = new Event(
-      //     creator: user,
-      //     eventName: 'Giant Event',
-      //     eventDescription: "A description for this GIANT event!",
-      //     eventDate: new DateTime.now(),
-      //     participants: people);
-
-      // await DatabaseService(uid: user.uid).updateEventData(genericEvent);
     } catch (exception) {
       print(exception);
       _setViewModelState(

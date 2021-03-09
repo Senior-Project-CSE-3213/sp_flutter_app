@@ -6,6 +6,8 @@ import 'package:sp_flutter_app/shared/constants.dart';
 import 'package:sp_flutter_app/shared/loading.dart';
 import 'package:sp_flutter_app/shared/response.dart';
 import 'package:sp_flutter_app/shared/widgets/date_time_picker.dart';
+import 'package:sp_flutter_app/shared/widgets/flutter_stateful_dialog.dart';
+import 'package:sp_flutter_app/shared/widgets/generic_alerts.dart';
 import 'package:sp_flutter_app/viewmodels/user_viewmodel.dart';
 
 class Event {
@@ -41,9 +43,23 @@ class Event {
   }
 
   // TODO: Needs to be a Firestore query
-  addParticipant(User participant) {
-    if (!participants.contains(participant.uid))
+  Future addParticipant(BuildContext context, User participant) async {
+    if (!participants.contains(participant.uid)) {
       participants.add(participant.uid);
+      await DatabaseService(uid: creator.uid)
+          .updateEventData(this)
+          .then((value) {
+        AlertDialogArgs args = new AlertDialogArgs(
+            title: "Successfully signed up for this event!");
+
+        alertDialog(context, args);
+      });
+    } else {
+      AlertDialogArgs args = new AlertDialogArgs(
+          title: "You are already signed up for this event!");
+
+      alertDialog(context, args);
+    }
   }
 }
 

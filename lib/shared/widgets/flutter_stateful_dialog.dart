@@ -5,9 +5,8 @@ alertDialog(BuildContext context, AlertDialogArgs args) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text(args.title ?? "I am Here!", textAlign: TextAlign.center),
-        content:
-            args.content ?? Text("I appeared because you pressed the button!"),
+        title: Text(args.title ?? "Alert!", textAlign: TextAlign.center),
+        content: args.content ?? null,
         actions: args.actions ?? null,
         elevation: 5,
       );
