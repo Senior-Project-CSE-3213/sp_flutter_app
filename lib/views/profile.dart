@@ -14,6 +14,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // The logged in user
     final _user = Provider.of<UserViewModel>(context).user;
     final ProfileArguments args = ModalRoute.of(context).settings.arguments;
 
@@ -42,80 +43,87 @@ class ProfileScreen extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             User user = args != null ? args.user : snapshot.data;
+            print("User ID: " + user.uid);
 
-            /// Testing
-            user.myEvents = new List<Event>();
-            var generics = genericEvents(user);
-            for (Event event in generics) user.myEvents.add(event);
-
-            ///
-            return Scaffold(
-                appBar: AppBar(
-                  title: Text('Profile'),
-                  backgroundColor: mainColor,
-                ),
-                body: SingleChildScrollView(
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          user.username,
-                          style: TextStyle(
-                            fontSize: 24,
-                          ),
+            return StreamBuilder<List<Event>>(
+                stream: DatabaseService(uid: user.uid, thisUser: user)
+                    .userCreatedEvents,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    List<Event> events = snapshot.data;
+                    // Use operator to go to a detailed profile view for logged user and a simple one
+                    // And separate this into a function
+                    return Scaffold(
+                        appBar: AppBar(
+                          title: Text('Profile'),
+                          backgroundColor: mainColor,
                         ),
-                        Text(
-                          user.email,
-                          style: TextStyle(
-                            fontSize: 18,
-                          ),
-                        ),
-                        Text(
-                          user.phoneNumber,
-                          style: TextStyle(
-                            fontSize: 18,
-                          ),
-                        ),
-                        RaisedButton(
-                          child: Text("Create Event",
-                              style: TextStyle(fontSize: 20)),
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15.0))),
-                          onPressed: () {
-                            print('Clicked create event button');
-                          },
-                          color: altSecondaryColor,
-                          textColor: Colors.white,
-                          padding: EdgeInsets.all(8.0),
-                          splashColor: altPrimaryColor,
-                        ),
-                        Container(
-                          alignment: Alignment.center,
-                          height: 60,
-                          child: Text(
-                            'MY EVENTS',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                              fontSize: 22,
+                        body: SingleChildScrollView(
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  user.username,
+                                  style: TextStyle(
+                                    fontSize: 24,
+                                  ),
+                                ),
+                                Text(
+                                  user.email,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                Text(
+                                  user.phoneNumber,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                RaisedButton(
+                                  child: Text("Create Event",
+                                      style: TextStyle(fontSize: 20)),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(15.0))),
+                                  onPressed: () {
+                                    print('Clicked create event button');
+                                  },
+                                  color: altSecondaryColor,
+                                  textColor: Colors.white,
+                                  padding: EdgeInsets.all(8.0),
+                                  splashColor: altPrimaryColor,
+                                ),
+                                Container(
+                                  alignment: Alignment.center,
+                                  height: 60,
+                                  child: Text(
+                                    'MY EVENTS',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                      fontSize: 22,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 500,
+                                  height: 650,
+                                  child: EventList(
+                                    events: events,
+                                    direction: Axis.vertical,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          width: 500,
-                          height: 650,
-                          child: EventList(
-                            events: user.myEvents, //genericEvents(user),
-                            direction: Axis.vertical,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ));
+                        ));
+                  } else {
+                    return Loading();
+                  }
+                });
           } else {
             return Loading();
           }

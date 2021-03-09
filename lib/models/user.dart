@@ -6,6 +6,7 @@ class User {
   String email;
   String phoneNumber;
 
+  // Could keep both lists and fill them when user logs in from Firestore
   List<Event> myEvents = new List<Event>();
   List<Event> eventsSignedUpFor = new List<Event>();
 
@@ -25,10 +26,6 @@ class User {
     username = data['displayName'];
     email = data['email'];
     phoneNumber = data['phoneNumber'];
-    myEvents = new List<Event>();
-    eventsSignedUpFor = new List<Event>();
-    // myEvents = data['myEvents'] as List;
-    // eventsSignedUpFor = data['eventsSignedUpFor'] as List;
   }
 
   Map<String, dynamic> toFirebase() {
@@ -37,8 +34,6 @@ class User {
       'displayName': username,
       'email': email,
       'phoneNumber': phoneNumber,
-      // 'myEvents': myEvents.map((e) => e.toMap()).toList(),
-      // 'eventsSignedUpFor': eventsSignedUpFor.map((e) => e.toMap()).toList()
     };
   }
 
@@ -68,6 +63,7 @@ class User {
 
   update() => this.toFirebase();
 
+  // TODO: Need to prevent user from creating event with same name
   // createNewEvent(final EventArguments args) {
   //   Event newEvent = new Event(
   //       creator: this,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:sp_flutter_app/models/event.dart';
 import 'package:sp_flutter_app/models/user.dart';
 import 'package:sp_flutter_app/services/auth.dart';
+import 'package:sp_flutter_app/services/database.dart';
 import 'package:sp_flutter_app/shared/response.dart';
 
 class UserViewModel extends ChangeNotifier {
@@ -39,6 +41,23 @@ class UserViewModel extends ChangeNotifier {
     try {
       user = await _auth.signInWithEmailAndPassword(email, password);
       _setViewModelState(Response.complete<User>(user));
+
+      // await DatabaseService(uid: user.uid)
+      //     .updateSimpleUserData(user.username, user.email, user.phoneNumber);
+
+      var people = new List<String>();
+      people.add(user.uid);
+      people.add('qQ9QXNx915g7Xsi8TwSILwAs2ZI2');
+
+      // TODO: Delete this
+      // Event genericEvent = new Event(
+      //     creator: user,
+      //     eventName: 'Giant Event',
+      //     eventDescription: "A description for this GIANT event!",
+      //     eventDate: new DateTime.now(),
+      //     participants: people);
+
+      // await DatabaseService(uid: user.uid).updateEventData(genericEvent);
     } catch (exception) {
       print(exception);
       _setViewModelState(

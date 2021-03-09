@@ -1,59 +1,76 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
 import 'package:sp_flutter_app/models/user.dart';
 import 'package:sp_flutter_app/models/event.dart';
 
 class DatabaseService {
   final String uid;
+  final User thisUser;
 
-  DatabaseService({this.uid});
+  DatabaseService({this.uid, this.thisUser});
 
   final CollectionReference simpleProfileCollection =
-      FirebaseFirestore.instance.collection('simple');
+      FirebaseFirestore.instance.collection('Users');
 
-  Future updateSimpleUserData(String name, String email, String phone,
-      List<Event> myEvents, List<Event> eventsSignedUpFor) async {
+  Future updateSimpleUserData(String name, String email, String phone) async {
     return await simpleProfileCollection.doc(uid).set({
       'displayName': name,
       'email': email,
       'phoneNumber': phone,
-      // 'myEvents': myEvents.map((e) => e.toMap()).toList(),
-      // 'eventsSignedUpFor': eventsSignedUpFor.map((e) => e.toMap()).toList()
     });
   }
 
-  // User data from snapshots
+  Future updateEventData(Event event) async {
+    return await simpleProfileCollection
+        .doc(uid)
+        .collection('Events')
+        .doc(event.eventName)
+        .set(event.toMap());
+  }
+
   User _userFromSnapshot(DocumentSnapshot snapshot) {
+    print("Snapshot id: " + snapshot.id);
     return User(
-      uid: uid,
+      uid: snapshot.id,
       username: snapshot['displayName'],
       email: snapshot['email'],
       phoneNumber: snapshot['phoneNumber'],
-      // myEvents: snapshot['myEvents'] as List,
-      // eventsSignedUpFor: snapshot['eventsSignedUpFor'] as List
     );
   }
 
-  // Profile details from snapshot
-  List<User> _profileListFromSnapShot(QuerySnapshot snapshot) {
+  List<Event> _eventsFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
-      return User(
-        uid: doc.data()['uid'] ?? '',
-        username: doc.data()['displayName'] ?? '',
-        email: doc.data()['email'] ?? '',
-        phoneNumber: doc.data()['phoneNumber'] ?? '',
-        // myEvents: doc.data()['myEvents'] as List,
-        // eventsSignedUpFor: doc.data()['eventsSignedUpFor'] as List,
-      );
+      Timestamp timestamp = doc.data()['eventDate'];
+      List<String> participantsUids = List.from(doc.data()['participants']);
+
+      return Event(
+          creator: thisUser,
+          eventName: doc.data()['eventName'],
+          eventDescription: doc.data()['eventDescription'],
+          eventDate: timestamp.toDate(),
+          participants: participantsUids);
     }).toList();
   }
 
-  // Get stream
-  Stream<List<User>> get profiles {
-    return simpleProfileCollection.snapshots().map(_profileListFromSnapShot);
+  List<User> _profileListFromSnapShot(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
+      return User(
+          uid: doc.id ?? '',
+          username: doc.data()['displayName'] ?? '',
+          email: doc.data()['email'] ?? '',
+          phoneNumber: doc.data()['phoneNumber'] ?? '');
+    }).toList();
   }
 
-  // Get user data
-  Stream<User> get userData {
-    return simpleProfileCollection.doc(uid).snapshots().map(_userFromSnapshot);
-  }
+  Stream<List<User>> get profiles =>
+      simpleProfileCollection.snapshots().map(_profileListFromSnapShot);
+
+  Stream<User> get userData =>
+      simpleProfileCollection.doc(uid).snapshots().map(_userFromSnapshot);
+
+  Stream<List<Event>> get userCreatedEvents => simpleProfileCollection
+      .doc(uid)
+      .collection('Events')
+      .snapshots()
+      .map(_eventsFromSnapshot);
 }

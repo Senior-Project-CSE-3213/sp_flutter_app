@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sp_flutter_app/models/event.dart';
 import 'package:sp_flutter_app/models/user.dart';
 import 'package:sp_flutter_app/services/database.dart';
+import 'package:sp_flutter_app/shared/loading.dart';
 import 'package:sp_flutter_app/views/user_profiles.dart';
 import '../shared/constants.dart';
 import '../shared/widgets/notification_drawer.dart';
@@ -87,7 +88,7 @@ class EventDetailScreen extends StatelessWidget {
     );
   }
 
-  _participantScrollView(bool showDecoration) {
+  _participantScrollView(bool showDecoration, List<User> participants) {
     return StreamProvider<List<User>>.value(
       value: DatabaseService().profiles,
       child: Container(
@@ -100,7 +101,8 @@ class EventDetailScreen extends StatelessWidget {
                   (BuildContext context, bool innerBoxIsScrolled) {
                 return <Widget>[];
               },
-              body: SimpleUserDataList(direction: Axis.horizontal))),
+              body: SimpleUserDataList(
+                  users: participants, direction: Axis.horizontal))),
     );
   }
 
@@ -140,162 +142,183 @@ class EventDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final EventArguments args = ModalRoute.of(context).settings.arguments;
     Event event = args.event;
-    return SafeArea(
-      child: Scaffold(
-          //bottomNavigationBar: _sendNavigationBar(),
-          floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-          key: _scaffoldKey,
-          endDrawer: NotificationDrawer(),
-          body: Stack(alignment: Alignment.center, children: <Widget>[
-            Container(
-              color: altPrimaryColor, // screen background color
-            ),
-            SizedBox(
-              width: 500,
-              height: 650,
-              child: SingleChildScrollView(
-                  child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                    Flexible(
-                      flex: 1,
-                      child: Container(
-                        alignment: Alignment.center,
-                        padding: EdgeInsets.all(20),
-                        child: Text(
-                          event.eventName,
-                          //'My Dark, Twisted Football Tournament',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              fontSize: 22,
-                              shadows: _shadow(new Offset(5, 5))),
-                        ),
-                      ),
+    return StreamBuilder<List<User>>(
+        stream: DatabaseService(uid: event.creator.uid, thisUser: event.creator)
+            .profiles,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            List<User> users = snapshot.data;
+            List<User> participants = users
+                .where((user) => event.participants.contains(user.uid))
+                .toList();
+            return SafeArea(
+              child: Scaffold(
+                  //bottomNavigationBar: _sendNavigationBar(),
+                  floatingActionButtonLocation:
+                      FloatingActionButtonLocation.endDocked,
+                  key: _scaffoldKey,
+                  endDrawer: NotificationDrawer(),
+                  body: Stack(alignment: Alignment.center, children: <Widget>[
+                    Container(
+                      color: altPrimaryColor, // screen background color
                     ),
-                    Flexible(
-                      flex: 2,
-                      child: Container(
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              color: altSecondaryColor,
-                              boxShadow: _boxShadow(new Offset(5, 5))),
-                          child: Row(
-                            children: <Widget>[
-                              GestureDetector(
-                                onTap: () {
-                                  print("Clicked event creator profile");
-                                },
-                                child: Container(
-                                  margin: EdgeInsets.all(20),
-                                  padding: EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(100),
-                                      border: Border.all(
-                                          width: 2, color: altPrimaryColor),
-                                      boxShadow: _boxShadow(new Offset(2, 2))),
-                                  child: Icon(
-                                    Icons.person,
-                                    color: altPrimaryColor,
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                'Created by \n' + event.creator.username,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 22,
-                                ),
-                              ),
-                              Spacer(),
-                              Text(
-                                'Starts \n' +
-                                    new DateFormat("M-dd-yyyy \n@h:mm a'")
-                                        .format(event.eventDate),
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 22,
-                                ),
-                              ),
-                              Spacer()
-                            ],
-                          )),
-                    ),
-                    Flexible(
-                      flex: 3,
-                      child: Container(
-                          alignment: Alignment.center,
-                          // height: 180,
-                          padding: EdgeInsets.only(
-                              left: 20, right: 20, top: 30, bottom: 20),
-                          child: Text(event.eventDescription,
-                              style: TextStyle(
-                                  color: Colors.white, fontSize: 22))),
-                    ),
-                    Flexible(
-                      flex: 6,
-                      child: Container(
-                          alignment: Alignment.center,
-                          //height: 180,
-                          child: Row(
-                            children: <Widget>[
-                              GestureDetector(
-                                onTap: () {
-                                  print("Clicked map");
-                                },
-                                child: Container(
-                                  width: 200,
-                                  height: 120,
-                                  margin: EdgeInsets.all(20),
-                                  padding: EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.rectangle,
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(10.0)),
-                                      image: DecorationImage(
-                                          image: NetworkImage(
-                                            'https://cdn.wccftech.com/wp-content/uploads/2017/03/Google-Maps.jpg',
-                                          ),
-                                          fit: BoxFit.fill),
-                                      boxShadow: _boxShadow(new Offset(5, 5))),
-                                ),
-                              ),
-                              Container(
-                                child: Flexible(
-                                  child: Text(
-                                    'X miles from you...',
-                                    style: TextStyle(
+                    SizedBox(
+                      width: 500,
+                      height: 650,
+                      child: SingleChildScrollView(
+                          child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: <Widget>[
+                            Flexible(
+                              flex: 1,
+                              child: Container(
+                                alignment: Alignment.center,
+                                padding: EdgeInsets.all(20),
+                                child: Text(
+                                  event.eventName,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
                                       color: Colors.white,
                                       fontSize: 22,
-                                    ),
-                                  ),
+                                      shadows: _shadow(new Offset(5, 5))),
                                 ),
                               ),
-                            ],
-                          )),
+                            ),
+                            Flexible(
+                              flex: 2,
+                              child: Container(
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      color: altSecondaryColor,
+                                      boxShadow: _boxShadow(new Offset(5, 5))),
+                                  child: Row(
+                                    children: <Widget>[
+                                      GestureDetector(
+                                        onTap: () {
+                                          print(
+                                              "Clicked event creator profile");
+                                        },
+                                        child: Container(
+                                          margin: EdgeInsets.all(20),
+                                          padding: EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(100),
+                                              border: Border.all(
+                                                  width: 2,
+                                                  color: altPrimaryColor),
+                                              boxShadow:
+                                                  _boxShadow(new Offset(2, 2))),
+                                          child: Icon(
+                                            Icons.person,
+                                            color: altPrimaryColor,
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                        'Created by \n' +
+                                            event.creator.username,
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 22,
+                                        ),
+                                      ),
+                                      Spacer(),
+                                      Text(
+                                        'Starts \n' +
+                                            new DateFormat(
+                                                    "M-dd-yyyy \n@h:mm a'")
+                                                .format(event.eventDate),
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 22,
+                                        ),
+                                      ),
+                                      Spacer()
+                                    ],
+                                  )),
+                            ),
+                            Flexible(
+                              flex: 3,
+                              child: Container(
+                                  alignment: Alignment.center,
+                                  // height: 180,
+                                  padding: EdgeInsets.only(
+                                      left: 20, right: 20, top: 30, bottom: 20),
+                                  child: Text(event.eventDescription,
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 22))),
+                            ),
+                            Flexible(
+                              flex: 6,
+                              child: Container(
+                                  alignment: Alignment.center,
+                                  //height: 180,
+                                  child: Row(
+                                    children: <Widget>[
+                                      GestureDetector(
+                                        onTap: () {
+                                          print("Clicked map");
+                                        },
+                                        child: Container(
+                                          width: 200,
+                                          height: 120,
+                                          margin: EdgeInsets.all(20),
+                                          padding: EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.rectangle,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10.0)),
+                                              image: DecorationImage(
+                                                  image: NetworkImage(
+                                                    'https://cdn.wccftech.com/wp-content/uploads/2017/03/Google-Maps.jpg',
+                                                  ),
+                                                  fit: BoxFit.fill),
+                                              boxShadow:
+                                                  _boxShadow(new Offset(5, 5))),
+                                        ),
+                                      ),
+                                      Container(
+                                        child: Flexible(
+                                          child: Text(
+                                            'X miles from you...',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 22,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )),
+                            ),
+                            Container(
+                              alignment: Alignment.center,
+                              height: 60,
+                              child: Text(
+                                'PARTICIPANTS',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  fontSize: 22,
+                                ),
+                              ),
+                            ),
+                            _participantScrollView(false, participants),
+                          ])),
                     ),
-                    Container(
-                      alignment: Alignment.center,
-                      height: 60,
-                      child: Text(
-                        'PARTICIPANTS',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontSize: 22,
-                        ),
-                      ),
-                    ),
-                    _participantScrollView(false),
+                    _subNavBar(context),
+                    new Container(
+                        alignment: Alignment.bottomCenter,
+                        child: _sendMessageArea()),
                   ])),
-            ),
-            _subNavBar(context),
-            new Container(
-                alignment: Alignment.bottomCenter, child: _sendMessageArea()),
-          ])),
-    );
+            );
+          } else {
+            return Loading();
+          }
+        });
   }
 }

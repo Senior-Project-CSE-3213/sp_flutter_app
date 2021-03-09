@@ -24,8 +24,9 @@ class UserProfiles extends StatelessWidget {
 
 class SimpleUserDataList extends StatefulWidget {
   final Axis direction;
+  final List<User> users;
 
-  SimpleUserDataList({this.direction});
+  SimpleUserDataList({this.direction, this.users});
 
   @override
   _SimpleUserDataListState createState() => _SimpleUserDataListState();
@@ -34,7 +35,7 @@ class SimpleUserDataList extends StatefulWidget {
 class _SimpleUserDataListState extends State<SimpleUserDataList> {
   @override
   Widget build(BuildContext context) {
-    final dataList = Provider.of<List<User>>(context);
+    final dataList = widget.users ?? Provider.of<List<User>>(context);
 
     return ListView.builder(
       scrollDirection: widget.direction,

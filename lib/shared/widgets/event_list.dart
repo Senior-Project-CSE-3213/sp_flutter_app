@@ -22,7 +22,7 @@ class EventList extends StatefulWidget {
 class _EventListState extends State<EventList> {
   @override
   Widget build(BuildContext context) {
-    final list = widget.events;
+    final list = widget.events ?? Provider.of<List<Event>>(context);
     return ListView.builder(
         scrollDirection: widget.direction,
         itemCount: list.length,
