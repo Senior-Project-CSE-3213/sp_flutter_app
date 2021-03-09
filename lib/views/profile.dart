@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sp_flutter_app/models/event.dart';
 import 'package:sp_flutter_app/models/user.dart';
 import 'package:sp_flutter_app/shared/loading.dart';
+import 'package:sp_flutter_app/shared/widgets/date_time_picker.dart';
 import 'package:sp_flutter_app/shared/widgets/event_list.dart';
+import 'package:sp_flutter_app/shared/widgets/flutter_stateful_dialog.dart';
 import 'package:sp_flutter_app/viewmodels/user_viewmodel.dart';
 import '../shared/constants.dart';
 import 'package:sp_flutter_app/services/database.dart';
@@ -87,8 +90,14 @@ class ProfileScreen extends StatelessWidget {
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(15.0))),
-                                  onPressed: () {
+                                  onPressed: () async {
                                     print('Clicked create event button');
+                                    alertDialog(
+                                        context,
+                                        new AlertDialogArgs(
+                                            title: "Create New Event",
+                                            content: EventCreationForm(
+                                                creator: user)));
                                   },
                                   color: altSecondaryColor,
                                   textColor: Colors.white,
