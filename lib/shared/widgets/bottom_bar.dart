@@ -1,32 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sp_flutter_app/services/auth.dart';
-import 'package:sp_flutter_app/shared/constants.dart';
 
 //the bottom navigation bar widget
 class BottomNavBar extends StatefulWidget {
+  //data needed
   final int defaultSelectedIndex;
   final Function(int) onChange;
   final List<IconData> iconList; 
+  final int NBID;
 
   BottomNavBar(
-      {this.defaultSelectedIndex = 1,
+      {this.defaultSelectedIndex,
       @required this.iconList,
-      @required this.onChange});
+      @required this.onChange,
+      @required this.NBID});
 
   @override
   _BottomNavBarState createState() => _BottomNavBarState();
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
-  int _selectedIndex = 1;
-  List<IconData> _iconList = []; //go away
+  int _selectedIndex;
+  // ignore: non_constant_identifier_names
+  int _NBID;
+   //0 means ELV, any other value is default unless you specify your ID and how you want the nav bar
+   //laid out similar to how I did for the specifc case of the ELV
+  List<IconData> _iconList = [];
 
   @override
   void initState() {
     super.initState();
     _selectedIndex = widget.defaultSelectedIndex;
     _iconList = widget.iconList;
+    _NBID = widget.NBID;
   }
 
   @override
@@ -34,7 +40,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
     List<Widget> _navBarItemList = [];
 
     for (var i = 0; i < _iconList.length; i++) {
-      //adding icons to bottom nav bar, refactoring here still
       _navBarItemList.add(buildNavBarItem(_iconList[i], i));
     }
 
@@ -48,11 +53,22 @@ class _BottomNavBarState extends State<BottomNavBar> {
       onTap: () {
         widget.onChange(index);
         setState(() {
-          if (index != 0) {
+          //ELV 
+          if (_NBID == 0) {
+            if (index != 0) {
+              _selectedIndex = index;
+            }
+          }
+
+          // you can also define your specific nav bar case stuff here
+          //else if (_NBID == YOURID) {}
+
+          //general
+          else {
             _selectedIndex = index;
           }
-          
-          print("Switching to bottom nav index $_selectedIndex");
+
+          print("Switching to bottom_bar index $_selectedIndex");
         });
       },
       child: Padding(
@@ -60,7 +76,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
         child: Container(
             height: 55,
             width: MediaQuery.of(context).size.width / _iconList.length,
-            decoration: (index == _selectedIndex && index != 0)
+            //ELV
+            decoration: (_NBID == 0 ? 
+            ((index == _selectedIndex && index != 0)
                 ? BoxDecoration(
                     color: Colors.amber[900],
                     gradient: new RadialGradient(
@@ -70,15 +88,31 @@ class _BottomNavBarState extends State<BottomNavBar> {
                         tileMode: TileMode.clamp,
                         stops: [0.3, 0.7]),
                   )
-                : BoxDecoration(color: Color.fromRGBO(25,28,35,1)),
+                : BoxDecoration(color: Color.fromRGBO(25,28,35,1)))
+            //default decoration, you can specify your own like I did for ELV by adding more conditional statements here
+            : (index == _selectedIndex ? 
+            BoxDecoration(
+                    color: Colors.amber[900],
+                    gradient: new RadialGradient(
+                        colors: [Color.fromRGBO(213,92,5,1), Color.fromRGBO(25,28,35,1)],
+                        center: Alignment(0, 0.7),
+                        radius: 0.12,
+                        tileMode: TileMode.clamp,
+                        stops: [0.3, 0.7]),
+                  ) 
+            : null)),
             //NOTE: these are not IconButtons so that we can have this indicator dot
-            child: (index == 2
-                ? Align(
+            child: (_NBID == 0 ? 
+            //ELV
+            //if index is 2, we draw a custom icon
+            (index == 2 ? 
+            Align(
                     child: SvgPicture.asset("assets/svgs/magnifying_glass.svg",
                         width: 26, height: 26, color: Colors.white),
-                  )
-                : index == 0 
-                ? Stack(
+                  ) 
+            //on index 0, we use a stack to make the purple plus and color it accordingly
+            : (index == 0 ? 
+            Stack(
                     alignment: Alignment.center,
                     children: [
                       Icon(
@@ -92,10 +126,19 @@ class _BottomNavBarState extends State<BottomNavBar> {
                         size: 26,
                       ),
                     ],
-                  ) : Icon(
+                  ) 
+            //regular icon coloring
+            : Icon(
                     icon,
                     color: Colors.white,
                     size: 28,
+                  )))
+
+            //default here from (_NBID == 0) we could test here for other NBID values
+            : Icon(
+                  icon,
+                  color: Colors.white,
+                  size: 28,
                   ))),
       ),
     );

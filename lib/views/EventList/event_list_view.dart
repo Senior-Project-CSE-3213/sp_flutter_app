@@ -6,6 +6,9 @@ import 'package:filter_list/filter_list.dart';
 import 'package:sp_flutter_app/shared/constants.dart';
 import 'package:sp_flutter_app/shared/widgets/bottom_bar.dart';
 
+//dribble designs for message view
+//https://cdn.dribbble.com/users/6947512/screenshots/15056404/media/772ef5df92a45895db6deea19148d3be.png?compress=1&resize=1200x900
+
 class EventListView extends StatefulWidget {
   @override
   _EventListViewState createState() => _EventListViewState();
@@ -38,10 +41,6 @@ class _EventListViewState extends State<EventListView> {
     });
   }
 
-  void _addEvent() async {
-
-  }
-
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -62,6 +61,7 @@ class _EventListViewState extends State<EventListView> {
                 Icons.find_in_page, 
                 Icons.person,
               ],
+              NBID: 0,
             ),
 
             body: Padding(
@@ -138,21 +138,7 @@ class _EventListViewState extends State<EventListView> {
                                   )
                                 ],
                               ),
-
-                              Column (
-                                 children: <Widget>[
-                                  Container(
-                                    //take away this
-                                    child: IconButton(
-                                      icon: Icon(Icons.add),
-                                      color: Colors.white,
-                                      onPressed: _addEvent,
-                                      iconSize: 30,
-                                    ),
-                                  ),
-                                 ]
-                              ),
-
+                              
                               Column(
                                 children: <Widget>[
                                   Container(
