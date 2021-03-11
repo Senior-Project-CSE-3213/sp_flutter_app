@@ -91,12 +91,12 @@ class _EventListViewState extends State<EventListView> {
                         //todo different fonts and icons
                         //make sure that if there's too much text it just fades to ...
                         Container(
-                          height: 200,
+                          height: 210,
                           child: ListView (
                              scrollDirection: Axis.horizontal,
                                   children: <Widget>[
                                     CreateSponsoredEventCard(
-                                        "Become an RA interest meetinggggggggggggg",
+                                        "Become an RA interest meeting",
                                         "Taylor Auditorium",
                                         "Wednesday, 7:30PM"),
 
@@ -209,7 +209,7 @@ class CreateSponsoredEventCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: Container(
-            height: 160, 
+            height: 210, 
             width:
                 280, 
             padding: const EdgeInsets.all(
@@ -225,77 +225,79 @@ class CreateSponsoredEventCard extends StatelessWidget {
               ),
               borderRadius: BorderRadius.all(Radius.circular(28)),
             ),
-            child: Wrap(
+            child: Column(
               //column holds all text on container
-              direction: Axis.horizontal,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Spacer(),
                 //this starts the children of the card
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                    width: 200.0,
-                    child: 
-                      Text(
-                        this.eventTitle,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                Container(
+                  height: 50,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                      width: 200.0,
+                      child: 
+                        Text(
+                          this.eventTitle,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          overflow: TextOverflow.clip,
                         ),
-                        overflow: TextOverflow.fade,
-                      ),
-                    )],
+                      )],
+                  ),
                 ),
 
-                Spacer(),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                    width: 200.0,
-                    child: 
-                      Text(
-                        this.eventLocation,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                Container (
+                  height: 50,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                      width: 200.0,
+                      child: 
+                        Text(
+                          this.eventLocation,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          overflow: TextOverflow.fade,
                         ),
-                        overflow: TextOverflow.fade,
-                      ),
-                    )],
+                      )],
+                  ),
                 ),
 
-                Spacer(),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                   
-                    Icon(Icons.playlist_add_check_sharp, //flutter icon
-                        color: Colors.white, size: 50),
-                       
-                    SizedBox(width: 80,),
-                    SizedBox(
-                    width: 100.0,
-                    child: 
-                      Text(
-                        this.eventTime,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                Container (
+                  height: 50,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                     
+                      Icon(Icons.playlist_add_check_sharp, //flutter icon
+                          color: Colors.white, size: 50),
+                         
+                      SizedBox(width: 80,),
+                      SizedBox(
+                      width: 100.0,
+                      child: 
+                        Text(
+                          this.eventTime,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          overflow: TextOverflow.fade,
                         ),
-                        overflow: TextOverflow.fade,
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-
-                Spacer(),
               ],
             )),
       ),
