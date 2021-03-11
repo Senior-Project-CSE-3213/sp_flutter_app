@@ -169,8 +169,8 @@ class _CreateProfileState extends State<CreateProfile> {
                                   "ERROR: There was an error registering user profile.");
                             } else {
                               _userViewModel.profileCreated = true;
-                              Navigator.of(context)
-                                  .pushReplacementNamed(mapViewRoute);
+                              Navigator.of(context).pushNamedAndRemoveUntil(
+                                  mapViewRoute, (route) => false);
                             }
                           }
                         },
