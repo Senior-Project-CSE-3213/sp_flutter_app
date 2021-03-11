@@ -96,7 +96,7 @@ class _EventListViewState extends State<EventListView> {
                              scrollDirection: Axis.horizontal,
                                   children: <Widget>[
                                     CreateSponsoredEventCard(
-                                        "Become an RA interest meeting",
+                                        "Become an RA interest meetinggggggggggggg",
                                         "Taylor Auditorium",
                                         "Wednesday, 7:30PM"),
 
@@ -106,7 +106,7 @@ class _EventListViewState extends State<EventListView> {
                                     CreateSponsoredEventCard("Dawgs After Dark",
                                         "The Hump", "Thursday, 9:30PM"),
                                      
-                                    CreateSponsoredEventCard(
+                                  CreateSponsoredEventCard( 
                                         "Cowbell yell",
                                         "Bettersworth Auditorium",
                                         "Sunday, 5:00PM"),
@@ -225,10 +225,11 @@ class CreateSponsoredEventCard extends StatelessWidget {
               ),
               borderRadius: BorderRadius.all(Radius.circular(28)),
             ),
-            child: Column(
+            child: Wrap(
               //column holds all text on container
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              direction: Axis.horizontal,
               children: <Widget>[
+                Spacer(),
                 //this starts the children of the card
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -248,9 +249,7 @@ class CreateSponsoredEventCard extends StatelessWidget {
                     )],
                 ),
 
-                SizedBox(
-                  height: 5,
-                ),
+                Spacer(),
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -269,6 +268,8 @@ class CreateSponsoredEventCard extends StatelessWidget {
                       ),
                     )],
                 ),
+
+                Spacer(),
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -293,6 +294,8 @@ class CreateSponsoredEventCard extends StatelessWidget {
                     ),
                   ],
                 ),
+
+                Spacer(),
               ],
             )),
       ),
