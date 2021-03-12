@@ -239,7 +239,7 @@ class CreateSponsoredEventCard extends StatelessWidget {
                       width: 200.0,
                       child: 
                         Text(
-                          this.eventTitle,
+                          _titleLengthCheck(this.eventTitle),
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 20,
@@ -260,7 +260,7 @@ class CreateSponsoredEventCard extends StatelessWidget {
                       width: 200.0,
                       child: 
                         Text(
-                          this.eventLocation,
+                          _locationLengthCheck(this.eventLocation),
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 16,
@@ -286,7 +286,7 @@ class CreateSponsoredEventCard extends StatelessWidget {
                       width: 100.0,
                       child: 
                         Text(
-                          this.eventTime,
+                          _timeLengthCheck(this.eventTime),
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 16,
@@ -302,6 +302,18 @@ class CreateSponsoredEventCard extends StatelessWidget {
             )),
       ),
     );
+  }
+
+  String _titleLengthCheck(String eventTitle) {
+    return (eventTitle.length > 33 ? eventTitle.substring(0,30) + "..." : eventTitle);
+  }
+
+  String _locationLengthCheck(String eventLocation) { //
+    return (eventLocation.length > 33 ? eventLocation.substring(0,30) + "..." : eventLocation);
+  }
+
+  String _timeLengthCheck(String eventTime) {
+    return (eventTime.length > 20 ? eventTime.substring(0,17) + "..." : eventTime);
   }
 }
 
@@ -347,7 +359,7 @@ class CreateLatestEventCard extends StatelessWidget {
                 Expanded(
                   child: Container(
                     child: Text(
-                      this.eventTitle,
+                      _titleLengthCheck(this.eventTitle),
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -369,7 +381,7 @@ class CreateLatestEventCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        this.eventLocation,
+                        _locationLengthCheck(this.eventLocation),
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 14,
@@ -378,7 +390,7 @@ class CreateLatestEventCard extends StatelessWidget {
                         overflow: TextOverflow.fade,
                       ),
                       Text(
-                        this.eventTime,
+                        _timeLengthCheck(this.eventTime),
                         style: TextStyle(
                           color: Color.fromRGBO(203, 115, 239, 1),
                           fontSize: 15,
@@ -393,5 +405,17 @@ class CreateLatestEventCard extends StatelessWidget {
             )),
       ),
     );
+  }
+
+  String _titleLengthCheck(String eventTitle) {
+    return (eventTitle.length > 50 ? eventTitle.substring(0,47) + "..." : eventTitle);
+  }
+
+  String _locationLengthCheck(String eventLocation) {
+    return (eventLocation.length > 23 ? eventLocation.substring(0,20) + "..." : eventLocation);
+  }
+
+  String _timeLengthCheck(String eventTime) {
+    return (eventTime.length > 23 ? eventTime.substring(0,20) + "..." : eventTime);
   }
 }
