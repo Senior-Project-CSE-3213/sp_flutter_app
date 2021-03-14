@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:sp_flutter_app/shared/widgets/scaffold_with_gradient.dart';
 import '../../shared/constants.dart';
 
 class MapState extends State<MapView> with SingleTickerProviderStateMixin {
@@ -27,7 +28,7 @@ class MapState extends State<MapView> with SingleTickerProviderStateMixin {
   }
 
   build(BuildContext context) {
-    return Stack(
+    return ScaffoldWithGradient(
       children: <Widget>[
         Container(
           child: GoogleMap(

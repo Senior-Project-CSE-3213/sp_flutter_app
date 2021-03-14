@@ -98,6 +98,13 @@ class _SignInState extends State<SignIn> {
                           if (handleSubmit()) {
                             await _userViewModel.signInWithEmailAndPassword(
                                 email, password);
+                            if (_userViewModel.viewModelResponse.state ==
+                                ResponseState.ERROR) {
+                              print("Error signing in.");
+                            } else {
+                              Navigator.of(context).pushNamedAndRemoveUntil(
+                                  mapViewRoute, (route) => false);
+                            }
                           }
                         },
                         svgAsset: "assets/svgs/envelop.svg",

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sp_flutter_app/models/user.dart';
 import 'package:sp_flutter_app/models/user_profile.dart';
 import 'package:sp_flutter_app/services/auth.dart';
 import 'package:sp_flutter_app/services/firestore.dart';
@@ -28,6 +29,18 @@ class UserProfileViewModel extends ChangeNotifier {
       print(exception.toString());
       _setViewModelState(
           Response.error<UserProfile>("Unable to register user profile."));
+    }
+  }
+
+  Future<bool> populateUserProfile(User user) async {
+    try {
+      userProfile = await _firestore.getUserProfile(user);
+      if (userProfile.uid != null)
+        return true;
+      else
+        return false;
+    } catch (exception) {
+      return false;
     }
   }
 }

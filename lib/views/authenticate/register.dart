@@ -175,8 +175,8 @@ class _RegisterState extends State<Register> {
                                   .setUid(_userViewModel.user.uid);
                               _userProfileViewModel.userProfile
                                   .setPreferredName(preferredName);
-                              Navigator.of(context)
-                                  .pushNamed(createProfileViewRoute);
+                              Navigator.of(context).pushNamedAndRemoveUntil(
+                                  createProfileViewRoute, (route) => false);
                             }
                           }
                         },
