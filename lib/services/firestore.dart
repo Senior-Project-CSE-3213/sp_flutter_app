@@ -51,28 +51,30 @@ class FirestoreService {
   Future<List<SEvent>> getSEventData() async {
     List<SEvent> sEventList;
 
-    final List<DocumentSnapshot> eventDoc =
-        (await _firestore.collection("sEvents").get()).docs;
+    try {
+      final List<DocumentSnapshot> eventDoc =
+          (await _firestore.collection("sEvents").get()).docs;
 
-    sEventList = eventDoc
-        .map((eventDoc) => eventDoc['sEvents'] as String)
-        .cast<SEvent>()
-        .toList();
-
+      sEventList =
+          eventDoc.map((doc) => SEvent.fromFirebase(doc.data())).toList();
+    } catch (err) {
+      print(err);
+    }
     return sEventList;
   }
 
   Future<List<LEvent>> getLEventData() async {
     List<LEvent> lEventList;
 
-    final List<DocumentSnapshot> eventDoc =
-        (await _firestore.collection("sEvents").get()).docs;
+    try {
+      final List<DocumentSnapshot> eventDoc =
+          (await _firestore.collection("lEvents").get()).docs;
 
-    lEventList = eventDoc
-        .map((eventDoc) => eventDoc['sEvents'] as String)
-        .cast<LEvent>()
-        .toList();
-
+      lEventList =
+          eventDoc.map((doc) => LEvent.fromFirebase(doc.data())).toList();
+    } catch (err) {
+      print(err);
+    }
     return lEventList;
   }
 
