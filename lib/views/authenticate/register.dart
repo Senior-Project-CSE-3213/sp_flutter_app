@@ -27,7 +27,7 @@ class _RegisterState extends State<Register> {
     return Scaffold(
       backgroundColor: Colors.grey[350],
       appBar: AppBar(
-        backgroundColor: mainColor,
+        backgroundColor: primaryColor,
         textTheme: TextTheme(
           headline6: TextStyle(color: Colors.white),
         ),

@@ -42,7 +42,6 @@ class Event {
     };
   }
 
-  // TODO: Needs to be a Firestore query
   Future addParticipant(BuildContext context, User participant) async {
     if (!participants.contains(participant.uid)) {
       participants.add(participant.uid);
@@ -95,8 +94,6 @@ class _EventCreationFormState extends State<EventCreationForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      //padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
-      //height: 400,
       child: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -104,9 +101,10 @@ class _EventCreationFormState extends State<EventCreationForm> {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              //SizedBox(height: 10.0),
               Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                Expanded(child: Text("Name: ")),
+                Expanded(
+                    child: Text("Name: ",
+                        style: TextStyle(color: labelTextColor))),
                 Expanded(
                   flex: 4,
                   child: TextFormField(
@@ -122,7 +120,9 @@ class _EventCreationFormState extends State<EventCreationForm> {
               ]),
               SizedBox(height: 20.0),
               Row(children: <Widget>[
-                Expanded(child: Text("Description: ")),
+                Expanded(
+                    child: Text("Description: ",
+                        style: TextStyle(color: labelTextColor))),
                 Expanded(
                   flex: 2,
                   child: TextFormField(
@@ -142,15 +142,17 @@ class _EventCreationFormState extends State<EventCreationForm> {
               ]),
               SizedBox(height: 20.0),
               Row(children: <Widget>[
-                Expanded(child: Text("Date: ")),
+                Expanded(
+                    child: Text("Date: ",
+                        style: TextStyle(color: labelTextColor))),
                 Expanded(flex: 3, child: dateTimePicker),
               ]),
               SizedBox(height: 20.0),
               RaisedButton(
-                color: Colors.deepOrange[400],
+                color: blueColor,
                 child: Text(
                   'Create Event',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: primaryLightColor),
                 ),
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
@@ -163,7 +165,6 @@ class _EventCreationFormState extends State<EventCreationForm> {
                         participants: new List<String>());
                     await DatabaseService(uid: eventCreator.uid)
                         .updateEventData(event);
-                    print(eventCreator.email);
                     Navigator.of(context).pop();
                   }
                 },

@@ -15,7 +15,7 @@ class UserProfiles extends StatelessWidget {
       child: Scaffold(
           appBar: AppBar(
             title: Text('All Profiles'),
-            backgroundColor: mainColor,
+            backgroundColor: primaryColor,
           ),
           body: SimpleUserDataList(direction: Axis.vertical)),
     );

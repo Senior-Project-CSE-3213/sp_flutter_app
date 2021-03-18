@@ -59,8 +59,9 @@ class ProfileScreen extends StatelessWidget {
                     return Scaffold(
                         appBar: AppBar(
                           title: Text('Profile'),
-                          backgroundColor: mainColor,
+                          backgroundColor: primaryColor,
                         ),
+                        backgroundColor: primaryLightColor,
                         body: SingleChildScrollView(
                           child: Center(
                             child: Column(
@@ -99,10 +100,10 @@ class ProfileScreen extends StatelessWidget {
                                             content: EventCreationForm(
                                                 creator: user)));
                                   },
-                                  color: altSecondaryColor,
-                                  textColor: Colors.white,
+                                  color: primaryColor,
+                                  textColor: primaryLightColor,
                                   padding: EdgeInsets.all(8.0),
-                                  splashColor: altPrimaryColor,
+                                  splashColor: blueColor,
                                 ),
                                 Container(
                                   alignment: Alignment.center,

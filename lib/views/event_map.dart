@@ -130,7 +130,7 @@ class EventMapState extends State<EventMap>
                             getRadiansFromDegree(rotationAnimation.value)),
                         alignment: Alignment.center,
                         child: CircularButton(
-                            color: mainColor,
+                            color: primaryColor,
                             width: 60,
                             height: 60,
                             icon: Icon(

@@ -35,7 +35,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
           onPressed: () => Navigator.of(context).pop(),
         ),
         backgroundColor:
-            mainColor.withOpacity(0), //You can make this transparent
+            primaryColor.withOpacity(0), //You can make this transparent
         elevation: 0.0, //No shadow
         actions: <Widget>[
           IconButton(
@@ -159,11 +159,11 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(15)),
                   //boxShadow: _boxShadow(new Offset(2, 2)),
-                  color: altSecondaryColor),
+                  color: secondaryColor),
               padding: EdgeInsets.all(10),
               child: TextFormField(
                 style: TextStyle(color: Colors.white),
-                cursorColor: altPrimaryColor,
+                cursorColor: blueColor,
                 decoration: InputDecoration.collapsed(
                   hintText: "Send a question",
                   hintStyle: TextStyle(color: Colors.white, fontSize: 20),
@@ -184,17 +184,17 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                       .addParticipant(context, loggedUser)
                       .then((value) => setState(() {}));
                 },
-                color: altSecondaryColor,
+                color: secondaryColor,
                 textColor: Colors.white,
                 padding: EdgeInsets.all(8.0),
-                splashColor: altPrimaryColor,
+                splashColor: blueColor,
               ),
             ),
             trailing: IconButton(
               icon: Icon(Icons.send),
               onPressed: () {},
               iconSize: 30,
-              color: altSecondaryColor,
+              color: secondaryColor,
             )),
       );
     }
@@ -217,7 +217,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                   endDrawer: NotificationDrawer(),
                   body: Stack(alignment: Alignment.center, children: <Widget>[
                     Container(
-                      color: altPrimaryColor, // screen background color
+                      color: primaryColor, // screen background color
                     ),
                     SizedBox(
                       width: 500,
@@ -248,7 +248,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                               child: Container(
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
-                                      color: altSecondaryColor,
+                                      color: secondaryColor,
                                       boxShadow: _boxShadow(new Offset(5, 5))),
                                   child: Row(
                                     children: <Widget>[
@@ -265,12 +265,12 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                                                   BorderRadius.circular(100),
                                               border: Border.all(
                                                   width: 2,
-                                                  color: altPrimaryColor),
+                                                  color: primaryColor),
                                               boxShadow:
                                                   _boxShadow(new Offset(2, 2))),
                                           child: Icon(
                                             Icons.person,
-                                            color: altPrimaryColor,
+                                            color: blueColor,
                                           ),
                                         ),
                                       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:sp_flutter_app/shared/constants.dart';
 
 DateTime createdEventDate;
 
@@ -11,12 +12,12 @@ class DateTimePicker extends StatefulWidget {
 class _DateTimePickerState extends State<DateTimePicker> {
   DateTime _dateTime;
   TimeOfDay _timeOfDay;
-
   DateTime _finalDate;
 
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
+        color: primaryLightColor,
         child: Text(_finalDate == null
             ? 'Choose a date'
             : new DateFormat("MM-dd-yyyy @hh:mm a'").format(_finalDate)),

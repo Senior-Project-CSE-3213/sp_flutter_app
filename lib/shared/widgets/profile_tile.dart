@@ -18,16 +18,16 @@ class ProfileChip extends StatelessWidget {
             Navigator.pushNamed(context, profileScreenRoute,
                 arguments: ProfileArguments(user: profile));
           },
-          backgroundColor: Colors.white,
+          backgroundColor: secondaryColor,
           avatar: CircleAvatar(
               radius: 35,
-              backgroundColor: altPrimaryColor,
+              backgroundColor: Colors.white,
               child: Icon(Icons.person)),
           label: Text(
             profile.username,
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: altPrimaryColor,
+              color: Colors.white,
             ),
           ),
           labelPadding:

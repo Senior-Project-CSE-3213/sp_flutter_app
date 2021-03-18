@@ -26,17 +26,17 @@ class EventTile extends StatelessWidget {
             leading: Icon(
               Icons.event,
               size: 50,
-              color: altPrimaryColor,
+              color: blueColor,
             ),
             title: Text(event.eventName,
-                style: TextStyle(color: Colors.white, fontSize: 20)),
+                style: TextStyle(color: primaryLightColor, fontSize: 20)),
             subtitle: Text(
                 event.creator.username +
                     "\n" +
                     new DateFormat("MM-dd-yyyy @hh:mm a'")
                         .format(event.eventDate),
-                style: TextStyle(color: Colors.white, fontSize: 16)),
-            tileColor: altSecondaryColor,
+                style: TextStyle(color: labelTextColor, fontSize: 16)),
+            tileColor: primaryColor,
           ),
         ));
   }

@@ -29,7 +29,6 @@ class DatabaseService {
   }
 
   User _userFromSnapshot(DocumentSnapshot snapshot) {
-    print("Snapshot id: " + snapshot.id);
     return User(
       uid: snapshot.id,
       username: snapshot['displayName'],
