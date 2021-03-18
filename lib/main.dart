@@ -46,7 +46,6 @@ class MainApp extends StatelessWidget {
                 helpViewRoute: (_) => HelpScreen(),
                 settingViewRoute: (_) => SettingScreen(),
               },
-              // home: userSnapshot.hasData ? MapView() : OnboardingView(),
               home: userSnapshot.hasData ? MapView() : OnboardingView(),
             );
           } else {
