@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:filter_list/filter_list.dart';
 import 'package:sp_flutter_app/shared/constants.dart';
+import 'package:sp_flutter_app/shared/widgets/CustomShowDialog.dart';
 import 'package:sp_flutter_app/shared/widgets/bottom_bar.dart';
 
 //dribble designs for message view
@@ -23,6 +24,35 @@ class _EventListViewState extends State<EventListView> {
     "Latest"
   ];
   List<String> selectedCountList = [];
+
+  void _createEventPopup(BuildContext context) {
+    //we should replace fields and buttons with Justin's widgets
+    TextEditingController titleField = new TextEditingController();
+    TextEditingController locationField = new TextEditingController();
+    TextEditingController timeField = new TextEditingController();
+
+    showDialog(context: context, builder: (BuildContext context) {
+      return CustomAlertDialog(
+        content: Container (
+          width: MediaQuery.of(context).size.width / 1.5,
+          height: MediaQuery.of(context).size.height / 2.5,
+          color: Color.fromRGBO(40, 47, 67, 1),
+          child: Column(
+            children: [
+              //Event Title
+              //event title field
+              //event location
+              //event location field
+              //event time
+              //event date range picer
+              //create event
+              //discard event
+            ],
+          )
+        ),
+      );
+    });
+  }
 
   void _openFilterDialog() async {
     await FilterListDialog.display(context,
@@ -52,7 +82,11 @@ class _EventListViewState extends State<EventListView> {
               defaultSelectedIndex: 1,
               onChange: (val) {
                 setState(() {
-                  //we don't need to do anything right now
+                  if (val == 0) {
+                    _createEventPopup(context);
+                  }
+
+                  //we don't need to do anything else right now
                 });
               },
               iconList: [
