@@ -9,6 +9,7 @@ import 'package:sp_flutter_app/views/authenticate/using_email.dart';
 import 'package:sp_flutter_app/views/authenticate/register.dart';
 import 'package:sp_flutter_app/views/authenticate/sign_in.dart';
 import 'package:sp_flutter_app/views/onboarding/onboarding.dart';
+import 'package:sp_flutter_app/views/profile/profile.dart';
 import 'views/map/map.dart';
 import 'views/help/help.dart';
 import 'views/profile/profile.dart';
@@ -43,11 +44,11 @@ class MainApp extends StatelessWidget {
                 createProfileViewRoute: (_) => CreateProfile(),
                 signInViewRoute: (_) => SignIn(),
                 mapViewRoute: (_) => MapView(),
-                profileViewRoute: (_) => ProfileScreen(),
+                profileViewRoute: (_) => ProfilePage(),
                 helpViewRoute: (_) => HelpScreen(),
                 settingViewRoute: (_) => SettingScreen(),
               },
-              home: userSnapshot.hasData ? MapView() : OnboardingView(),
+              home: ProfilePage(),
             );
           } else {
             return MaterialApp(
