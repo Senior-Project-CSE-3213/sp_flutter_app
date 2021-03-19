@@ -25,11 +25,11 @@ class _EventListViewState extends State<EventListView> {
   ];
   List<String> selectedCountList = [];
 
-  void _createEventPopup(BuildContext context) {
+  // ignore: missing_return
+  Future<List<String>> _createEventPopup(BuildContext context) {
     //we should replace fields and buttons with Justin's widgets
     TextEditingController titleField = new TextEditingController();
     TextEditingController locationField = new TextEditingController();
-    TextEditingController timeField = new TextEditingController();
 
     showDialog(context: context, builder: (BuildContext context) {
       return CustomAlertDialog(
@@ -38,17 +38,113 @@ class _EventListViewState extends State<EventListView> {
           height: MediaQuery.of(context).size.height / 2.5,
           color: Color.fromRGBO(40, 47, 67, 1),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              //Event Title
-              //event title field
-              //event location
-              //event location field
-              //event time
-              //event date range picer
-              //create event
-              //discard event
-            ],
-          )
+              TextField(
+                controller: titleField,
+                decoration: new InputDecoration(
+                  hintText: "Enter your event title",
+                  labelText: "Event Title",
+                  labelStyle: new TextStyle(
+                    color: Color.fromRGBO(255,255,255,1),
+                    fontWeight: FontWeight.bold,
+                  ),
+                  border: new UnderlineInputBorder(
+                    borderSide: new BorderSide(
+                      color: Colors.blue
+                    )
+                  )
+                ),
+              ),
+              TextField(
+                controller: locationField,
+                decoration: new InputDecoration(
+                  hintText: "Enter your event location",
+                  labelText: "Event Location",
+                  labelStyle: new TextStyle(
+                    color: Color.fromRGBO(255,255,255,1),
+                    fontWeight: FontWeight.bold,
+                  ),
+                  border: new UnderlineInputBorder(
+                    borderSide: new BorderSide(
+                      color: Colors.blue
+                    )
+                  )
+                ),
+              ),
+              
+              //event time label
+              //event date range picker
+              SizedBox(height: 30,),
+      
+              ElevatedButton(
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(10,12,10,12),
+                  child: Text(
+                    "Create Event",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      color:  Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                style: ButtonStyle(
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                    side: BorderSide(color: Color.fromRGBO(25, 28, 35, 1),)
+                  )
+                ),
+                backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                  // ignore: missing_return
+                  (Set<MaterialState> states) {
+                    return Color.fromRGBO(25, 28, 35, 1); // Use the component's default.
+                  },
+                ),
+              ),
+              onPressed: () {
+                //todo add the date to this list
+                Navigator.of(context).pop([titleField.text.toString(), locationField.text.toString(),]);
+              },
+            ),
+
+              SizedBox(height: 10,),
+              
+              ElevatedButton(
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(10,12,10,12),
+                  child: Text(
+                    "Discard Event",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      color:  Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                style: ButtonStyle(
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                    side: BorderSide(color: Color.fromRGBO(25, 28, 35, 1),)
+                  )
+                ),
+                backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                  // ignore: missing_return
+                  (Set<MaterialState> states) {
+                    return Color.fromRGBO(25, 28, 35, 1); // Use the component's default.
+                  },
+                ),
+              ),
+              onPressed: () {
+                //todo add the date to this list
+                Navigator.of(context).pop([null]);
+              },
+            ),
+          ]),
         ),
       );
     });
@@ -83,10 +179,12 @@ class _EventListViewState extends State<EventListView> {
               onChange: (val) {
                 setState(() {
                   if (val == 0) {
-                    _createEventPopup(context);
+                    _createEventPopup(context).then((eventDetails) {
+                      print(eventDetails);
+                      print(eventDetails.length);
+                      //DO STUFF HERE SAM
+                    });
                   }
-
-                  //we don't need to do anything else right now
                 });
               },
               iconList: [

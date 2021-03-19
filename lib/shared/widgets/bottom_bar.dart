@@ -21,6 +21,7 @@ class BottomNavBar extends StatefulWidget {
 
 class _BottomNavBarState extends State<BottomNavBar> {
   int _selectedIndex;
+  int _previousIndex;
   // ignore: non_constant_identifier_names
   int _NBID;
    //0 means ELV, any other value is default unless you specify your ID and how you want the nav bar
@@ -40,7 +41,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     List<Widget> _navBarItemList = [];
 
     for (var i = 0; i < _iconList.length; i++) {
-      _navBarItemList.add(buildNavBarItem(_iconList[i], i));
+      _navBarItemList.add(buildNavBarItem(_iconList[i], i, i));
     }
 
     return Row(
@@ -48,14 +49,19 @@ class _BottomNavBarState extends State<BottomNavBar> {
     );
   }
 
-  Widget buildNavBarItem(IconData icon, int index) {
+  Widget buildNavBarItem(IconData icon, int index, int previousIndex) {
     return GestureDetector(
       onTap: () {
         widget.onChange(index);
         setState(() {
           //ELV 
           if (_NBID == 0) {
-            if (index != 0) {
+            if (index == 0) {
+              //don't move the orange to purple plus yet, from here we might trigger a custom popup to create an event if the approach
+              // im doing right now doesn't work
+            }
+
+            else {
               _selectedIndex = index;
             }
           }
