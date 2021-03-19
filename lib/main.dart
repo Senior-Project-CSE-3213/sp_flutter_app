@@ -16,6 +16,7 @@ import 'views/settings/settings.dart';
 import 'shared/constants.dart';
 import 'viewmodels/user_viewmodel.dart';
 
+//test
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
