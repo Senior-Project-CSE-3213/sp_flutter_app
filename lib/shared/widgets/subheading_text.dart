@@ -2,30 +2,26 @@ import 'package:flutter/material.dart';
 
 import '../constants.dart';
 
-class SimpleInputLabel extends StatelessWidget {
-  const SimpleInputLabel({
+class SubHeadingText extends StatelessWidget {
+  const SubHeadingText({
     Key key,
     @required this.text,
+    this.align,
   }) : super(key: key);
 
   final String text;
+  final TextAlign align;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        top: kDefaultPadding * 2.0,
-        bottom: kDefaultPadding,
-      ),
-      child: Text(
-        "$text".toUpperCase(),
-        style: TextStyle(
-          color: Color(0xffadadb2),
-          fontSize: 12,
-          fontFamily: "Inter",
-          fontWeight: FontWeight.w700,
-          letterSpacing: 0.50,
-        ),
+    return Text(
+      "$text",
+      textAlign: align ?? TextAlign.left,
+      style: TextStyle(
+        color: Color(0xffcdcdd0),
+        fontSize: 18,
+        fontFamily: "Poppins",
+        fontWeight: FontWeight.w700,
       ),
     );
   }
