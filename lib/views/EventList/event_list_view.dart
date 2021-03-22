@@ -30,6 +30,8 @@ class _EventListViewState extends State<EventListView> {
     //we should replace fields and buttons with Justin's widgets
     TextEditingController titleField = new TextEditingController();
     TextEditingController locationField = new TextEditingController();
+    
+    
 
     showDialog(context: context, builder: (BuildContext context) {
       DateTime pickedStartDate = DateTime.now();
@@ -83,21 +85,8 @@ class _EventListViewState extends State<EventListView> {
               //event time label
               //event date range picker
 
-              ListTile(
-                title: Text(
-                  //tod this needs to update
-                    "Start: ${pickedStartDate.month}/${pickedStartDate.day}/${pickedStartDate.year} ${pickedStartTime.hour}:${pickedStartTime.minute}" 
-                    + "\nEnd: ${pickedEndDate.month}/${pickedEndDate.day}/${pickedEndDate.year} ${pickedEndTime.hour}:${pickedEndTime.minute}",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 14.0,
-                      color:  Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-              ),
-
               Row (
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children:[
                   //todo sort out this and then copy for end date
                   // then just format and style the UI more
@@ -124,7 +113,7 @@ class _EventListViewState extends State<EventListView> {
                       backgroundColor: MaterialStateProperty.resolveWith<Color>(
                         // ignore: missing_return
                         (Set<MaterialState> states) {
-                          return Color.fromRGBO(25, 28, 35, 1); // Use the component's default.
+                          return Color.fromRGBO(125,62,255,1); // Use the component's default.
                         },
                       ),
                     ),
@@ -158,7 +147,7 @@ class _EventListViewState extends State<EventListView> {
                       TimeOfDay time = await showTimePicker(
                         context: context,
                         initialTime: pickedStartTime,
-                        helpText: "Select start date",
+                        helpText: "Select start time",
                         cancelText: "Cancel",
                         confirmText: "OK",
                         builder: (context, child) {
@@ -176,8 +165,99 @@ class _EventListViewState extends State<EventListView> {
                       }
                     },
                   ),
+
+                  ElevatedButton(
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(10,12,10,12),
+                        child: Text(
+                          "Select End",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 12.0,
+                            color:  Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                          side: BorderSide(color: Color.fromRGBO(25, 28, 35, 1),)
+                        )
+                      ),
+                      backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                        // ignore: missing_return
+                        (Set<MaterialState> states) {
+                          return Color.fromRGBO(125,62,255,1); // Use the component's default.
+                        },
+                      ),
+                    ),
+                    onPressed: () async {
+                      DateTime date = await showDatePicker (
+                        context: context,
+                        firstDate: DateTime(2000),
+                        lastDate: DateTime(2025),
+                        initialDate: pickedStartDate,
+                        initialEntryMode: DatePickerEntryMode.input,
+                        helpText: "Select end date",
+                        cancelText: "Cancel",
+                        confirmText: "OK",
+                        fieldLabelText: "Event end date",
+                        fieldHintText: "Month/Date/Year",
+                        errorFormatText: "That's not a valid date :/",
+                        builder: (context, child) {
+                          return Theme(
+                            data: ThemeData.dark(), // This will change to light theme.
+                            child: child,
+                          );
+                        },
+                      );
+
+                      if (date != null) {
+                        setState() {
+                          pickedEndDate = date;
+                        }
+                      }
+
+                      TimeOfDay time = await showTimePicker(
+                        context: context,
+                        initialTime: pickedStartTime,
+                        helpText: "Select end time",
+                        cancelText: "Cancel",
+                        confirmText: "OK",
+                        builder: (context, child) {
+                          return Theme(
+                            data: ThemeData.dark(), // This will change to light theme.
+                            child: child,
+                          );
+                        },
+                      );
+
+                      if (time != null) {
+                        setState() {
+                          pickedEndTime = time;
+                        }
+                      }
+                    },
+                  ),
                 ],
               ),
+
+              ListTile(
+                title: Text(
+                  //tod this needs to update
+                    "Start: ${pickedStartDate.month}/${pickedStartDate.day}/${pickedStartDate.year} ${pickedStartTime.hour}:${pickedStartTime.minute}" 
+                    + "\nEnd: ${pickedEndDate.month}/${pickedEndDate.day}/${pickedEndDate.year} ${pickedEndTime.hour}:${pickedEndTime.minute}",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      color:  Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+              ),
+
       
               ElevatedButton(
                 child: Padding(
@@ -202,7 +282,7 @@ class _EventListViewState extends State<EventListView> {
                 backgroundColor: MaterialStateProperty.resolveWith<Color>(
                   // ignore: missing_return
                   (Set<MaterialState> states) {
-                    return Color.fromRGBO(25, 28, 35, 1); // Use the component's default.
+                    return Color.fromRGBO(125,62,255,1); // Use the component's default.
                   },
                 ),
               ),
@@ -247,8 +327,6 @@ class _EventListViewState extends State<EventListView> {
                 setState(() {
                   if (val == 0) {
                     _createEventPopup(context).then((eventDetails) {
-                      print(eventDetails);
-                      print(eventDetails.length);
                       //DO STUFF HERE SAM
                     });
                   }
