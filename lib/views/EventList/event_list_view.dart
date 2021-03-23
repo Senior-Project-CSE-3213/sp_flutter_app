@@ -1,14 +1,8 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:filter_list/filter_list.dart';
 import 'package:sp_flutter_app/shared/constants.dart';
-import 'package:sp_flutter_app/shared/widgets/CustomShowDialog.dart';
 import 'package:sp_flutter_app/shared/widgets/bottom_bar.dart';
-
-//dribble designs for message view
-//https://cdn.dribbble.com/users/6947512/screenshots/15056404/media/772ef5df92a45895db6deea19148d3be.png?compress=1&resize=1200x900
 
 class EventListView extends StatefulWidget {
   @override
@@ -24,278 +18,6 @@ class _EventListViewState extends State<EventListView> {
     "Latest"
   ];
   List<String> selectedCountList = [];
-
-  // ignore: missing_return
-  Future<List<String>> _createEventPopup(BuildContext context) async {
-    //we should replace fields and buttons with Justin's widgets
-    TextEditingController titleField = new TextEditingController();
-    TextEditingController locationField = new TextEditingController();
-    
-    
-
-    showDialog(context: context, builder: (BuildContext context) {
-      DateTime pickedStartDate = DateTime.now();
-      TimeOfDay pickedStartTime = TimeOfDay.now();
-      DateTime pickedEndDate = DateTime.now();
-      TimeOfDay pickedEndTime = TimeOfDay.now();
-
-      return CustomAlertDialog(
-        content: Container (
-          width: MediaQuery.of(context).size.width / 1.5,
-          height: MediaQuery.of(context).size.height / 2.5,
-          color: Color.fromRGBO(40, 47, 67, 1),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              //todo put close x button in right corner
-
-              TextField(
-                controller: titleField,
-                decoration: new InputDecoration(
-                  hintText: "Enter your event title",
-                  labelText: "Event Title",
-                  labelStyle: new TextStyle(
-                    color: Color.fromRGBO(255,255,255,1),
-                    fontWeight: FontWeight.bold,
-                  ),
-                  border: new UnderlineInputBorder(
-                    borderSide: new BorderSide(
-                      color: Colors.blue
-                    )
-                  )
-                ),
-              ),
-              TextField(
-                controller: locationField,
-                decoration: new InputDecoration(
-                  hintText: "Enter your event location",
-                  labelText: "Event Location",
-                  labelStyle: new TextStyle(
-                    color: Color.fromRGBO(255,255,255,1),
-                    fontWeight: FontWeight.bold,
-                  ),
-                  border: new UnderlineInputBorder(
-                    borderSide: new BorderSide(
-                      color: Colors.blue
-                    )
-                  )
-                ),
-              ),
-              
-              //event time label
-              //event date range picker
-
-              Row (
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children:[
-                  //todo sort out this and then copy for end date
-                  // then just format and style the UI more
-                  ElevatedButton(
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(10,12,10,12),
-                        child: Text(
-                          "Select Start",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 12.0,
-                            color:  Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      style: ButtonStyle(
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                          side: BorderSide(color: Color.fromRGBO(25, 28, 35, 1),)
-                        )
-                      ),
-                      backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                        // ignore: missing_return
-                        (Set<MaterialState> states) {
-                          return Color.fromRGBO(125,62,255,1); // Use the component's default.
-                        },
-                      ),
-                    ),
-                    onPressed: () async {
-                      DateTime date = await showDatePicker (
-                        context: context,
-                        firstDate: DateTime(2000),
-                        lastDate: DateTime(2025),
-                        initialDate: pickedStartDate,
-                        initialEntryMode: DatePickerEntryMode.input,
-                        helpText: "Select start date",
-                        cancelText: "Cancel",
-                        confirmText: "OK",
-                        fieldLabelText: "Event start date",
-                        fieldHintText: "Month/Date/Year",
-                        errorFormatText: "That's not a valid date :/",
-                        builder: (context, child) {
-                          return Theme(
-                            data: ThemeData.dark(), // This will change to light theme.
-                            child: child,
-                          );
-                        },
-                      );
-
-                      if (date != null) {
-                        setState() {
-                          pickedStartDate = date;
-                        }
-                      }
-
-                      TimeOfDay time = await showTimePicker(
-                        context: context,
-                        initialTime: pickedStartTime,
-                        helpText: "Select start time",
-                        cancelText: "Cancel",
-                        confirmText: "OK",
-                        builder: (context, child) {
-                          return Theme(
-                            data: ThemeData.dark(), // This will change to light theme.
-                            child: child,
-                          );
-                        },
-                      );
-
-                      if (time != null) {
-                        setState() {
-                          pickedStartTime = time;
-                        }
-                      }
-                    },
-                  ),
-
-                  ElevatedButton(
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(10,12,10,12),
-                        child: Text(
-                          "Select End",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 12.0,
-                            color:  Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      style: ButtonStyle(
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                          side: BorderSide(color: Color.fromRGBO(25, 28, 35, 1),)
-                        )
-                      ),
-                      backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                        // ignore: missing_return
-                        (Set<MaterialState> states) {
-                          return Color.fromRGBO(125,62,255,1); // Use the component's default.
-                        },
-                      ),
-                    ),
-                    onPressed: () async {
-                      DateTime date = await showDatePicker (
-                        context: context,
-                        firstDate: DateTime(2000),
-                        lastDate: DateTime(2025),
-                        initialDate: pickedStartDate,
-                        initialEntryMode: DatePickerEntryMode.input,
-                        helpText: "Select end date",
-                        cancelText: "Cancel",
-                        confirmText: "OK",
-                        fieldLabelText: "Event end date",
-                        fieldHintText: "Month/Date/Year",
-                        errorFormatText: "That's not a valid date :/",
-                        builder: (context, child) {
-                          return Theme(
-                            data: ThemeData.dark(), // This will change to light theme.
-                            child: child,
-                          );
-                        },
-                      );
-
-                      if (date != null) {
-                        setState() {
-                          pickedEndDate = date;
-                        }
-                      }
-
-                      TimeOfDay time = await showTimePicker(
-                        context: context,
-                        initialTime: pickedStartTime,
-                        helpText: "Select end time",
-                        cancelText: "Cancel",
-                        confirmText: "OK",
-                        builder: (context, child) {
-                          return Theme(
-                            data: ThemeData.dark(), // This will change to light theme.
-                            child: child,
-                          );
-                        },
-                      );
-
-                      if (time != null) {
-                        setState() {
-                          pickedEndTime = time;
-                        }
-                      }
-                    },
-                  ),
-                ],
-              ),
-
-              ListTile(
-                title: Text(
-                  //tod this needs to update
-                    "Start: ${pickedStartDate.month}/${pickedStartDate.day}/${pickedStartDate.year} ${pickedStartTime.hour}:${pickedStartTime.minute}" 
-                    + "\nEnd: ${pickedEndDate.month}/${pickedEndDate.day}/${pickedEndDate.year} ${pickedEndTime.hour}:${pickedEndTime.minute}",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 14.0,
-                      color:  Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-              ),
-
-      
-              ElevatedButton(
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(10,12,10,12),
-                  child: Text(
-                    "Create Event",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 14.0,
-                      color:  Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                style: ButtonStyle(
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18.0),
-                    side: BorderSide(color: Color.fromRGBO(25, 28, 35, 1),)
-                  )
-                ),
-                backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                  // ignore: missing_return
-                  (Set<MaterialState> states) {
-                    return Color.fromRGBO(125,62,255,1); // Use the component's default.
-                  },
-                ),
-              ),
-              onPressed: () {
-                //todo add the date to this list
-                Navigator.of(context).pop([titleField.text.toString(), locationField.text.toString(),]);
-              },
-            ),
-          ]),
-        ),
-      );
-    });
-  }
 
   void _openFilterDialog() async {
     await FilterListDialog.display(context,
@@ -324,11 +46,10 @@ class _EventListViewState extends State<EventListView> {
             bottomNavigationBar: BottomNavBar(
               defaultSelectedIndex: 1,
               onChange: (val) {
-                setState(() {
+                setState(()  {
                   if (val == 0) {
-                    _createEventPopup(context).then((eventDetails) {
-                      //DO STUFF HERE SAM
-                    });
+                    //TODO get event details from user and confirm
+                    //now sam will make an event in the database with the returned data
                   }
                 });
               },
@@ -364,9 +85,6 @@ class _EventListViewState extends State<EventListView> {
                           ],
                         ),
 
-                        //todo colors and gradients for cards
-                        //todo different fonts and icons
-                        //make sure that if there's too much text it just fades to ...
                         Container(
                           height: 210,
                           child: ListView (
