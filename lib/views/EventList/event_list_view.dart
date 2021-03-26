@@ -111,26 +111,49 @@ class _EventListViewState extends State<EventListView> {
             return AlertDialog(
               backgroundColor: Color.fromRGBO(25, 28, 35, 1),
               content: Container(
-                child: SingleChildScrollView(
+                child: Expanded(
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      TextField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Event Name',
+                      Text(
+                        "Event Title",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
+                      SimpleTextInputField(
+                        error: false,
+                        handleChange: (val) {
+                          eventTitle = val;
+                        },
+                        handleSubmit: () {},
+                      ),
                       SizedBox(height: 10),
-                      TextField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Event Location',
+                      Text(
+                        "Event Location",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
                         ),
+                      ),
+                      SimpleTextInputField(
+                        error: false,
+                        handleChange: (val) {
+                          eventLocation = val;
+                        },
+                        handleSubmit: () {
+                          setState(() {});
+                        },
                       ),
                       SizedBox(height: 10),
                       Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             ElevatedButton(
                               child: Padding(
@@ -315,40 +338,6 @@ class _EventListViewState extends State<EventListView> {
                             child: Padding(
                               padding: EdgeInsets.fromLTRB(10, 12, 10, 12),
                               child: Text(
-                                "Create",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 12.0,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            style: ButtonStyle(
-                              shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(18.0),
-                                      side: BorderSide(
-                                        color: Color.fromRGBO(25, 28, 35, 1),
-                                      ))),
-                              backgroundColor:
-                                  MaterialStateProperty.resolveWith<Color>(
-                                // ignore: missing_return
-                                (Set<MaterialState> states) {
-                                  return Color.fromRGBO(125, 62, 255,
-                                      1); // Use the component's default.
-                                },
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).pop(["yer data here"]);
-                            },
-                          ),
-                          ElevatedButton(
-                            child: Padding(
-                              padding: EdgeInsets.fromLTRB(10, 12, 10, 12),
-                              child: Text(
                                 "Discard",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
@@ -379,6 +368,40 @@ class _EventListViewState extends State<EventListView> {
                               Navigator.of(context).pop([null]);
                             },
                           ),
+                          ElevatedButton(
+                            child: Padding(
+                              padding: EdgeInsets.fromLTRB(10, 12, 10, 12),
+                              child: Text(
+                                "Create",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 12.0,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            style: ButtonStyle(
+                              shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(18.0),
+                                      side: BorderSide(
+                                        color: Color.fromRGBO(25, 28, 35, 1),
+                                      ))),
+                              backgroundColor:
+                                  MaterialStateProperty.resolveWith<Color>(
+                                // ignore: missing_return
+                                (Set<MaterialState> states) {
+                                  return Color.fromRGBO(125, 62, 255,
+                                      1); // Use the component's default.
+                                },
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop([eventTitle.toString(), eventLocation.toString(), pickedStartDate.toString(), pickedStartTime.toString(), pickedEndDate.toString(), pickedEndTime.toString()]);
+                            },
+                          ),
                         ],
                       )
                     ],
@@ -401,9 +424,16 @@ class _EventListViewState extends State<EventListView> {
             bottomNavigationBar: BottomNavBar(
               defaultSelectedIndex: 1,
               onChange: (val) {
-                setState(() {
+                setState(() async {
                   if (val == 0) {
-                    _createEventDialog(context);
+                   List<String> eventDetails = await _createEventDialog(context);
+                   print(eventDetails[0]);
+                   print(eventDetails[1]);
+                   print(eventDetails[2]);
+                   print(eventDetails[3]);
+                   print(eventDetails[4]);
+                   print(eventDetails[5]);
+                   //TODO Sam do database stuff here
                   }
                 });
               },
