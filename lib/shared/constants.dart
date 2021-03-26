@@ -13,6 +13,7 @@ const textInputDecoration = InputDecoration(
 
 const mainColor = Colors.indigoAccent;
 const kPrimaryColor = Color(0xFF6C63FF);
+const Color secondaryColor = Color(0xFF7B61FF);
 const kPrimaryLightColor = Color(0xFFDEDEDE);
 const kDefaultPadding = 16.0;
 

@@ -36,7 +36,7 @@ dependencies:
 
   flutter_spinkit: ^4.1.2+1
   font_awesome_flutter: ^8.10.0
-  flutter_svg: ^0.19.1
+  flutter_svg: ^0.20.0-nullsafety.3
   filter_list: ^0.0.5
 
   # The following adds the Cupertino Icons font to your application.
@@ -45,6 +45,7 @@ dependencies:
 
   #event list view horizontal swiper
   flutter_swiper: ^1.1.6
+  
 
 dev_dependencies:
   flutter_test:

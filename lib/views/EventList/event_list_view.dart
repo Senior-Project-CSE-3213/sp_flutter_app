@@ -3,6 +3,8 @@ import 'package:flutter/rendering.dart';
 import 'package:filter_list/filter_list.dart';
 import 'package:sp_flutter_app/shared/constants.dart';
 import 'package:sp_flutter_app/shared/widgets/bottom_bar.dart';
+import 'package:intl/intl.dart';
+import 'package:sp_flutter_app/shared/widgets/simple_text_input_field.dart';
 
 class EventListView extends StatefulWidget {
   @override
@@ -19,21 +21,374 @@ class _EventListViewState extends State<EventListView> {
   ];
   List<String> selectedCountList = [];
 
-  void _openFilterDialog() async {
-    await FilterListDialog.display(context,
-        allTextList: countList,
-        height: 380,
-        borderRadius: 20,
-        headlineText: "Select Filters",
-        searchFieldHintText: "Search Here",
-        selectedTextList: selectedCountList, onApplyButtonClick: (list) {
-      if (list != null) {
-        setState(() {
-          selectedCountList = List.from(list);
+  void _openFilterDialog() async {}
+
+  String _formatEventDate(DateTime dt) {
+    int weekday = dt.weekday;
+    String weekdayName = "";
+
+    switch (weekday) {
+      case 1:
+        weekdayName = "Monday";
+        break;
+      case 2:
+        weekdayName = "Tuesday";
+        break;
+      case 3:
+        weekdayName = "Wednesday";
+        break;
+      case 4:
+        weekdayName = "Thursday";
+        break;
+      case 5:
+        weekdayName = "Friday";
+        break;
+      case 6:
+        weekdayName = "Saturday";
+        break;
+      case 7:
+        weekdayName = "Sunday";
+        break;
+    }
+
+    int month = dt.month;
+    String monthName = "";
+
+    switch (month) {
+      case 1:
+        monthName = "January";
+        break;
+      case 2:
+        monthName = "February";
+        break;
+      case 3:
+        monthName = "March";
+        break;
+      case 4:
+        monthName = "April";
+        break;
+      case 5:
+        monthName = "May";
+        break;
+      case 6:
+        monthName = "June";
+        break;
+      case 7:
+        monthName = "July";
+        break;
+      case 8:
+        monthName = "August";
+        break;
+      case 9:
+        monthName = "September";
+        break;
+      case 10:
+        monthName = "October";
+        break;
+      case 11:
+        monthName = "November";
+        break;
+      case 12:
+        monthName = "December";
+        break;
+    }
+    return "$weekdayName $monthName ${dt.day}, ${dt.year}";
+  }
+
+  Future<List<String>> _createEventDialog(BuildContext context) async {
+    DateTime pickedStartDate = DateTime.now();
+    TimeOfDay pickedStartTime = TimeOfDay.now();
+    DateTime pickedEndDate = DateTime.now();
+    TimeOfDay pickedEndTime = TimeOfDay.now();
+
+    String eventLocation = "";
+    String eventTitle = "";
+
+    return await showDialog(
+        context: context,
+        builder: (context) {
+          return StatefulBuilder(builder: (context, setState) {
+            return AlertDialog(
+              backgroundColor: Color.fromRGBO(25, 28, 35, 1),
+              content: Container(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      TextField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Event Name',
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      TextField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Event Location',
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ElevatedButton(
+                              child: Padding(
+                                padding: EdgeInsets.fromLTRB(10, 12, 10, 12),
+                                child: Text(
+                                  "Select Start",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 12.0,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              style: ButtonStyle(
+                                shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(18.0),
+                                        side: BorderSide(
+                                          color: Color.fromRGBO(25, 28, 35, 1),
+                                        ))),
+                                backgroundColor:
+                                    MaterialStateProperty.resolveWith<Color>(
+                                  // ignore: missing_return
+                                  (Set<MaterialState> states) {
+                                    return Color.fromRGBO(125, 62, 255,
+                                        1); // Use the component's default.
+                                  },
+                                ),
+                              ),
+                              onPressed: () async {
+                                DateTime date = await showDatePicker(
+                                  context: context,
+                                  firstDate: DateTime(2000),
+                                  lastDate: DateTime(2025),
+                                  initialDate: pickedStartDate,
+                                  initialEntryMode: DatePickerEntryMode.input,
+                                  helpText: "Select start date",
+                                  cancelText: "Cancel",
+                                  confirmText: "OK",
+                                  fieldLabelText: "Event start date",
+                                  fieldHintText: "Month/Date/Year",
+                                  errorFormatText: "That's not a valid date :/",
+                                  builder: (context, child) {
+                                    return Theme(
+                                      data: ThemeData
+                                          .dark(), // This will change to light theme.
+                                      child: child,
+                                    );
+                                  },
+                                );
+
+                                if (date != null) {
+                                  setState(() {
+                                    pickedStartDate = date;
+                                  });
+                                }
+
+                                TimeOfDay time = await showTimePicker(
+                                  context: context,
+                                  initialTime: pickedStartTime,
+                                  helpText: "Select start time",
+                                  cancelText: "Cancel",
+                                  confirmText: "OK",
+                                  builder: (context, child) {
+                                    return Theme(
+                                      data: ThemeData
+                                          .dark(), // This will change to light theme.
+                                      child: child,
+                                    );
+                                  },
+                                );
+
+                                if (time != null) {
+                                  setState(() {
+                                    pickedStartTime = time;
+                                  });
+                                }
+                              },
+                            ),
+                            ElevatedButton(
+                              child: Padding(
+                                padding: EdgeInsets.fromLTRB(10, 12, 10, 12),
+                                child: Text(
+                                  "Select End",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 12.0,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              style: ButtonStyle(
+                                shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(18.0),
+                                        side: BorderSide(
+                                          color: Color.fromRGBO(25, 28, 35, 1),
+                                        ))),
+                                backgroundColor:
+                                    MaterialStateProperty.resolveWith<Color>(
+                                  // ignore: missing_return
+                                  (Set<MaterialState> states) {
+                                    return Color.fromRGBO(125, 62, 255,
+                                        1); // Use the component's default.
+                                  },
+                                ),
+                              ),
+                              onPressed: () async {
+                                DateTime date = await showDatePicker(
+                                  context: context,
+                                  firstDate: DateTime(2000),
+                                  lastDate: DateTime(2025),
+                                  initialDate: pickedStartDate,
+                                  initialEntryMode: DatePickerEntryMode.input,
+                                  helpText: "Select end date",
+                                  cancelText: "Cancel",
+                                  confirmText: "OK",
+                                  fieldLabelText: "Event end date",
+                                  fieldHintText: "Month/Date/Year",
+                                  errorFormatText: "That's not a valid date :/",
+                                  builder: (context, child) {
+                                    return Theme(
+                                      data: ThemeData.dark(),
+                                      child: child,
+                                    );
+                                  },
+                                );
+
+                                if (date != null) {
+                                  setState(() {
+                                    pickedEndDate = date;
+                                  });
+                                }
+
+                                TimeOfDay time = await showTimePicker(
+                                  context: context,
+                                  initialTime: pickedStartTime,
+                                  helpText: "Select end time",
+                                  cancelText: "Cancel",
+                                  confirmText: "OK",
+                                  builder: (context, child) {
+                                    return Theme(
+                                      data: ThemeData.dark(),
+                                      child: child,
+                                    );
+                                  },
+                                );
+
+                                if (date != null) {
+                                  setState(() {
+                                    pickedEndTime = time;
+                                  });
+                                }
+                              },
+                            ),
+                          ]),
+                      SizedBox(height: 10),
+                      ListTile(
+                        title: Text(
+                          //todo is this possible to update?
+                          "Start: ${_formatEventDate(pickedStartDate)} ${pickedStartTime.hour > 12 ? pickedStartTime.hour - 12 : pickedStartTime.hour}:${pickedStartTime.minute}${pickedStartTime.hour >= 12 ? "PM" : "AM"} (${pickedStartDate.timeZoneName})" +
+                              "\nEnd: ${_formatEventDate(pickedEndDate)} ${pickedEndTime.hour > 12 ? pickedEndTime.hour - 12 : pickedEndTime.hour}:${pickedEndTime.minute}${pickedEndTime.hour >= 12 ? "PM" : "AM"} (${pickedEndDate.timeZoneName})",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 14.0,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          ElevatedButton(
+                            child: Padding(
+                              padding: EdgeInsets.fromLTRB(10, 12, 10, 12),
+                              child: Text(
+                                "Create",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 12.0,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            style: ButtonStyle(
+                              shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(18.0),
+                                      side: BorderSide(
+                                        color: Color.fromRGBO(25, 28, 35, 1),
+                                      ))),
+                              backgroundColor:
+                                  MaterialStateProperty.resolveWith<Color>(
+                                // ignore: missing_return
+                                (Set<MaterialState> states) {
+                                  return Color.fromRGBO(125, 62, 255,
+                                      1); // Use the component's default.
+                                },
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop(["yer data here"]);
+                            },
+                          ),
+                          ElevatedButton(
+                            child: Padding(
+                              padding: EdgeInsets.fromLTRB(10, 12, 10, 12),
+                              child: Text(
+                                "Discard",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 12.0,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            style: ButtonStyle(
+                              shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(18.0),
+                                      side: BorderSide(
+                                        color: Color.fromRGBO(25, 28, 35, 1),
+                                      ))),
+                              backgroundColor:
+                                  MaterialStateProperty.resolveWith<Color>(
+                                // ignore: missing_return
+                                (Set<MaterialState> states) {
+                                  return Color.fromRGBO(125, 62, 255,
+                                      1); // Use the component's default.
+                                },
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop([null]);
+                            },
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              actions: [],
+            );
+          });
         });
-      }
-      Navigator.pop(context);
-    });
   }
 
   @override
@@ -46,142 +401,130 @@ class _EventListViewState extends State<EventListView> {
             bottomNavigationBar: BottomNavBar(
               defaultSelectedIndex: 1,
               onChange: (val) {
-                setState(()  {
+                setState(() {
                   if (val == 0) {
-                    //TODO get event details from user and confirm
-                    //now sam will make an event in the database with the returned data
+                    _createEventDialog(context);
                   }
                 });
               },
               iconList: [
                 Icons.add_circle,
                 Icons.home,
-                Icons.find_in_page, 
+                Icons.find_in_page,
                 Icons.person,
               ],
               NBID: 0,
             ),
-
             body: Padding(
-              padding: const EdgeInsets.only(top: kDefaultPadding, bottom: kDefaultPadding,
-                                             left: kDefaultPadding * 0.15, right: kDefaultPadding * 0.15),
+              padding: const EdgeInsets.only(
+                  top: kDefaultPadding,
+                  bottom: kDefaultPadding,
+                  left: kDefaultPadding * 0.15,
+                  right: kDefaultPadding * 0.15),
               child: Container(
                   height: size.height,
                   width: size.width,
-                  child: Column(
-                      children: <Widget>[
-                        Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.only(bottom: kDefaultPadding, left: 2 * kDefaultPadding),
-                              child: Text(
-                                "Sponsored Events",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20),
-                              ),
-                            )
-                          ],
-                        ),
-
+                  child: Column(children: <Widget>[
+                    Row(
+                      children: [
                         Container(
-                          height: 210,
-                          child: ListView (
-                             scrollDirection: Axis.horizontal,
-                                  children: <Widget>[
-                                    CreateSponsoredEventCard(
-                                        "Become an RA interest meeting",
-                                        "Taylor Auditorium",
-                                        "Wednesday, 7:30PM"),
-
-                                    CreateSponsoredEventCard("Intramural Football",
-                                        "Intramural Fields", "Friday, 6:30PM"),
-                                    
-                                    CreateSponsoredEventCard("Dawgs After Dark",
-                                        "The Hump", "Thursday, 9:30PM"),
-                                     
-                                  CreateSponsoredEventCard( 
-                                        "Cowbell yell",
-                                        "Bettersworth Auditorium",
-                                        "Sunday, 5:00PM"),
-                                    
-                                  ]
+                          padding: const EdgeInsets.only(
+                              bottom: kDefaultPadding,
+                              left: 2 * kDefaultPadding),
+                          child: Text(
+                            "Sponsored Events",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20),
                           ),
-                        ),
-
-                        Padding (
-                          padding: const EdgeInsets.only(bottom: kDefaultPadding, top: kDefaultPadding, 
-                          left: kDefaultPadding * 2, right: kDefaultPadding * 2),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        )
+                      ],
+                    ),
+                    Container(
+                      height: 210,
+                      child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: <Widget>[
+                            CreateSponsoredEventCard(
+                                "Become an RA interest meeting",
+                                "Taylor Auditorium",
+                                "Wednesday, 7:30PM"),
+                            CreateSponsoredEventCard("Intramural Football",
+                                "Intramural Fields", "Friday, 6:30PM"),
+                            CreateSponsoredEventCard("Dawgs After Dark",
+                                "The Hump", "Thursday, 9:30PM"),
+                            CreateSponsoredEventCard("Cowbell yell",
+                                "Bettersworth Auditorium", "Sunday, 5:00PM"),
+                          ]),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          bottom: kDefaultPadding,
+                          top: kDefaultPadding,
+                          left: kDefaultPadding * 2,
+                          right: kDefaultPadding * 2),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          //latest event
+                          Column(
                             children: [
-                              //latest event
-                              Column(
-                                children: [
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Container(
-                                    child: Text(
-                                      "Latest Events",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20),
-                                    ),
-                                  )
-                                ],
+                              SizedBox(
+                                height: 10,
                               ),
-                              
-                              Column(
-                                children: <Widget>[
-                                  Container(
-                                    //take away this
-                                    child: IconButton(
-                                      icon: Icon(Icons.view_headline),
+                              Container(
+                                child: Text(
+                                  "Latest Events",
+                                  style: TextStyle(
                                       color: Colors.white,
-                                      onPressed: _openFilterDialog,
-                                      iconSize: 30,
-                                    ),
-                                  ),
-                                  Container(
-                                    child: Text(
-                                      "Filter",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12),
-                                    ),
-                                  ),
-                                ],
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ),
+                              )
+                            ],
+                          ),
+
+                          Column(
+                            children: <Widget>[
+                              Container(
+                                //take away this
+                                child: IconButton(
+                                  icon: Icon(Icons.view_headline),
+                                  color: Colors.white,
+                                  onPressed: _openFilterDialog,
+                                  iconSize: 30,
+                                ),
+                              ),
+                              Container(
+                                child: Text(
+                                  "Filter",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12),
+                                ),
                               ),
                             ],
                           ),
-                        ),
-                        Expanded (
-                          child: ListView(
-                                  scrollDirection: Axis.vertical,
-                                  children: <Widget>[
-                                    CreateLatestEventCard("Intramural Football",
-                                        "Intramural Fields", "Friday, 6:30PM"),
-                                    
-                                    CreateLatestEventCard("Dawgs After Dark",
-                                        "The Hump", "Thursday, 9:30PM"),
-                                     
-                                    CreateLatestEventCard(
-                                        "Cowbell yell",
-                                        "Bettersworth Auditorium",
-                                        "Sunday, 5:00PM"),
-                                    
-                                    CreateLatestEventCard(
-                                        "Become an RA interest meeting",
-                                        "Taylor Auditorium",
-                                        "Wednesday, 7:30PM"),
-                                  ],
-                                )
-                        )
-                      ])),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                        child: ListView(
+                      scrollDirection: Axis.vertical,
+                      children: <Widget>[
+                        CreateLatestEventCard("Intramural Football",
+                            "Intramural Fields", "Friday, 6:30PM"),
+                        CreateLatestEventCard(
+                            "Dawgs After Dark", "The Hump", "Thursday, 9:30PM"),
+                        CreateLatestEventCard("Cowbell yell",
+                            "Bettersworth Auditorium", "Sunday, 5:00PM"),
+                        CreateLatestEventCard("Become an RA interest meeting",
+                            "Taylor Auditorium", "Wednesday, 7:30PM"),
+                      ],
+                    ))
+                  ])),
             )));
   }
 }
@@ -204,16 +547,14 @@ class CreateSponsoredEventCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: Container(
-            height: 210, 
-            width:
-                280, 
-            padding: const EdgeInsets.all(
-                15), 
+            height: 210,
+            width: 280,
+            padding: const EdgeInsets.all(15),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Color.fromRGBO(27,109,255, 1),
-                  Color.fromRGBO(39,82,228, 1)
+                  Color.fromRGBO(27, 109, 255, 1),
+                  Color.fromRGBO(39, 82, 228, 1)
                 ], //or 16,60,98 to 37,139,191
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -231,9 +572,8 @@ class CreateSponsoredEventCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(
-                      width: 200.0,
-                      child: 
-                        Text(
+                        width: 200.0,
+                        child: Text(
                           _titleLengthCheck(this.eventTitle),
                           style: TextStyle(
                             color: Colors.white,
@@ -242,19 +582,19 @@ class CreateSponsoredEventCard extends StatelessWidget {
                           ),
                           overflow: TextOverflow.clip,
                         ),
-                      )],
+                      )
+                    ],
                   ),
                 ),
 
-                Container (
+                Container(
                   height: 50,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(
-                      width: 200.0,
-                      child: 
-                        Text(
+                        width: 200.0,
+                        child: Text(
                           _locationLengthCheck(this.eventLocation),
                           style: TextStyle(
                             color: Colors.white,
@@ -263,24 +603,25 @@ class CreateSponsoredEventCard extends StatelessWidget {
                           ),
                           overflow: TextOverflow.fade,
                         ),
-                      )],
+                      )
+                    ],
                   ),
                 ),
 
-                Container (
+                Container(
                   height: 50,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                     
                       Icon(Icons.playlist_add_check_sharp, //flutter icon
-                          color: Colors.white, size: 50),
-                         
-                      SizedBox(width: 80,),
+                          color: Colors.white,
+                          size: 50),
                       SizedBox(
-                      width: 100.0,
-                      child: 
-                        Text(
+                        width: 80,
+                      ),
+                      SizedBox(
+                        width: 100.0,
+                        child: Text(
                           _timeLengthCheck(this.eventTime),
                           style: TextStyle(
                             color: Colors.white,
@@ -300,15 +641,22 @@ class CreateSponsoredEventCard extends StatelessWidget {
   }
 
   String _titleLengthCheck(String eventTitle) {
-    return (eventTitle.length > 33 ? eventTitle.substring(0,30) + "..." : eventTitle);
+    return (eventTitle.length > 33
+        ? eventTitle.substring(0, 30) + "..."
+        : eventTitle);
   }
 
-  String _locationLengthCheck(String eventLocation) { //
-    return (eventLocation.length > 33 ? eventLocation.substring(0,30) + "..." : eventLocation);
+  String _locationLengthCheck(String eventLocation) {
+    //
+    return (eventLocation.length > 33
+        ? eventLocation.substring(0, 30) + "..."
+        : eventLocation);
   }
 
   String _timeLengthCheck(String eventTime) {
-    return (eventTime.length > 20 ? eventTime.substring(0,17) + "..." : eventTime);
+    return (eventTime.length > 20
+        ? eventTime.substring(0, 17) + "..."
+        : eventTime);
   }
 }
 
@@ -330,11 +678,9 @@ class CreateLatestEventCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: Container(
-            height: 80, 
-            width:
-                180, 
-            padding: const EdgeInsets.all(
-                15),
+            height: 80,
+            width: 180,
+            padding: const EdgeInsets.all(15),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
@@ -403,14 +749,20 @@ class CreateLatestEventCard extends StatelessWidget {
   }
 
   String _titleLengthCheck(String eventTitle) {
-    return (eventTitle.length > 50 ? eventTitle.substring(0,47) + "..." : eventTitle);
+    return (eventTitle.length > 50
+        ? eventTitle.substring(0, 47) + "..."
+        : eventTitle);
   }
 
   String _locationLengthCheck(String eventLocation) {
-    return (eventLocation.length > 23 ? eventLocation.substring(0,20) + "..." : eventLocation);
+    return (eventLocation.length > 23
+        ? eventLocation.substring(0, 20) + "..."
+        : eventLocation);
   }
 
   String _timeLengthCheck(String eventTime) {
-    return (eventTime.length > 23 ? eventTime.substring(0,20) + "..." : eventTime);
+    return (eventTime.length > 23
+        ? eventTime.substring(0, 20) + "..."
+        : eventTime);
   }
 }
