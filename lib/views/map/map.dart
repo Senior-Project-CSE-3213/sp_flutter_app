@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:sp_flutter_app/shared/widgets/full_width_text_btn_with_icon.dart';
 import 'package:sp_flutter_app/shared/widgets/heading_text.dart';
 import 'package:sp_flutter_app/shared/widgets/scaffold_with_gradient.dart';
 import 'package:sp_flutter_app/shared/widgets/subheading_text.dart';
@@ -34,6 +33,7 @@ class MapState extends State<MapView> with SingleTickerProviderStateMixin {
     final size = MediaQuery.of(context).size;
 
     return ScaffoldWithGradient(
+      menuColor: primaryColor,
       children: <Widget>[
         Container(
           child: GoogleMap(
