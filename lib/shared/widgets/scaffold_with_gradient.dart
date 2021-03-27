@@ -9,21 +9,24 @@ class ScaffoldWithGradient extends StatelessWidget {
   const ScaffoldWithGradient({
     Key key,
     this.children,
+    this.menuColor,
   }) : super(key: key);
 
   final List<Widget> children;
+  final Color menuColor;
 
   Widget _menuButton(BuildContext context) {
     return Navigator.of(context).canPop()
         ? SvgPicture.asset(
             "assets/svgs/arrow-left2.svg",
-            color: Colors.white,
+            color: menuColor ?? Colors.white,
             height: 24,
             width: 24,
           )
         : Icon(
             Icons.menu,
-            size: 32,
+            color: menuColor ?? Colors.white,
+            size: 36,
           );
   }
 
