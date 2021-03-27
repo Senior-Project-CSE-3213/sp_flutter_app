@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import '../shared/constants.dart';
+import '../../shared/constants.dart';
 
-class ProfileScreen extends StatelessWidget {
+class HelpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile'),
-        backgroundColor: mainColor,
+        title: Text('Help'),
+        backgroundColor: primaryColor,
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Profile info and stuff',
+              'Get help and stuff',
               style: TextStyle(
                 fontSize: 22,
               ),

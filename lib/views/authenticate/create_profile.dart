@@ -14,54 +14,43 @@ import '../../shared/loading.dart';
 import '../../shared/response.dart';
 import '../../viewmodels/user_viewmodel.dart';
 
-class Register extends StatefulWidget {
+class CreateProfile extends StatefulWidget {
   @override
-  _RegisterState createState() => _RegisterState();
+  _CreateProfileState createState() => _CreateProfileState();
 }
 
-class _RegisterState extends State<Register> {
+class _CreateProfileState extends State<CreateProfile> {
   // Text field state
-  String password1 = '';
-  String password2 = '';
-  String preferredName = '';
-  bool preferredNameError = false;
-  bool pwd1Error = false;
-  bool pwd2Error = false;
+  String firstName = '';
+  String lastName = '';
+  String username = '';
+  bool usernameError = false;
+  bool firstNameError = false;
+  bool lastNameError = false;
   final profanityFilter = ProfanityFilter();
 
   bool handleSubmit() {
     setState(() {
-      preferredNameError = false;
-      pwd1Error = false;
-      pwd2Error = false;
+      usernameError = false;
+      firstNameError = false;
+      lastNameError = false;
     });
     // not a perfect profanity filter
-    if (preferredName.isEmpty || profanityFilter.hasProfanity(preferredName)) {
+    // TODO: Add a check to see if username is taken or not
+    if (username.isEmpty || profanityFilter.hasProfanity(username)) {
       setState(() {
-        preferredNameError = true;
+        usernameError = true;
       });
       return false;
     }
-    if (password1 != password2 || !isPasswordCompliant(password1)) {
+    if (firstName.isEmpty || profanityFilter.hasProfanity(firstName)) {
       setState(() {
-        pwd1Error = true;
-        pwd2Error = true;
+        firstNameError = true;
+        lastNameError = true;
       });
       return false;
     }
     return true;
-  }
-
-  void handlePasswordChange(String pwd, bool pwd1) {
-    if (pwd1) {
-      setState(() {
-        password1 = pwd;
-      });
-    } else {
-      setState(() {
-        password2 = pwd;
-      });
-    }
   }
 
   Widget _registerScreen(BuildContext context, UserViewModel _userViewModel,
@@ -80,7 +69,7 @@ class _RegisterState extends State<Register> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                HeadingText(text: "Register"),
+                HeadingText(text: "Create Profile"),
                 Padding(
                   padding: const EdgeInsets.only(
                     top: kDefaultPadding,
@@ -98,7 +87,7 @@ class _RegisterState extends State<Register> {
                       ),
                       children: [
                         TextSpan(
-                          text: ' ${_userViewModel.registrationEmail} ',
+                          text: ' ${_userViewModel.user.email} ',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 14,
@@ -129,59 +118,65 @@ class _RegisterState extends State<Register> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SimpleInputLabel(text: "Preferred Name"),
+                      SimpleInputLabel(text: "Username"),
                       SimpleTextInputField(
-                        error: preferredNameError,
+                        error: usernameError,
                         handleSubmit: handleSubmit,
                         handleChange: (val) {
                           setState(() {
-                            preferredName = val;
+                            username = val;
                           });
                         },
                       ),
-                      SimpleInputLabel(text: "Password"),
+                      SimpleInputLabel(text: "First Name"),
                       SimpleTextInputField(
-                        error: pwd1Error,
-                        obscure: true,
+                        error: firstNameError,
                         handleSubmit: handleSubmit,
-                        handleChange: (pwd) => handlePasswordChange(pwd, true),
+                        handleChange: (val) {
+                          setState(() {
+                            firstName = val;
+                          });
+                        },
                       ),
-                      SimpleInputLabel(text: "Confirm Password"),
+                      SimpleInputLabel(text: "Last Name"),
                       SimpleTextInputField(
-                        error: pwd2Error,
-                        obscure: true,
+                        error: lastNameError,
                         handleSubmit: handleSubmit,
-                        handleChange: (pwd) => handlePasswordChange(pwd, false),
+                        handleChange: (val) {
+                          setState(() {
+                            lastName = val;
+                          });
+                        },
                       ),
                       SizedBox(height: kDefaultPadding * 2.0),
                       FullWidthTextButtonWithIcon(
                         handleSubmit: ({success}) async {
                           if (handleSubmit()) {
-                            // set the user profile preferred name
+                            // set the user profile data
                             _userProfileViewModel.userProfile
-                                .setPreferredName(preferredName);
-                            // register user (This does NOT create profile.)
-                            await _userViewModel.registerWithEmailAndPassword(
-                                _userViewModel.registrationEmail, password1);
+                                .setUid(_userViewModel.user.uid);
+                            _userProfileViewModel.userProfile
+                                .setUsername(username);
+                            _userProfileViewModel.userProfile
+                                .setFirstName(firstName);
+                            _userProfileViewModel.userProfile
+                                .setLastName(lastName);
+                            // register user profile in database
+                            await _userProfileViewModel.registerUserProfile();
                             if (_userViewModel.viewModelResponse.state ==
                                 ResponseState.ERROR) {
-                              print("ERROR: There was an error registering.");
+                              print(
+                                  "ERROR: There was an error registering user profile.");
                             } else {
-                              // Start setting data for the profile
-                              // Again (This does NOT create the profile either.)
-                              // When we actually call the method to add the user
-                              // profile to the DB is when the profile is actually created
-                              _userProfileViewModel.userProfile
-                                  .setUid(_userViewModel.user.uid);
-                              _userProfileViewModel.userProfile
-                                  .setPreferredName(preferredName);
+                              _userViewModel.profileCreated = true;
                               Navigator.of(context).pushNamedAndRemoveUntil(
-                                  createProfileViewRoute, (route) => false);
+                                  mapViewRoute, (route) => false);
                             }
                           }
                         },
-                        svgAsset: "assets/svgs/envelop.svg",
-                        text: "Register with Email",
+                        svgAsset: "assets/svgs/checkmark.svg",
+                        svgColor: Colors.green,
+                        text: "Finish Registration",
                       ),
                     ],
                   ),

@@ -16,7 +16,20 @@ const kPrimaryColor = Color(0xFF6C63FF);
 const kPrimaryLightColor = Color(0xFFDEDEDE);
 const kDefaultPadding = 16.0;
 
-const profileScreenRoute = '/screens/profile_screen.dart';
-const settingScreenRoute = '/screens/settings_screen.dart';
-const helpScreenRoute = '/screens/help_screen.dart';
-const eventMapScreenRoute = '/screens/event_map.dart';
+const Color primaryColor = Color(0xFF191A21);
+const Color secondaryColor = Color(0xFF7B61FF);
+const Color blueColor = Color(0xFF246BFD);
+const Color primaryLightColor = Color(0xFFDEDEDE);
+const Color labelTextColor = Color(0xffadadb2);
+
+const String onboardingViewRoute = '/views/onboarding/onboarding.dart';
+const String usingEmailViewRoute = '/views/authentication/sign_in_email.dart';
+const String registerViewRoute = '/views/authentication/register.dart';
+const String createProfileViewRoute =
+    '/views/authentication/create_profile.dart';
+const String signInViewRoute = '/views/authentication/sign_in.dart';
+const String profileViewRoute = '/views/profile/profile.dart';
+const String settingViewRoute = '/views/settings/settings.dart';
+const String helpViewRoute = '/views/help/help.dart';
+const String mapViewRoute = '/views/map/map.dart';
+const String eventViewRoute = '/views/EventList/event_list.dart';

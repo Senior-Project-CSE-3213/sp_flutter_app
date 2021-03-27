@@ -10,9 +10,12 @@
 **/DerivedData/
 Icon?
 **/Pods/
+**/Runner.xcodeproj/
+*.
 **/.symlinks/
 profile
 xcuserdata
+xcschemes
 **/.generated/
 Flutter/App.framework
 Flutter/Flutter.framework
@@ -32,3 +35,7 @@ Runner/GeneratedPluginRegistrant.*
 !default.perspectivev3
 
 Runner/GoogleService-Info.plist
+build/
+Runner.xcodeproj/
+*.xcscheme
+Runner.scscheme
