@@ -101,6 +101,11 @@ class _EventListViewState extends State<EventListView> {
     DateTime pickedEndDate = DateTime.now();
     TimeOfDay pickedEndTime = TimeOfDay.now();
 
+    DateTime initStartDate = DateTime.now();
+    TimeOfDay initStartTime = TimeOfDay.now();
+    DateTime initEndDate = DateTime.now();
+    TimeOfDay initEndTime = TimeOfDay.now();
+
     String eventLocation = "";
     String eventTitle = "";
 
@@ -177,7 +182,8 @@ class _EventListViewState extends State<EventListView> {
                                           borderRadius:
                                               BorderRadius.circular(18.0),
                                           side: BorderSide(
-                                            color: Color.fromRGBO(25, 28, 35, 1),
+                                            color:
+                                                Color.fromRGBO(25, 28, 35, 1),
                                           ))),
                                   backgroundColor:
                                       MaterialStateProperty.resolveWith<Color>(
@@ -200,7 +206,8 @@ class _EventListViewState extends State<EventListView> {
                                     confirmText: "OK",
                                     fieldLabelText: "Event start date",
                                     fieldHintText: "Month/Date/Year",
-                                    errorFormatText: "That's not a valid date :/",
+                                    errorFormatText:
+                                        "That's not a valid date :/",
                                     builder: (context, child) {
                                       return Theme(
                                         data: ThemeData
@@ -258,7 +265,8 @@ class _EventListViewState extends State<EventListView> {
                                           borderRadius:
                                               BorderRadius.circular(18.0),
                                           side: BorderSide(
-                                            color: Color.fromRGBO(25, 28, 35, 1),
+                                            color:
+                                                Color.fromRGBO(25, 28, 35, 1),
                                           ))),
                                   backgroundColor:
                                       MaterialStateProperty.resolveWith<Color>(
@@ -281,7 +289,8 @@ class _EventListViewState extends State<EventListView> {
                                     confirmText: "OK",
                                     fieldLabelText: "Event end date",
                                     fieldHintText: "Month/Date/Year",
-                                    errorFormatText: "That's not a valid date :/",
+                                    errorFormatText:
+                                        "That's not a valid date :/",
                                     builder: (context, child) {
                                       return Theme(
                                         data: ThemeData.dark(),
@@ -321,9 +330,8 @@ class _EventListViewState extends State<EventListView> {
                         SizedBox(height: 10),
                         ListTile(
                           title: Text(
-                            //todo is this possible to update?
-                            "Start: ${_formatEventDate(pickedStartDate)} ${pickedStartTime.hour > 12 ? pickedStartTime.hour - 12 : pickedStartTime.hour}:${pickedStartTime.minute}${pickedStartTime.hour >= 12 ? "PM" : "AM"} (${pickedStartDate.timeZoneName})" +
-                                "\nEnd: ${_formatEventDate(pickedEndDate)} ${pickedEndTime.hour > 12 ? pickedEndTime.hour - 12 : pickedEndTime.hour}:${pickedEndTime.minute}${pickedEndTime.hour >= 12 ? "PM" : "AM"} (${pickedEndDate.timeZoneName})",
+                            "Start: ${_formatEventDate(pickedStartDate)} ${pickedStartTime.hour > 12 ? pickedStartTime.hour - 12 : pickedStartTime.hour}:${pickedStartTime.minute.toString().length == 1 ? "0" : ""}${pickedStartTime.minute}${pickedStartTime.hour >= 12 ? "PM" : "AM"} (${pickedStartDate.timeZoneName})" +
+                                "\nEnd: ${_formatEventDate(pickedEndDate)} ${pickedEndTime.hour > 12 ? pickedEndTime.hour - 12 : pickedEndTime.hour}:${pickedEndTime.minute.toString().length == 1 ? "0" : ""}${pickedEndTime.minute}${pickedEndTime.hour >= 12 ? "PM" : "AM"} (${pickedEndDate.timeZoneName})",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 14.0,
@@ -353,7 +361,8 @@ class _EventListViewState extends State<EventListView> {
                                 shape: MaterialStateProperty.all<
                                         RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(18.0),
+                                        borderRadius:
+                                            BorderRadius.circular(18.0),
                                         side: BorderSide(
                                           color: Color.fromRGBO(25, 28, 35, 1),
                                         ))),
@@ -387,7 +396,8 @@ class _EventListViewState extends State<EventListView> {
                                 shape: MaterialStateProperty.all<
                                         RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(18.0),
+                                        borderRadius:
+                                            BorderRadius.circular(18.0),
                                         side: BorderSide(
                                           color: Color.fromRGBO(25, 28, 35, 1),
                                         ))),
@@ -401,18 +411,43 @@ class _EventListViewState extends State<EventListView> {
                                 ),
                               ),
                               onPressed: () {
-                                Navigator.of(context).pop([
-                                  eventTitle.toString(),
-                                  eventLocation.toString(),
-                                  pickedStartDate.toString(),
-                                  pickedStartTime.toString(),
-                                  pickedEndDate.toString(),
-                                  pickedEndTime.toString()
-                                ]);
+                                print("Validating data...");
+
+                                if (eventTitle == null ||
+                                    eventTitle.toString().length == 0) {
+                                  print("Invalid event title");
+                                } else if (eventLocation == null ||
+                                    eventLocation.toString().length == 0) {
+                                  print("Invalid event location");
+                                } else if (pickedStartDate == null ||
+                                    pickedStartDate.toString().length == 0 ||
+                                    pickedStartDate == initStartDate) {
+                                  print("Invalid start date");
+                                } else if (pickedStartTime == null ||
+                                    pickedStartTime.toString().length == 0 ||
+                                    pickedStartTime == initStartTime) {
+                                  print("Invalid start time");
+                                } else if (pickedEndDate == null ||
+                                    pickedEndDate.toString().length == 0 ||
+                                    pickedEndDate == initEndDate) {
+                                  print("Invalid end date");
+                                } else if (pickedEndTime == null ||
+                                    pickedEndTime.toString().length == 0 ||
+                                    pickedEndTime == initEndTime) {
+                                  print("Invalid end time");
+                                } else {
+                                  print("Data valid; event data summary:");
+                                  print(eventTitle.toString());
+                                  print(eventLocation.toString());
+                                  print(pickedStartDate.toString());
+                                  print(pickedStartTime.toString());
+                                  print(pickedEndDate.toString());
+                                  print(pickedEndTime.toString());
+                                }
                               },
                             ),
                           ],
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -430,15 +465,14 @@ class _EventListViewState extends State<EventListView> {
 
     return SafeArea(
         child: Scaffold(
+            resizeToAvoidBottomInset: false,
             backgroundColor: Color.fromRGBO(25, 28, 35, 1),
             bottomNavigationBar: BottomNavBar(
               defaultSelectedIndex: 1,
               onChange: (val) {
                 setState(() async {
                   if (val == 0) {
-                    List<String> eventDetails =
-                        await _createEventDialog(context);
-                    //TODO Sam do database stuff here
+                    _createEventDialog(context);
                   }
                 });
               },
@@ -450,116 +484,135 @@ class _EventListViewState extends State<EventListView> {
               ],
               NBID: 0,
             ),
-            body: Padding(
-              padding: const EdgeInsets.only(
-                  top: kDefaultPadding,
-                  bottom: kDefaultPadding,
-                  left: kDefaultPadding * 0.15,
-                  right: kDefaultPadding * 0.15),
-              child: Container(
-                  height: size.height,
-                  width: size.width,
-                  child: Column(children: <Widget>[
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.only(
-                              bottom: kDefaultPadding,
-                              left: 2 * kDefaultPadding),
-                          child: Text(
-                            "Sponsored Events",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20),
-                          ),
-                        )
-                      ],
-                    ),
-                    Container(
-                      height: 210,
-                      child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: <Widget>[
-                            CreateSponsoredEventCard(
-                                "Become an RA interest meeting",
-                                "Taylor Auditorium",
-                                "Wednesday, 7:30PM"),
-                            CreateSponsoredEventCard("Intramural Football",
-                                "Intramural Fields", "Friday, 6:30PM"),
-                            CreateSponsoredEventCard("Dawgs After Dark",
-                                "The Hump", "Thursday, 9:30PM"),
-                            CreateSponsoredEventCard("Cowbell yell",
-                                "Bettersworth Auditorium", "Sunday, 5:00PM"),
-                          ]),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          bottom: kDefaultPadding,
-                          top: kDefaultPadding,
-                          left: kDefaultPadding * 2,
-                          right: kDefaultPadding * 2),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            body: SingleChildScrollView(
+              physics: const NeverScrollableScrollPhysics(),
+              scrollDirection: Axis.vertical,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    top: kDefaultPadding,
+                    bottom: kDefaultPadding,
+                    left: kDefaultPadding * 0.15,
+                    right: kDefaultPadding * 0.15),
+                child: Container(
+                    height: size.height,
+                    width: size.width,
+                    child: Column(children: <Widget>[
+                      Row(
                         children: [
-                          //latest event
-                          Column(
-                            children: [
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                child: Text(
-                                  "Latest Events",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
-                                ),
-                              )
-                            ],
-                          ),
-
-                          Column(
-                            children: <Widget>[
-                              Container(
-                                //take away this
-                                child: IconButton(
-                                  icon: Icon(Icons.view_headline),
+                          Container(
+                            padding: const EdgeInsets.only(
+                                bottom: kDefaultPadding,
+                                left: 2 * kDefaultPadding),
+                            child: Text(
+                              "Sponsored Events",
+                              style: TextStyle(
                                   color: Colors.white,
-                                  onPressed: _openFilterDialog,
-                                  iconSize: 30,
-                                ),
-                              ),
-                              Container(
-                                child: Text(
-                                  "Filter",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12),
-                                ),
-                              ),
-                            ],
-                          ),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20),
+                            ),
+                          )
                         ],
                       ),
-                    ),
-                    Expanded(
+                      Container(
+                        height: 210,
                         child: ListView(
-                      scrollDirection: Axis.vertical,
-                      children: <Widget>[
-                        CreateLatestEventCard("Intramural Football",
-                            "Intramural Fields", "Friday, 6:30PM"),
-                        CreateLatestEventCard(
-                            "Dawgs After Dark", "The Hump", "Thursday, 9:30PM"),
-                        CreateLatestEventCard("Cowbell yell",
-                            "Bettersworth Auditorium", "Sunday, 5:00PM"),
-                        CreateLatestEventCard("Become an RA interest meeting",
-                            "Taylor Auditorium", "Wednesday, 7:30PM"),
-                      ],
-                    ))
-                  ])),
+                            physics: BouncingScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            children: <Widget>[
+                              CreateSponsoredEventCard(
+                                  "Become an RA interest meeting",
+                                  "Taylor Auditorium",
+                                  "Wednesday, 7:30PM"),
+                              CreateSponsoredEventCard("Intramural Football",
+                                  "Intramural Fields", "Friday, 6:30PM"),
+                              CreateSponsoredEventCard("Dawgs After Dark",
+                                  "The Hump", "Thursday, 9:30PM"),
+                              CreateSponsoredEventCard("Cowbell yell",
+                                  "Bettersworth Auditorium", "Sunday, 5:00PM"),
+                            ]),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            bottom: kDefaultPadding,
+                            top: kDefaultPadding,
+                            left: kDefaultPadding * 2,
+                            right: kDefaultPadding * 2),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            //latest event
+                            Column(
+                              children: [
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Container(
+                                  child: Text(
+                                    "Latest Events",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
+                                  ),
+                                )
+                              ],
+                            ),
+
+                            Column(
+                              children: <Widget>[
+                                Container(
+                                  //take away this
+                                  child: IconButton(
+                                    icon: Icon(Icons.view_headline),
+                                    color: Colors.white,
+                                    onPressed: _openFilterDialog,
+                                    iconSize: 30,
+                                  ),
+                                ),
+                                Container(
+                                  child: Text(
+                                    "Filter",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                          height: CreateLatestEventCard.getCardHeight() * 2.8,
+                          child: ListView(
+                            physics: BouncingScrollPhysics(),
+                            scrollDirection: Axis.vertical,
+                            children: <Widget>[
+                              CreateLatestEventCard("Intramural Football",
+                                  "Intramural Fields", "Friday, 6:30PM"),
+                              CreateLatestEventCard("Dawgs After Dark",
+                                  "The Hump", "Thursday, 9:30PM"),
+                              CreateLatestEventCard("Cowbell yell",
+                                  "Bettersworth Auditorium", "Sunday, 5:00PM"),
+                              CreateLatestEventCard(
+                                  "Become an RA interest meeting",
+                                  "Taylor Auditorium",
+                                  "Wednesday, 7:30PM"),
+                              CreateLatestEventCard(
+                                  "Become an RA interest meeting",
+                                  "Taylor Auditorium",
+                                  "Wednesday, 7:30PM"),
+                              CreateLatestEventCard(
+                                  "Become an RA interest meeting",
+                                  "Taylor Auditorium",
+                                  "Wednesday, 7:30PM"),
+                              CreateLatestEventCard("last card", "my backyard",
+                                  "Wednesday, 7:30PM"),
+                            ],
+                          ))
+                    ])),
+              ),
             )));
   }
 }
@@ -701,6 +754,10 @@ class CreateLatestEventCard extends StatelessWidget {
   String eventLocation;
   String eventTime;
 
+  static getCardHeight() {
+    return 80.0;
+  }
+
   CreateLatestEventCard(String title, String location, String time) {
     eventTitle = title;
     eventLocation = location;
@@ -713,7 +770,7 @@ class CreateLatestEventCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: Container(
-            height: 80,
+            height: getCardHeight(),
             width: 180,
             padding: const EdgeInsets.all(15),
             decoration: BoxDecoration(
