@@ -528,6 +528,10 @@ class _EventListViewState extends State<EventListView> {
                               CreateSponsoredEventCard("Dawgs After Dark",
                                   "The Hump", "Thursday, 9:30PM"),
                               CreateSponsoredEventCard("Cowbell yell",
+                                  "Bettersworth Auditorium", "A super long and weird time that should overflow"),
+                              CreateSponsoredEventCard("Cowbell yell",
+                                  "A super long event locatation that should overflow", "Sunday, 5:00PM"),
+                              CreateSponsoredEventCard("A super long title that should overflow",
                                   "Bettersworth Auditorium", "Sunday, 5:00PM"),
                             ]),
                       ),
@@ -584,7 +588,8 @@ class _EventListViewState extends State<EventListView> {
                         ),
                       ),
                       Container(
-                          height: CreateLatestEventCard.getCardHeight() * 2.8,
+                        //this is a bodge, I need to figure out how to properly make it so events at the bottom of the list aren't cut off
+                          height: size.height - 410 - 2 * kDefaultPadding - 10 - 2 * kDefaultPadding,
                           child: ListView(
                             physics: BouncingScrollPhysics(),
                             scrollDirection: Axis.vertical,
@@ -607,8 +612,14 @@ class _EventListViewState extends State<EventListView> {
                                   "Become an RA interest meeting",
                                   "Taylor Auditorium",
                                   "Wednesday, 7:30PM"),
-                              CreateLatestEventCard("last card", "my backyard",
+                              CreateLatestEventCard("A super long title that should overflow on this card and newline", "my backyard",
                                   "Wednesday, 7:30PM"),
+                              CreateLatestEventCard("last card", "a super long location that should overflow",
+                                  "Wednesday, 7:30PM"),
+                              CreateLatestEventCard("last card", "my backyard",
+                                  "A super long time that should overflow"),
+                              CreateLatestEventCard("last card actually",
+                                  "my backyard", "Wednesday, 7:30PM"),
                             ],
                           ))
                     ])),
@@ -841,8 +852,8 @@ class CreateLatestEventCard extends StatelessWidget {
   }
 
   String _titleLengthCheck(String eventTitle) {
-    return (eventTitle.length > 50
-        ? eventTitle.substring(0, 47) + "..."
+    return (eventTitle.length > 40
+        ? eventTitle.substring(0, 37) + "..."
         : eventTitle);
   }
 
