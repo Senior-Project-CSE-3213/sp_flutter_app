@@ -54,14 +54,31 @@ class MainDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.event),
             title: Text(
-              'Events',
+              'Event Map',
               style: TextStyle(
                 fontSize: 18,
               ),
             ),
             onTap: () {
               if (ModalRoute.of(context)?.settings?.name != mapViewRoute) {
-                Navigator.of(context).pushNamed(mapViewRoute);
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil(mapViewRoute, (route) => false);
+              } else {
+                Navigator.pop(context);
+              }
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.event),
+            title: Text(
+              'Events',
+              style: TextStyle(
+                fontSize: 18,
+              ),
+            ),
+            onTap: () {
+              if (ModalRoute.of(context)?.settings?.name != eventViewRoute) {
+                Navigator.of(context).pushNamed(eventViewRoute);
               } else {
                 Navigator.pop(context);
               }
