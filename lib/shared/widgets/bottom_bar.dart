@@ -75,86 +75,83 @@ class _BottomNavBarState extends State<BottomNavBar> {
           print("Switching to bottom_bar index $_selectedIndex");
         });
       },
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 25),
-        child: Container(
-            height: 55,
-            width: MediaQuery.of(context).size.width / _iconList.length,
-            //ELV
-            decoration: (_NBID == 0
-                ? ((index == _selectedIndex && index != 0)
-                    ? BoxDecoration(
-                        color: Colors.amber[900],
-                        gradient: new RadialGradient(
-                            colors: [
-                              Color.fromRGBO(213, 92, 5, 1),
-                              Color.fromRGBO(25, 28, 35, 1)
-                            ],
-                            center: Alignment(0, 0.7),
-                            radius: 0.12,
-                            tileMode: TileMode.clamp,
-                            stops: [0.3, 0.7]),
-                      )
-                    : BoxDecoration(color: Color.fromRGBO(25, 28, 35, 1)))
-                //default decoration, you can specify your own like I did for ELV by adding more conditional statements here
-                : (index == _selectedIndex
-                    ? BoxDecoration(
-                        color: Colors.amber[900],
-                        gradient: new RadialGradient(
-                            colors: [
-                              Color.fromRGBO(213, 92, 5, 1),
-                              Color.fromRGBO(25, 28, 35, 1)
-                            ],
-                            center: Alignment(0, 0.7),
-                            radius: 0.12,
-                            tileMode: TileMode.clamp,
-                            stops: [0.3, 0.7]),
-                      )
-                    : null)),
-            //NOTE: these are not IconButtons so that we can have this indicator dot
-            child: (_NBID == 0
-                ?
-                //ELV
-                //if index is 2, we draw a custom icon
-                (index == 2
-                    ? Align(
-                        child: SvgPicture.asset(
-                            "assets/svgs/magnifying_glass.svg",
-                            width: 26,
-                            height: 26,
-                            color: Colors.white),
-                      )
-                    //on index 0, we use a stack to make the purple plus and color it accordingly
-                    : (index == 0
-                        ? Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              Icon(
-                                icon,
-                                color: Color.fromRGBO(125, 62, 255, 1),
-                                size: 38,
-                              ),
-                              Icon(
-                                Icons.add,
-                                color: Colors.white,
-                                size: 26,
-                              ),
-                            ],
-                          )
-                        //regular icon coloring
-                        : Icon(
-                            icon,
-                            color: Colors.white,
-                            size: 28,
-                          )))
+      child: Container(
+          height: 55,
+          width: MediaQuery.of(context).size.width / _iconList.length,
+          //ELV
+          decoration: (_NBID == 0
+              ? ((index == _selectedIndex && index != 0)
+                  ? BoxDecoration(
+                      color: Colors.amber[900],
+                      gradient: new RadialGradient(
+                          colors: [
+                            Color.fromRGBO(213, 92, 5, 1),
+                            Color.fromRGBO(25, 28, 35, 1)
+                          ],
+                          center: Alignment(0, 0.7),
+                          radius: 0.12,
+                          tileMode: TileMode.clamp,
+                          stops: [0.3, 0.7]),
+                    )
+                  : BoxDecoration(color: Color.fromRGBO(25, 28, 35, 1)))
+              //default decoration, you can specify your own like I did for ELV by adding more conditional statements here
+              : (index == _selectedIndex
+                  ? BoxDecoration(
+                      color: Colors.amber[900],
+                      gradient: new RadialGradient(
+                          colors: [
+                            Color.fromRGBO(213, 92, 5, 1),
+                            Color.fromRGBO(25, 28, 35, 1)
+                          ],
+                          center: Alignment(0, 0.7),
+                          radius: 0.12,
+                          tileMode: TileMode.clamp,
+                          stops: [0.3, 0.7]),
+                    )
+                  : null)),
+          //NOTE: these are not IconButtons so that we can have this indicator dot
+          child: (_NBID == 0
+              ?
+              //ELV
+              //if index is 2, we draw a custom icon
+              (index == 2
+                  ? Align(
+                      child: SvgPicture.asset(
+                          "assets/svgs/magnifying_glass.svg",
+                          width: 26,
+                          height: 26,
+                          color: Colors.white),
+                    )
+                  //on index 0, we use a stack to make the purple plus and color it accordingly
+                  : (index == 0
+                      ? Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Icon(
+                              icon,
+                              color: Color.fromRGBO(125, 62, 255, 1),
+                              size: 38,
+                            ),
+                            Icon(
+                              Icons.add,
+                              color: Colors.white,
+                              size: 26,
+                            ),
+                          ],
+                        )
+                      //regular icon coloring
+                      : Icon(
+                          icon,
+                          color: Colors.white,
+                          size: 28,
+                        )))
 
-                //default here from (_NBID == 0) we could test here for other NBID values
-                : Icon(
-                    icon,
-                    color: Colors.white,
-                    size: 28,
-                  ))),
-      ),
+              //default here from (_NBID == 0) we could test here for other NBID values
+              : Icon(
+                  icon,
+                  color: Colors.white,
+                  size: 28,
+                ))),
     );
   }
 }
