@@ -3,6 +3,8 @@ import 'package:flutter/rendering.dart';
 import 'package:filter_list/filter_list.dart';
 import 'package:sp_flutter_app/shared/constants.dart';
 import 'package:sp_flutter_app/shared/widgets/bottom_bar.dart';
+import 'package:sp_flutter_app/shared/widgets/heading_text.dart';
+import 'package:sp_flutter_app/shared/widgets/scaffold_with_gradient.dart';
 
 class EventListView extends StatefulWidget {
   @override
@@ -40,136 +42,105 @@ class _EventListViewState extends State<EventListView> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
 
-    return Scaffold(
-        backgroundColor: Color.fromRGBO(25, 28, 35, 1),
-        bottomNavigationBar: BottomNavBar(
-          defaultSelectedIndex: 1,
-          onChange: (val) {
-            setState(() {
-              if (val == 0) {
-                //TODO get event details from user and confirm
-                //now sam will make an event in the database with the returned data
-              }
-            });
-          },
-          iconList: [
-            Icons.add_circle,
-            Icons.home,
-            Icons.find_in_page,
-            Icons.person,
-          ],
-          NBID: 0,
-        ),
-        body: Padding(
-          padding: const EdgeInsets.only(
-              top: kDefaultPadding,
-              bottom: kDefaultPadding,
-              left: kDefaultPadding * 0.15,
-              right: kDefaultPadding * 0.15),
-          child: Container(
-              height: size.height,
-              width: size.width,
-              child: Column(children: <Widget>[
-                Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.only(
-                          bottom: kDefaultPadding, left: 2 * kDefaultPadding),
-                      child: Text(
-                        "Sponsored Events",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20),
-                      ),
-                    )
-                  ],
-                ),
-                Container(
-                  height: 210,
-                  child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: <Widget>[
-                        CreateSponsoredEventCard(
-                            "Become an RA interest meeting",
-                            "Taylor Auditorium",
-                            "Wednesday, 7:30PM"),
-                        CreateSponsoredEventCard("Intramural Football",
-                            "Intramural Fields", "Friday, 6:30PM"),
-                        CreateSponsoredEventCard(
-                            "Dawgs After Dark", "The Hump", "Thursday, 9:30PM"),
-                        CreateSponsoredEventCard("Cowbell yell",
-                            "Bettersworth Auditorium", "Sunday, 5:00PM"),
-                      ]),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      bottom: kDefaultPadding,
-                      top: kDefaultPadding,
-                      left: kDefaultPadding * 2,
-                      right: kDefaultPadding * 2),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      //latest event
-                      Column(
-                        children: [
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            child: Text(
-                              "Latest Events",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20),
-                            ),
-                          )
-                        ],
-                      ),
-
-                      Column(
-                        children: <Widget>[
-                          Container(
-                            //take away this
-                            child: IconButton(
-                              icon: Icon(Icons.view_headline),
-                              color: Colors.white,
-                              onPressed: _openFilterDialog,
-                              iconSize: 30,
-                            ),
-                          ),
-                          Container(
-                            child: Text(
-                              "Filter",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                    child: ListView(
-                  scrollDirection: Axis.vertical,
+    return ScaffoldWithGradient(
+      bottomBar: true,
+      children: [
+        SafeArea(
+          child: SingleChildScrollView(
+            child: Container(
+              margin: EdgeInsets.symmetric(
+                horizontal: kDefaultPadding,
+                vertical: kDefaultPadding,
+              ),
+              child: Container(
+                height: size.height,
+                width: size.width,
+                child: Column(
                   children: <Widget>[
-                    CreateLatestEventCard("Intramural Football",
-                        "Intramural Fields", "Friday, 6:30PM"),
-                    CreateLatestEventCard(
-                        "Dawgs After Dark", "The Hump", "Thursday, 9:30PM"),
-                    CreateLatestEventCard("Cowbell yell",
-                        "Bettersworth Auditorium", "Sunday, 5:00PM"),
-                    CreateLatestEventCard("Become an RA interest meeting",
-                        "Taylor Auditorium", "Wednesday, 7:30PM"),
+                    Container(
+                      width: size.width,
+                      padding: const EdgeInsets.only(
+                        left: kDefaultPadding,
+                        right: kDefaultPadding,
+                        bottom: kDefaultPadding,
+                      ),
+                      child: HeadingText(
+                        text: "Sponsored Events",
+                        scale: 0.5,
+                        align: TextAlign.left,
+                      ),
+                    ),
+                    Container(
+                      height: 210,
+                      child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: <Widget>[
+                            CreateSponsoredEventCard(
+                                "Become an RA interest meeting",
+                                "Taylor Auditorium",
+                                "Wednesday, 7:30PM"),
+                            CreateSponsoredEventCard("Intramural Football",
+                                "Intramural Fields", "Friday, 6:30PM"),
+                            CreateSponsoredEventCard("Dawgs After Dark",
+                                "The Hump", "Thursday, 9:30PM"),
+                            CreateSponsoredEventCard("Cowbell yell",
+                                "Bettersworth Auditorium", "Sunday, 5:00PM"),
+                          ]),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        //latest event
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: kDefaultPadding,
+                            vertical: kDefaultPadding,
+                          ),
+                          child: HeadingText(
+                            text: "Latest Events",
+                            scale: 0.5,
+                            align: TextAlign.left,
+                          ),
+                        ),
+                        Container(
+                          //take away this
+                          child: IconButton(
+                            icon: Icon(Icons.filter_list),
+                            color: Colors.white,
+                            onPressed: _openFilterDialog,
+                            iconSize: 30,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Flexible(
+                      fit: FlexFit.loose,
+                      child: ListView(
+                        scrollDirection: Axis.vertical,
+                        children: <Widget>[
+                          CreateLatestEventCard("Intramural Football",
+                              "Intramural Fields", "Friday, 6:30PM"),
+                          CreateLatestEventCard("Dawgs After Dark", "The Hump",
+                              "Thursday, 9:30PM"),
+                          CreateLatestEventCard("Cowbell yell",
+                              "Bettersworth Auditorium", "Sunday, 5:00PM"),
+                          CreateLatestEventCard("Become an RA interest meeting",
+                              "Taylor Auditorium", "Wednesday, 7:30PM"),
+                          CreateLatestEventCard("Become an RA interest meeting",
+                              "Taylor Auditorium", "Wednesday, 7:30PM"),
+                          CreateLatestEventCard("Become an RA interest meeting",
+                              "Taylor Auditorium", "Wednesday, 7:30PM"),
+                        ],
+                      ),
+                    ),
                   ],
-                ))
-              ])),
-        ));
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
 
@@ -368,7 +339,7 @@ class CreateLatestEventCard extends StatelessWidget {
                       Text(
                         _locationLengthCheck(this.eventLocation),
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Colors.grey[400],
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
                         ),
@@ -377,7 +348,7 @@ class CreateLatestEventCard extends StatelessWidget {
                       Text(
                         _timeLengthCheck(this.eventTime),
                         style: TextStyle(
-                          color: Color.fromRGBO(203, 115, 239, 1),
+                          color: secondaryColor,
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
                         ),
