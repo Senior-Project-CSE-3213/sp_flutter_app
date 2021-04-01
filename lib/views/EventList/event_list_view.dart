@@ -101,13 +101,14 @@ class _EventListViewState extends State<EventListView> {
     DateTime pickedEndDate = DateTime.now();
     TimeOfDay pickedEndTime = TimeOfDay.now();
 
-    DateTime initStartDate = DateTime.now();
-    TimeOfDay initStartTime = TimeOfDay.now();
-    DateTime initEndDate = DateTime.now();
-    TimeOfDay initEndTime = TimeOfDay.now();
+    DateTime initStartDate = pickedStartDate;
+    TimeOfDay initStartTime = pickedStartTime;
+    DateTime initEndDate = pickedEndDate;
+    TimeOfDay initEndTime = pickedEndTime;
 
     String eventLocation = "";
     String eventTitle = "";
+    String errorMessage = "";
 
     return await showDialog(
         context: context,
@@ -330,8 +331,23 @@ class _EventListViewState extends State<EventListView> {
                         SizedBox(height: 10),
                         ListTile(
                           title: Text(
-                            "Start: ${_formatEventDate(pickedStartDate)} ${pickedStartTime.hour > 12 ? pickedStartTime.hour - 12 : pickedStartTime.hour}:${pickedStartTime.minute.toString().length == 1 ? "0" : ""}${pickedStartTime.minute}${pickedStartTime.hour >= 12 ? "PM" : "AM"} (${pickedStartDate.timeZoneName})" +
-                                "\nEnd: ${_formatEventDate(pickedEndDate)} ${pickedEndTime.hour > 12 ? pickedEndTime.hour - 12 : pickedEndTime.hour}:${pickedEndTime.minute.toString().length == 1 ? "0" : ""}${pickedEndTime.minute}${pickedEndTime.hour >= 12 ? "PM" : "AM"} (${pickedEndDate.timeZoneName})",
+                            (pickedStartDate == initStartDate
+                                    ? "Start date not chosen yet"
+                                    : "Start: ${_formatEventDate(pickedStartDate)}") +
+                                "\n" +
+                                ((pickedStartTime == initStartTime)
+                                    ? "Start time not chosen yet"
+                                    : "${pickedStartTime.hour > 12 ? pickedStartTime.hour - 12 : pickedStartTime.hour}:" +
+                                        "${pickedStartTime.minute.toString().length == 1 ? "0" : ""}${pickedStartTime.minute}${pickedStartTime.hour >= 12 ? "PM" : "AM"} (${pickedStartDate.timeZoneName})") +
+                                "\n" +
+                                (pickedEndDate == initEndDate
+                                    ? "End date not chosen yet"
+                                    : "End: ${_formatEventDate(pickedEndDate)}") +
+                                "\n" +
+                                ((pickedEndTime == initEndTime
+                                    ? "End Time not chosen yet"
+                                    : "${pickedEndTime.hour > 12 ? pickedEndTime.hour - 12 : pickedEndTime.hour}:" +
+                                        "${pickedEndTime.minute.toString().length == 1 ? "0" : ""}${pickedEndTime.minute}${pickedEndTime.hour >= 12 ? "PM" : "AM"} (${pickedEndDate.timeZoneName})")),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 14.0,
@@ -412,29 +428,69 @@ class _EventListViewState extends State<EventListView> {
                               ),
                               onPressed: () {
                                 print("Validating data...");
+                                var currentDate = DateTime.now();
+                                var currentTime = TimeOfDay.now();
 
-                                if (eventTitle == null ||
+                                //make sure abosolute start time is before absolute end time
+                                var absoluteStartTime = new DateTime(
+                                    pickedStartDate.year,
+                                    pickedStartDate.month,
+                                    pickedStartDate.day,
+                                    pickedStartTime.hour,
+                                    pickedStartTime.minute);
+
+                                var absoluteEndTime = new DateTime(
+                                    pickedEndDate.year,
+                                    pickedEndDate.month,
+                                    pickedEndDate.day,
+                                    pickedEndTime.hour,
+                                    pickedEndTime.minute);
+
+                                if (absoluteEndTime
+                                    .isBefore(absoluteStartTime)) {
+                                  errorMessage =
+                                      "End time is before start time";
+                                } else if (pickedStartDate
+                                    .isBefore(currentDate)) {
+                                  errorMessage = "Start date is back in time";
+                                } else if ((pickedStartTime.hour <
+                                        currentTime.hour) ||
+                                    ((pickedStartTime.hour ==
+                                            currentTime.hour) &&
+                                        (pickedStartTime.minute <=
+                                            currentTime.minute))) {
+                                  errorMessage = "Start time is back in time";
+                                } else if (pickedEndDate
+                                    .isBefore(currentDate)) {
+                                  errorMessage = "End date is back in time";
+                                } else if ((pickedEndTime.hour <
+                                        currentTime.hour) ||
+                                    ((pickedEndTime.hour == currentTime.hour) &&
+                                        (pickedEndTime.minute <=
+                                            currentTime.minute))) {
+                                  errorMessage = "End time is back in time";
+                                } else if (eventTitle == null ||
                                     eventTitle.toString().length == 0) {
-                                  print("Invalid event title");
+                                  errorMessage = "Invalid event title";
                                 } else if (eventLocation == null ||
                                     eventLocation.toString().length == 0) {
-                                  print("Invalid event location");
+                                  errorMessage = "Invalid event location";
                                 } else if (pickedStartDate == null ||
                                     pickedStartDate.toString().length == 0 ||
                                     pickedStartDate == initStartDate) {
-                                  print("Invalid start date");
+                                  errorMessage = "Invalid start date";
                                 } else if (pickedStartTime == null ||
                                     pickedStartTime.toString().length == 0 ||
                                     pickedStartTime == initStartTime) {
-                                  print("Invalid start time");
+                                  errorMessage = "Invalid start time";
                                 } else if (pickedEndDate == null ||
                                     pickedEndDate.toString().length == 0 ||
                                     pickedEndDate == initEndDate) {
-                                  print("Invalid end date");
+                                  errorMessage = "Invalid end date";
                                 } else if (pickedEndTime == null ||
                                     pickedEndTime.toString().length == 0 ||
                                     pickedEndTime == initEndTime) {
-                                  print("Invalid end time");
+                                  errorMessage = "Invalid end time";
                                 } else {
                                   print("Data valid; event data summary:");
                                   print(eventTitle.toString());
@@ -443,8 +499,22 @@ class _EventListViewState extends State<EventListView> {
                                   print(pickedStartTime.toString());
                                   print(pickedEndDate.toString());
                                   print(pickedEndTime.toString());
+
+                                  //close menu
+                                  Navigator.of(context).pop([null]);
                                 }
                               },
+                            ),
+                            ListTile(
+                              title: Text(
+                                "$errorMessage",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 14.0,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -527,12 +597,18 @@ class _EventListViewState extends State<EventListView> {
                                   "Intramural Fields", "Friday, 6:30PM"),
                               CreateSponsoredEventCard("Dawgs After Dark",
                                   "The Hump", "Thursday, 9:30PM"),
-                              CreateSponsoredEventCard("Cowbell yell",
-                                  "Bettersworth Auditorium", "A super long and weird time that should overflow"),
-                              CreateSponsoredEventCard("Cowbell yell",
-                                  "A super long event locatation that should overflow", "Sunday, 5:00PM"),
-                              CreateSponsoredEventCard("A super long title that should overflow",
-                                  "Bettersworth Auditorium", "Sunday, 5:00PM"),
+                              CreateSponsoredEventCard(
+                                  "Cowbell yell",
+                                  "Bettersworth Auditorium",
+                                  "A super long and weird time that should overflow"),
+                              CreateSponsoredEventCard(
+                                  "Cowbell yell",
+                                  "A super long event locatation that should overflow",
+                                  "Sunday, 5:00PM"),
+                              CreateSponsoredEventCard(
+                                  "A super long title that should overflow",
+                                  "Bettersworth Auditorium",
+                                  "Sunday, 5:00PM"),
                             ]),
                       ),
                       Padding(
@@ -588,8 +664,12 @@ class _EventListViewState extends State<EventListView> {
                         ),
                       ),
                       Container(
-                        //this is a bodge, I need to figure out how to properly make it so events at the bottom of the list aren't cut off
-                          height: size.height - 410 - 2 * kDefaultPadding - 10 - 2 * kDefaultPadding,
+                          //this is a bodge, I need to figure out how to properly make it so events at the bottom of the list aren't cut off
+                          height: size.height -
+                              410 -
+                              2 * kDefaultPadding -
+                              10 -
+                              2 * kDefaultPadding,
                           child: ListView(
                             physics: BouncingScrollPhysics(),
                             scrollDirection: Axis.vertical,
@@ -612,9 +692,13 @@ class _EventListViewState extends State<EventListView> {
                                   "Become an RA interest meeting",
                                   "Taylor Auditorium",
                                   "Wednesday, 7:30PM"),
-                              CreateLatestEventCard("A super long title that should overflow on this card and newline", "my backyard",
+                              CreateLatestEventCard(
+                                  "A super long title that should overflow on this card and newline",
+                                  "my backyard",
                                   "Wednesday, 7:30PM"),
-                              CreateLatestEventCard("last card", "a super long location that should overflow",
+                              CreateLatestEventCard(
+                                  "last card",
+                                  "a super long location that should overflow",
                                   "Wednesday, 7:30PM"),
                               CreateLatestEventCard("last card", "my backyard",
                                   "A super long time that should overflow"),
@@ -697,7 +781,7 @@ class CreateSponsoredEventCard extends StatelessWidget {
                           _locationLengthCheck(this.eventLocation),
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 16,
+                            fontSize: 14,
                             fontWeight: FontWeight.bold,
                           ),
                           overflow: TextOverflow.fade,
@@ -827,7 +911,7 @@ class CreateLatestEventCard extends StatelessWidget {
                       Text(
                         _locationLengthCheck(this.eventLocation),
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Colors.grey[500],
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
                         ),
