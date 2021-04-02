@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:filter_list/filter_list.dart';
@@ -95,7 +97,61 @@ class _EventListViewState extends State<EventListView> {
     return "$weekdayName $monthName ${dt.day}, ${dt.year}";
   }
 
-  Future<List<String>> _createEventDialog(BuildContext context) async {
+  Future<void> _informSuccess(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Color.fromRGBO(25, 28, 35, 1),
+          title: Text(
+                  "Event Created",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: 26.0,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                SizedBox(height: 20),
+                Text(
+                  "Your event has been successfuly created!",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.grey[500],
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  "Others should now be able to see your event and register.",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.grey[500],
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Sounds good'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future _createEventDialog(BuildContext context) async {
     DateTime pickedStartDate = DateTime.now();
     TimeOfDay pickedStartTime = TimeOfDay.now();
     DateTime pickedEndDate = DateTime.now();
@@ -431,7 +487,13 @@ class _EventListViewState extends State<EventListView> {
                                 var currentDate = DateTime.now();
                                 var currentTime = TimeOfDay.now();
 
-                                //make sure abosolute start time is before absolute end time
+                                var absoluteCurrentTime = new DateTime(
+                                    currentDate.year,
+                                    currentDate.month,
+                                    currentDate.day,
+                                    currentTime.hour,
+                                    currentTime.minute);
+
                                 var absoluteStartTime = new DateTime(
                                     pickedStartDate.year,
                                     pickedStartDate.month,
@@ -448,51 +510,57 @@ class _EventListViewState extends State<EventListView> {
 
                                 if (absoluteEndTime
                                     .isBefore(absoluteStartTime)) {
-                                  errorMessage =
-                                      "End time is before start time";
-                                } else if (pickedStartDate
-                                    .isBefore(currentDate)) {
-                                  errorMessage = "Start date is back in time";
-                                } else if ((pickedStartTime.hour <
-                                        currentTime.hour) ||
-                                    ((pickedStartTime.hour ==
-                                            currentTime.hour) &&
-                                        (pickedStartTime.minute <=
-                                            currentTime.minute))) {
-                                  errorMessage = "Start time is back in time";
-                                } else if (pickedEndDate
-                                    .isBefore(currentDate)) {
-                                  errorMessage = "End date is back in time";
-                                } else if ((pickedEndTime.hour <
-                                        currentTime.hour) ||
-                                    ((pickedEndTime.hour == currentTime.hour) &&
-                                        (pickedEndTime.minute <=
-                                            currentTime.minute))) {
-                                  errorMessage = "End time is back in time";
+                                  setState(() {
+                                    errorMessage =
+                                        "End time is before start time";
+                                  });
+                                } else if (absoluteEndTime
+                                    .isBefore(absoluteCurrentTime)) {
+                                  setState(() {
+                                    errorMessage =
+                                        "End time is before current time";
+                                  });
+                                } else if (absoluteStartTime
+                                    .isBefore(absoluteCurrentTime)) {
+                                  setState(() {
+                                    errorMessage =
+                                        "Start time is before current time";
+                                  });
                                 } else if (eventTitle == null ||
                                     eventTitle.toString().length == 0) {
-                                  errorMessage = "Invalid event title";
+                                  setState(() {
+                                    errorMessage = "Invalid event title";
+                                  });
                                 } else if (eventLocation == null ||
                                     eventLocation.toString().length == 0) {
-                                  errorMessage = "Invalid event location";
+                                  setState(() {
+                                    errorMessage = "Invalid event location";
+                                  });
                                 } else if (pickedStartDate == null ||
                                     pickedStartDate.toString().length == 0 ||
                                     pickedStartDate == initStartDate) {
-                                  errorMessage = "Invalid start date";
+                                  setState(() {
+                                    errorMessage = "Invalid start date";
+                                  });
                                 } else if (pickedStartTime == null ||
                                     pickedStartTime.toString().length == 0 ||
                                     pickedStartTime == initStartTime) {
-                                  errorMessage = "Invalid start time";
+                                  setState(() {
+                                    errorMessage = "Invalid start time";
+                                  });
                                 } else if (pickedEndDate == null ||
                                     pickedEndDate.toString().length == 0 ||
                                     pickedEndDate == initEndDate) {
-                                  errorMessage = "Invalid end date";
+                                  setState(() {
+                                    errorMessage = "Invalid end date";
+                                  });
                                 } else if (pickedEndTime == null ||
                                     pickedEndTime.toString().length == 0 ||
                                     pickedEndTime == initEndTime) {
-                                  errorMessage = "Invalid end time";
+                                  setState(() {
+                                    errorMessage = "Invalid end time";
+                                  });
                                 } else {
-                                  print("Data valid; event data summary:");
                                   print(eventTitle.toString());
                                   print(eventLocation.toString());
                                   print(pickedStartDate.toString());
@@ -500,23 +568,25 @@ class _EventListViewState extends State<EventListView> {
                                   print(pickedEndDate.toString());
                                   print(pickedEndTime.toString());
 
-                                  //close menu
+                                  //TODO put event details in database and update client views
+
                                   Navigator.of(context).pop([null]);
+                                  _informSuccess(context);
                                 }
                               },
                             ),
-                            ListTile(
-                              title: Text(
-                                "$errorMessage",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 14.0,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
                           ],
+                        ),
+                        ListTile(
+                          title: Text(
+                            "$errorMessage",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ],
                     ),
