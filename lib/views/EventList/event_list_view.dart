@@ -610,7 +610,7 @@ class _EventListViewState extends State<EventListView> {
             bottomNavigationBar: BottomNavBar(
               defaultSelectedIndex: 1,
               onChange: (val) {
-                setState(() async {
+                setState(() {
                   if (val == 0) {
                     _createEventDialog(context);
                   }
@@ -624,161 +624,156 @@ class _EventListViewState extends State<EventListView> {
               ],
               NBID: 0,
             ),
-            body: SingleChildScrollView(
-              physics: const NeverScrollableScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              child: Padding(
-                padding: const EdgeInsets.only(
-                    top: kDefaultPadding,
-                    bottom: kDefaultPadding,
-                    left: kDefaultPadding * 0.15,
-                    right: kDefaultPadding * 0.15),
-                child: Container(
-                    height: size.height,
-                    width: size.width,
-                    child: Column(children: <Widget>[
-                      Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.only(
-                                bottom: kDefaultPadding,
-                                left: 2 * kDefaultPadding),
-                            child: Text(
-                              "Sponsored Events",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20),
-                            ),
-                          )
-                        ],
-                      ),
-                      Container(
-                        height: 210,
-                        child: ListView(
-                            physics: BouncingScrollPhysics(),
-                            scrollDirection: Axis.horizontal,
-                            children: <Widget>[
-                              CreateSponsoredEventCard(
-                                  "Become an RA interest meeting",
-                                  "Taylor Auditorium",
-                                  "Wednesday, 7:30PM"),
-                              CreateSponsoredEventCard("Intramural Football",
-                                  "Intramural Fields", "Friday, 6:30PM"),
-                              CreateSponsoredEventCard("Dawgs After Dark",
-                                  "The Hump", "Thursday, 9:30PM"),
-                              CreateSponsoredEventCard(
-                                  "Cowbell yell",
-                                  "Bettersworth Auditorium",
-                                  "A super long and weird time that should overflow"),
-                              CreateSponsoredEventCard(
-                                  "Cowbell yell",
-                                  "A super long event locatation that should overflow",
-                                  "Sunday, 5:00PM"),
-                              CreateSponsoredEventCard(
-                                  "A super long title that should overflow",
-                                  "Bettersworth Auditorium",
-                                  "Sunday, 5:00PM"),
-                            ]),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            bottom: kDefaultPadding,
-                            top: kDefaultPadding,
-                            left: kDefaultPadding * 2,
-                            right: kDefaultPadding * 2),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            body: Container(
+             
+                
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      top: kDefaultPadding,
+                      bottom: kDefaultPadding,
+                      left: kDefaultPadding * 0.15,
+                      right: kDefaultPadding * 0.15),
+                  child: Container(
+                      height: size.height,
+                      width: size.width,
+                      child: Column(children: <Widget>[
+                        Row(
                           children: [
-                            //latest event
-                            Column(
-                              children: [
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Container(
-                                  child: Text(
-                                    "Latest Events",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
-                                  ),
-                                )
-                              ],
-                            ),
-
-                            Column(
-                              children: <Widget>[
-                                Container(
-                                  //take away this
-                                  child: IconButton(
-                                    icon: Icon(Icons.view_headline),
+                            Container(
+                              padding: const EdgeInsets.only(
+                                  bottom: kDefaultPadding,
+                                  left: 2 * kDefaultPadding),
+                              child: Text(
+                                "Sponsored Events",
+                                style: TextStyle(
                                     color: Colors.white,
-                                    onPressed: _openFilterDialog,
-                                    iconSize: 30,
-                                  ),
-                                ),
-                                Container(
-                                  child: Text(
-                                    "Filter",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 12),
-                                  ),
-                                ),
-                              ],
-                            ),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20),
+                              ),
+                            )
                           ],
                         ),
-                      ),
-                      Container(
-                          //this is a bodge, I need to figure out how to properly make it so events at the bottom of the list aren't cut off
-                          height: size.height -
-                              410 -
-                              2 * kDefaultPadding -
-                              10 -
-                              2 * kDefaultPadding,
+                        Container(
+                          height: 210,
                           child: ListView(
-                            physics: BouncingScrollPhysics(),
-                            scrollDirection: Axis.vertical,
-                            children: <Widget>[
-                              CreateLatestEventCard("Intramural Football",
-                                  "Intramural Fields", "Friday, 6:30PM"),
-                              CreateLatestEventCard("Dawgs After Dark",
-                                  "The Hump", "Thursday, 9:30PM"),
-                              CreateLatestEventCard("Cowbell yell",
-                                  "Bettersworth Auditorium", "Sunday, 5:00PM"),
-                              CreateLatestEventCard(
-                                  "Become an RA interest meeting",
-                                  "Taylor Auditorium",
-                                  "Wednesday, 7:30PM"),
-                              CreateLatestEventCard(
-                                  "Become an RA interest meeting",
-                                  "Taylor Auditorium",
-                                  "Wednesday, 7:30PM"),
-                              CreateLatestEventCard(
-                                  "Become an RA interest meeting",
-                                  "Taylor Auditorium",
-                                  "Wednesday, 7:30PM"),
-                              CreateLatestEventCard(
-                                  "A super long title that should overflow on this card and newline",
-                                  "my backyard",
-                                  "Wednesday, 7:30PM"),
-                              CreateLatestEventCard(
-                                  "last card",
-                                  "a super long location that should overflow",
-                                  "Wednesday, 7:30PM"),
-                              CreateLatestEventCard("last card", "my backyard",
-                                  "A super long time that should overflow"),
-                              CreateLatestEventCard("last card actually",
-                                  "my backyard", "Wednesday, 7:30PM"),
+                              physics: BouncingScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              children: <Widget>[
+                                CreateSponsoredEventCard(
+                                    "Become an RA interest meeting",
+                                    "Taylor Auditorium",
+                                    "Wednesday, 7:30PM"),
+                                CreateSponsoredEventCard("Intramural Football",
+                                    "Intramural Fields", "Friday, 6:30PM"),
+                                CreateSponsoredEventCard("Dawgs After Dark",
+                                    "The Hump", "Thursday, 9:30PM"),
+                                CreateSponsoredEventCard(
+                                    "Cowbell yell",
+                                    "Bettersworth Auditorium",
+                                    "A super long and weird time that should overflow"),
+                                CreateSponsoredEventCard(
+                                    "Cowbell yell",
+                                    "A super long event locatation that should overflow",
+                                    "Sunday, 5:00PM"),
+                                CreateSponsoredEventCard(
+                                    "A super long title that should overflow",
+                                    "Bettersworth Auditorium",
+                                    "Sunday, 5:00PM"),
+                              ]),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              bottom: kDefaultPadding,
+                              top: kDefaultPadding,
+                              left: kDefaultPadding * 2,
+                              right: kDefaultPadding * 2),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              //latest event
+                              Column(
+                                children: [
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Container(
+                                    child: Text(
+                                      "Latest Events",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
+                                  )
+                                ],
+                              ),
+
+                              Column(
+                                children: <Widget>[
+                                  Container(
+                                    //take away this
+                                    child: IconButton(
+                                      icon: Icon(Icons.view_headline),
+                                      color: Colors.white,
+                                      onPressed: _openFilterDialog,
+                                      iconSize: 30,
+                                    ),
+                                  ),
+                                  Container(
+                                    child: Text(
+                                      "Filter",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 12),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ],
-                          ))
-                    ])),
+                          ),
+                        ),
+                        Expanded(
+                            child: ListView(
+                              physics: BouncingScrollPhysics(),
+                              scrollDirection: Axis.vertical,
+                              children: <Widget>[
+                                CreateLatestEventCard("Intramural Football",
+                                    "Intramural Fields", "Friday, 6:30PM"),
+                                CreateLatestEventCard("Dawgs After Dark",
+                                    "The Hump", "Thursday, 9:30PM"),
+                                CreateLatestEventCard("Cowbell yell",
+                                    "Bettersworth Auditorium", "Sunday, 5:00PM"),
+                                CreateLatestEventCard(
+                                    "Become an RA interest meeting",
+                                    "Taylor Auditorium",
+                                    "Wednesday, 7:30PM"),
+                                CreateLatestEventCard(
+                                    "Become an RA interest meeting",
+                                    "Taylor Auditorium",
+                                    "Wednesday, 7:30PM"),
+                                CreateLatestEventCard(
+                                    "Become an RA interest meeting",
+                                    "Taylor Auditorium",
+                                    "Wednesday, 7:30PM"),
+                                CreateLatestEventCard(
+                                    "A super long title that should overflow on this card and newline",
+                                    "my backyard",
+                                    "Wednesday, 7:30PM"),
+                                CreateLatestEventCard(
+                                    "3rd to last card",
+                                    "a super long location that should overflow",
+                                    "Wednesday, 7:30PM"),
+                                CreateLatestEventCard("2nd to last card", "my backyard",
+                                    "A super long time that should overflow"),
+                                CreateLatestEventCard("last card actually",
+                                    "my backyard", "Wednesday, 7:30PM"),
+                              ],
+                            ))
+                      ])),
+                ),
               ),
-            )));
+            ));
   }
 }
 
