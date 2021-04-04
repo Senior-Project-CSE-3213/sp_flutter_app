@@ -105,14 +105,14 @@ class _EventListViewState extends State<EventListView> {
         return AlertDialog(
           backgroundColor: Color.fromRGBO(25, 28, 35, 1),
           title: Text(
-                  "Event Created",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontSize: 26.0,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+            "Event Created",
+            textAlign: TextAlign.left,
+            style: TextStyle(
+              fontSize: 26.0,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
@@ -387,22 +387,22 @@ class _EventListViewState extends State<EventListView> {
                         SizedBox(height: 10),
                         ListTile(
                           title: Text(
-                            (pickedStartDate == initStartDate
-                                    ? "Start date not chosen yet"
-                                    : "Start: ${_formatEventDate(pickedStartDate)}") +
+                            (pickedStartDate == initStartDate || pickedStartDate == null
+                                    ? "Start date: not chosen yet"
+                                    : "Start date: ${_formatEventDate(pickedStartDate)}") +
                                 "\n" +
-                                ((pickedStartTime == initStartTime)
-                                    ? "Start time not chosen yet"
-                                    : "${pickedStartTime.hour > 12 ? pickedStartTime.hour - 12 : pickedStartTime.hour}:" +
+                                ((pickedStartTime == initStartTime || pickedStartTime == null)
+                                    ? "Start time: not chosen yet"
+                                    : "Start time: ${pickedStartTime.hour > 12 ? pickedStartTime.hour - 12 : pickedStartTime.hour}:" +
                                         "${pickedStartTime.minute.toString().length == 1 ? "0" : ""}${pickedStartTime.minute}${pickedStartTime.hour >= 12 ? "PM" : "AM"} (${pickedStartDate.timeZoneName})") +
                                 "\n" +
-                                (pickedEndDate == initEndDate
-                                    ? "End date not chosen yet"
-                                    : "End: ${_formatEventDate(pickedEndDate)}") +
+                                (pickedEndDate == initEndDate || pickedEndDate == null
+                                    ? "End date: not chosen yet"
+                                    : "End date: ${_formatEventDate(pickedEndDate)}") +
                                 "\n" +
-                                ((pickedEndTime == initEndTime
-                                    ? "End Time not chosen yet"
-                                    : "${pickedEndTime.hour > 12 ? pickedEndTime.hour - 12 : pickedEndTime.hour}:" +
+                                ((pickedEndTime == initEndTime || pickedEndTime == null
+                                    ? "End Time: not chosen yet"
+                                    : "End Time: ${pickedEndTime.hour > 12 ? pickedEndTime.hour - 12 : pickedEndTime.hour}:" +
                                         "${pickedEndTime.minute.toString().length == 1 ? "0" : ""}${pickedEndTime.minute}${pickedEndTime.hour >= 12 ? "PM" : "AM"} (${pickedEndDate.timeZoneName})")),
                             textAlign: TextAlign.center,
                             style: TextStyle(
@@ -487,6 +487,30 @@ class _EventListViewState extends State<EventListView> {
                                 var currentDate = DateTime.now();
                                 var currentTime = TimeOfDay.now();
 
+                                if (pickedStartDate == null) {
+                                  pickedStartDate = DateTime.now();
+                                }
+
+                                if (pickedStartTime == null) {
+                                  pickedStartTime = TimeOfDay.now();
+                                }
+
+                                if (pickedEndDate == null) {
+                                  pickedEndDate = DateTime.now();
+                                }
+
+                                if (pickedEndTime == null) {
+                                  pickedEndTime = TimeOfDay.now();
+                                }
+
+                                if (currentDate == null) {
+                                  currentDate = DateTime.now();
+                                }
+
+                                if (currentTime == null) {
+                                  currentTime = TimeOfDay.now();
+                                }
+
                                 var absoluteCurrentTime = new DateTime(
                                     currentDate.year,
                                     currentDate.month,
@@ -507,7 +531,7 @@ class _EventListViewState extends State<EventListView> {
                                     pickedEndDate.day,
                                     pickedEndTime.hour,
                                     pickedEndTime.minute);
-
+                                  
                                 if (absoluteEndTime
                                     .isBefore(absoluteStartTime)) {
                                   setState(() {
@@ -605,175 +629,166 @@ class _EventListViewState extends State<EventListView> {
 
     return SafeArea(
         child: Scaffold(
-            resizeToAvoidBottomInset: false,
-            backgroundColor: Color.fromRGBO(25, 28, 35, 1),
-            bottomNavigationBar: BottomNavBar(
-              defaultSelectedIndex: 1,
-              onChange: (val) {
-                setState(() {
-                  if (val == 0) {
-                    _createEventDialog(context);
-                  }
-                });
-              },
-              iconList: [
-                Icons.add_circle,
-                Icons.home,
-                Icons.find_in_page,
-                Icons.person,
-              ],
-              NBID: 0,
-            ),
-            body: Container(
-             
-                
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      top: kDefaultPadding,
-                      bottom: kDefaultPadding,
-                      left: kDefaultPadding * 0.15,
-                      right: kDefaultPadding * 0.15),
-                  child: Container(
-                      height: size.height,
-                      width: size.width,
-                      child: Column(children: <Widget>[
-                        Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.only(
-                                  bottom: kDefaultPadding,
-                                  left: 2 * kDefaultPadding),
-                              child: Text(
-                                "Sponsored Events",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20),
-                              ),
-                            )
-                          ],
-                        ),
-                        Container(
-                          height: 210,
-                          child: ListView(
-                              physics: BouncingScrollPhysics(),
-                              scrollDirection: Axis.horizontal,
-                              children: <Widget>[
-                                CreateSponsoredEventCard(
-                                    "Become an RA interest meeting",
-                                    "Taylor Auditorium",
-                                    "Wednesday, 7:30PM"),
-                                CreateSponsoredEventCard("Intramural Football",
-                                    "Intramural Fields", "Friday, 6:30PM"),
-                                CreateSponsoredEventCard("Dawgs After Dark",
-                                    "The Hump", "Thursday, 9:30PM"),
-                                CreateSponsoredEventCard(
-                                    "Cowbell yell",
-                                    "Bettersworth Auditorium",
-                                    "A super long and weird time that should overflow"),
-                                CreateSponsoredEventCard(
-                                    "Cowbell yell",
-                                    "A super long event locatation that should overflow",
-                                    "Sunday, 5:00PM"),
-                                CreateSponsoredEventCard(
-                                    "A super long title that should overflow",
-                                    "Bettersworth Auditorium",
-                                    "Sunday, 5:00PM"),
-                              ]),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              bottom: kDefaultPadding,
-                              top: kDefaultPadding,
-                              left: kDefaultPadding * 2,
-                              right: kDefaultPadding * 2),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              //latest event
-                              Column(
-                                children: [
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Container(
-                                    child: Text(
-                                      "Latest Events",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20),
-                                    ),
-                                  )
-                                ],
-                              ),
-
-                              Column(
-                                children: <Widget>[
-                                  Container(
-                                    //take away this
-                                    child: IconButton(
-                                      icon: Icon(Icons.view_headline),
-                                      color: Colors.white,
-                                      onPressed: _openFilterDialog,
-                                      iconSize: 30,
-                                    ),
-                                  ),
-                                  Container(
-                                    child: Text(
-                                      "Filter",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                            child: ListView(
-                              physics: BouncingScrollPhysics(),
-                              scrollDirection: Axis.vertical,
-                              children: <Widget>[
-                                CreateLatestEventCard("Intramural Football",
-                                    "Intramural Fields", "Friday, 6:30PM"),
-                                CreateLatestEventCard("Dawgs After Dark",
-                                    "The Hump", "Thursday, 9:30PM"),
-                                CreateLatestEventCard("Cowbell yell",
-                                    "Bettersworth Auditorium", "Sunday, 5:00PM"),
-                                CreateLatestEventCard(
-                                    "Become an RA interest meeting",
-                                    "Taylor Auditorium",
-                                    "Wednesday, 7:30PM"),
-                                CreateLatestEventCard(
-                                    "Become an RA interest meeting",
-                                    "Taylor Auditorium",
-                                    "Wednesday, 7:30PM"),
-                                CreateLatestEventCard(
-                                    "Become an RA interest meeting",
-                                    "Taylor Auditorium",
-                                    "Wednesday, 7:30PM"),
-                                CreateLatestEventCard(
-                                    "A super long title that should overflow on this card and newline",
-                                    "my backyard",
-                                    "Wednesday, 7:30PM"),
-                                CreateLatestEventCard(
-                                    "3rd to last card",
-                                    "a super long location that should overflow",
-                                    "Wednesday, 7:30PM"),
-                                CreateLatestEventCard("2nd to last card", "my backyard",
-                                    "A super long time that should overflow"),
-                                CreateLatestEventCard("last card actually",
-                                    "my backyard", "Wednesday, 7:30PM"),
-                              ],
-                            ))
-                      ])),
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Color.fromRGBO(25, 28, 35, 1),
+      bottomNavigationBar: BottomNavBar(
+        defaultSelectedIndex: 1,
+        onChange: (val) {
+          setState(() {
+            if (val == 0) {
+              _createEventDialog(context);
+            }
+          });
+        },
+        iconList: [
+          Icons.add_circle,
+          Icons.home,
+          Icons.find_in_page,
+          Icons.person,
+        ],
+        NBID: 0,
+      ),
+      body: Container(
+        child: Padding(
+          padding: const EdgeInsets.only(
+              top: kDefaultPadding,
+              bottom: kDefaultPadding,
+              left: kDefaultPadding * 0.15,
+              right: kDefaultPadding * 0.15),
+          child: Container(
+              height: size.height,
+              width: size.width,
+              child: Column(children: <Widget>[
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.only(
+                          bottom: kDefaultPadding, left: 2 * kDefaultPadding),
+                      child: Text(
+                        "Sponsored Events",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20),
+                      ),
+                    )
+                  ],
                 ),
-              ),
-            ));
+                Container(
+                  height: 210,
+                  child: ListView(
+                      physics: BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      children: <Widget>[
+                        CreateSponsoredEventCard(
+                            "Become an RA interest meeting",
+                            "Taylor Auditorium",
+                            "Wednesday, 7:30PM"),
+                        CreateSponsoredEventCard("Intramural Football",
+                            "Intramural Fields", "Friday, 6:30PM"),
+                        CreateSponsoredEventCard(
+                            "Dawgs After Dark", "The Hump", "Thursday, 9:30PM"),
+                        CreateSponsoredEventCard(
+                            "Cowbell yell",
+                            "Bettersworth Auditorium",
+                            "A super long and weird time that should overflow"),
+                        CreateSponsoredEventCard(
+                            "Cowbell yell",
+                            "A super long event locatation that should overflow",
+                            "Sunday, 5:00PM"),
+                        CreateSponsoredEventCard(
+                            "A super long title that should overflow",
+                            "Bettersworth Auditorium",
+                            "Sunday, 5:00PM"),
+                      ]),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      bottom: kDefaultPadding,
+                      top: kDefaultPadding,
+                      left: kDefaultPadding * 2,
+                      right: kDefaultPadding * 2),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      //latest event
+                      Column(
+                        children: [
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                            child: Text(
+                              "Latest Events",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20),
+                            ),
+                          )
+                        ],
+                      ),
+
+                      Column(
+                        children: <Widget>[
+                          Container(
+                            //take away this
+                            child: IconButton(
+                              icon: Icon(Icons.view_headline),
+                              color: Colors.white,
+                              onPressed: _openFilterDialog,
+                              iconSize: 30,
+                            ),
+                          ),
+                          Container(
+                            child: Text(
+                              "Filter",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                    child: ListView(
+                  physics: BouncingScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  children: <Widget>[
+                    CreateLatestEventCard("Intramural Football",
+                        "Intramural Fields", "Friday, 6:30PM"),
+                    CreateLatestEventCard(
+                        "Dawgs After Dark", "The Hump", "Thursday, 9:30PM"),
+                    CreateLatestEventCard("Cowbell yell",
+                        "Bettersworth Auditorium", "Sunday, 5:00PM"),
+                    CreateLatestEventCard("Become an RA interest meeting",
+                        "Taylor Auditorium", "Wednesday, 7:30PM"),
+                    CreateLatestEventCard("Become an RA interest meeting",
+                        "Taylor Auditorium", "Wednesday, 7:30PM"),
+                    CreateLatestEventCard("Become an RA interest meeting",
+                        "Taylor Auditorium", "Wednesday, 7:30PM"),
+                    CreateLatestEventCard(
+                        "A super long title that should overflow on this card and newline",
+                        "my backyard",
+                        "Wednesday, 7:30PM"),
+                    CreateLatestEventCard(
+                        "3rd to last card",
+                        "a super long location that should overflow",
+                        "Wednesday, 7:30PM"),
+                    CreateLatestEventCard("2nd to last card", "my backyard",
+                        "A super long time that should overflow"),
+                    CreateLatestEventCard("last card actually", "my backyard",
+                        "Wednesday, 7:30PM"),
+                  ],
+                ))
+              ])),
+        ),
+      ),
+    ));
   }
 }
 
