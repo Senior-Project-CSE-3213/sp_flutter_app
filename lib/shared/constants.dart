@@ -11,7 +11,10 @@ const textInputDecoration = InputDecoration(
   ),
 );
 
-const double kDefaultPadding = 16.0;
+const mainColor = Colors.indigoAccent;
+const kPrimaryColor = Color(0xFF6C63FF);
+const kPrimaryLightColor = Color(0xFFDEDEDE);
+const kDefaultPadding = 16.0;
 
 const Color primaryColor = Color(0xFF191A21);
 const Color secondaryColor = Color(0xFF7B61FF);
@@ -29,3 +32,4 @@ const String profileViewRoute = '/views/profile/profile.dart';
 const String settingViewRoute = '/views/settings/settings.dart';
 const String helpViewRoute = '/views/help/help.dart';
 const String mapViewRoute = '/views/map/map.dart';
+const String eventViewRoute = '/views/EventList/event_list.dart';

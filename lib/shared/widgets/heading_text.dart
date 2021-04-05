@@ -5,10 +5,12 @@ class HeadingText extends StatelessWidget {
     Key key,
     @required this.text,
     this.align,
+    this.scale,
   }) : super(key: key);
 
   final String text;
   final TextAlign align;
+  final double scale;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,7 @@ class HeadingText extends StatelessWidget {
       textAlign: align ?? TextAlign.left,
       style: TextStyle(
         color: Colors.white,
-        fontSize: 48,
+        fontSize: scale != null ? 48 * scale : 48,
         fontFamily: "Poppins",
         fontWeight: FontWeight.w700,
       ),

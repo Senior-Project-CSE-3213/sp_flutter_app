@@ -1,9 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sp_flutter_app/services/auth.dart';
 import 'package:sp_flutter_app/shared/loading.dart';
 import 'package:sp_flutter_app/viewmodels/user_profile_viewmodel.dart';
+import 'package:sp_flutter_app/views/EventList/event_list_view.dart';
 import 'package:sp_flutter_app/views/authenticate/create_profile.dart';
 import 'package:sp_flutter_app/views/authenticate/using_email.dart';
 import 'package:sp_flutter_app/views/authenticate/register.dart';
@@ -17,6 +19,9 @@ import 'shared/constants.dart';
 import 'viewmodels/user_viewmodel.dart';
 
 void main() async {
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+  ));
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MainApp());
@@ -42,10 +47,12 @@ class MainApp extends StatelessWidget {
                 createProfileViewRoute: (_) => CreateProfile(),
                 signInViewRoute: (_) => SignIn(),
                 mapViewRoute: (_) => MapView(),
+                eventViewRoute: (_) => EventListView(),
                 profileViewRoute: (_) => ProfileScreen(),
                 helpViewRoute: (_) => HelpScreen(),
                 settingViewRoute: (_) => SettingScreen(),
               },
+              initialRoute: mapViewRoute,
               home: userSnapshot.hasData ? MapView() : OnboardingView(),
             );
           } else {

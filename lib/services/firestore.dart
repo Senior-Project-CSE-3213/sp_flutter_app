@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:sp_flutter_app/models/event.dart';
 import 'package:sp_flutter_app/models/user.dart';
 import 'package:sp_flutter_app/models/user_profile.dart';
 
@@ -46,4 +47,46 @@ class FirestoreService {
       // handle different?
     }
   }
+
+  Future<List<SEvent>> getSEventData() async {
+    List<SEvent> sEventList;
+
+    final List<DocumentSnapshot> eventDoc =
+        (await _firestore.collection("sEvents").get()).docs;
+
+    sEventList = eventDoc
+        .map((eventDoc) => eventDoc['sEvents'] as String)
+        .cast<SEvent>()
+        .toList();
+
+    return sEventList;
+  }
+
+  Future<List<LEvent>> getLEventData() async {
+    List<LEvent> lEventList;
+
+    final List<DocumentSnapshot> eventDoc =
+        (await _firestore.collection("sEvents").get()).docs;
+
+    lEventList = eventDoc
+        .map((eventDoc) => eventDoc['sEvents'] as String)
+        .cast<LEvent>()
+        .toList();
+
+    return lEventList;
+  }
+
+  // Future<void> getSponseredEvents() async {
+  //   QuerySnapshot querySnapshot = await _firestore.collection("sEvents").get();
+
+  //   final sEventData = querySnapshot.docs.map((doc) => doc.data()).toList();
+  //   return sEventData;
+  // }
+
+  // Future<void> getLatestEvents() async {
+  //   QuerySnapshot querySnapshot = await _firestore.collection("lEvents").get();
+
+  //   final lEventData = querySnapshot.docs.map((doc) => doc.data()).toList();
+  //   return lEventData;
+  // }
 }
