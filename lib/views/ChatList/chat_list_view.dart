@@ -80,10 +80,13 @@ class _ChatListViewState extends State<ChatListView> {
                 //messages label
                 //circular search bar
                 //new messages section
+                
+                //section tabs within a scroll is something chase really wanted
                 //today
                 //yesterday
                 //this week
                 //last week
+                
                 //dribble:https://dribbble.com/shots/10907381--20-ChatApp-MobileApp-Concept
                 //[rest of messages after spacer (don't label thsi one)]
 
