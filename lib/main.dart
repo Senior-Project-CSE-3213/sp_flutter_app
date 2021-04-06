@@ -1,8 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sp_flutter_app/views/EventList/event_list_view.dart';
-import 'views/event_map.dart';
+import 'package:sp_flutter_app/views/ChatList/chat_list_view.dart';
 import 'views/help.dart';
 import 'views/profile.dart';
 import 'views/settings.dart';
@@ -24,7 +23,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => UserViewModel()),
       ],
       child: MaterialApp(initialRoute: eventMapScreenRoute, routes: {
-        eventMapScreenRoute: (_) => Wrapper(child: EventListView()),
+        eventMapScreenRoute: (_) => Wrapper(child: ChatListView()),
         profileScreenRoute: (_) => ProfileScreen(),
         helpScreenRoute: (_) => HelpScreen(),
         settingScreenRoute: (_) => SettingScreen(),
