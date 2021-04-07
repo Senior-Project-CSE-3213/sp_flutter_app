@@ -17,7 +17,7 @@ class _ChatListViewState extends State<ChatListView> {
 
     return SafeArea(
         child: Scaffold(
-            backgroundColor: Color.fromRGBO(25, 28, 35, 1),
+            backgroundColor: Color.fromRGBO(30, 35, 41, 1),
             bottomNavigationBar: BottomNavBar(
               defaultSelectedIndex: 0,
               onChange: (val) {
@@ -44,49 +44,52 @@ class _ChatListViewState extends State<ChatListView> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.only(
-                                  bottom: kDefaultPadding,
-                                  left: 2 * kDefaultPadding),
-                              child: Text(
-                                "Messages",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Roboto',
-                                    fontSize: 18),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              right: kDefaultPadding, left: kDefaultPadding),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              CreateProfileCircle(
+                                  "assets/profile_pictures/a_retired_legend.jpg", "SL"),
+                              Container(
+                                child: Text(
+                                  "Messages",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Roboto',
+                                      fontSize: 18),
+                                ),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: kDefaultPadding,),
-                              child: Container(
+                              Container(
                                 //take away this
                                 child: IconButton(
                                   icon: Icon(Icons.view_headline),
                                   color: Colors.white,
-                                  onPressed: null,
-                                  iconSize: 35,
+                                  onPressed: () {
+                                    //nothing right now
+                                  },
+                                  iconSize: 30,
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ],
                     ))
 
-                //messages label
                 //circular search bar
                 //new messages section
-                
+
                 //section tabs within a scroll is something chase really wanted
                 //today
                 //yesterday
                 //this week
                 //last week
-                
+
                 //dribble:https://dribbble.com/shots/10907381--20-ChatApp-MobileApp-Concept
                 //[rest of messages after spacer (don't label thsi one)]
 
@@ -97,3 +100,37 @@ class _ChatListViewState extends State<ChatListView> {
 //extracted widget classes here
 //full profile card widget
 //preview profile card widget
+
+// ignore: must_be_immutable
+class CreateProfileCircle extends StatelessWidget {
+  String _resourcePath;
+  String _initials;
+
+  CreateProfileCircle(String resourcePath, String initials) {
+    _resourcePath = resourcePath;
+    _initials = initials;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Flexible(
+      child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: CircleAvatar(
+            backgroundColor: Color.fromRGBO(213, 213, 213, 0),
+            foregroundColor: Color.fromRGBO(30, 35, 41, 1),
+            backgroundImage: AssetImage(_resourcePath),
+            radius: 20,
+            child: Text(
+              _initials.length == 2 ? _initials.toUpperCase() : "",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Roboto',
+                  fontSize: 18),
+            ),
+          )),
+    );
+  }
+}
