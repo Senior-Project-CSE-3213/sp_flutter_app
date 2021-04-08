@@ -42,7 +42,7 @@ class _ChatListViewState extends State<ChatListView> {
                     height: size.height,
                     width: size.width,
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Padding(
                           padding: const EdgeInsets.only(
@@ -52,7 +52,8 @@ class _ChatListViewState extends State<ChatListView> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               CreateProfileCircle(
-                                  "assets/profile_pictures/a_retired_legend.jpg", "SL"),
+                                  "assets/profile_pictures/a_retired_legend.jpg",
+                                  "SL"),
                               Container(
                                 child: Text(
                                   "Messages",
@@ -78,28 +79,250 @@ class _ChatListViewState extends State<ChatListView> {
                             ],
                           ),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.all(kDefaultPadding * 2.0),
+                          child: Container(
+                            height: 45,
+                            child: TextField(
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.left,
+                              cursorColor: Colors.white,
+                              textInputAction: TextInputAction.next,
+                              decoration: InputDecoration(
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.white),
+                                      borderRadius: BorderRadius.circular(60)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.white),
+                                      borderRadius: BorderRadius.circular(60)),
+                                  hintText: 'Search messages...',
+                                  hintStyle: TextStyle(
+                                      fontStyle: FontStyle.normal,
+                                      color: Colors.white)),
+                            ),
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: kDefaultPadding * 2.0),
+                              child: Container(
+                                child: Text(
+                                  "Contacts",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Roboto',
+                                      fontSize: 14),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: kDefaultPadding * 2.0,
+                              right: kDefaultPadding * 2.0,
+                              top: kDefaultPadding),
+                          child: Container(
+                            height: 60,
+                            child: ListView(
+                                scrollDirection: Axis.horizontal,
+                                physics: BouncingScrollPhysics(),
+                                children: <Widget>[
+                                  //create new one button here
+                                  CreateContactCircle(),
+                                  CreateProfileCircle(
+                                      "assets/profile_pictures/chris_hemsworth.jpg",
+                                      "CH"),
+                                  CreateProfileCircle(
+                                      "assets/profile_pictures/scarlet_johanson.jpg",
+                                      "SJ"),
+                                  CreateProfileCircle(
+                                      "assets/profile_pictures/samuel_jackson.jpg",
+                                      "SJ"),
+                                  CreateProfileCircle(
+                                      "assets/profile_pictures/robert_downey.jpg",
+                                      "RD"),
+                                  CreateProfileCircle(
+                                      "assets/profile_pictures/kayleigh_mcenany.jpg",
+                                      "KM"),
+                                  CreateProfileCircle(
+                                      "assets/profile_pictures/james_spader.jpg",
+                                      "JS"),
+                                  CreateProfileCircle(
+                                      "assets/profile_pictures/chris_pratt.jpg",
+                                      "CP"),
+                                  CreateProfileCircle(
+                                      "assets/profile_pictures/chris_evans.jpg",
+                                      "CE"),
+                                ]),
+                          ),
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: kDefaultPadding * 2.0,
+                                  top: kDefaultPadding * 2.0),
+                              child: Container(
+                                child: Text(
+                                  "Latest Chats",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Roboto',
+                                      fontSize: 14),
+                                ),
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: kDefaultPadding * 2.0,
+                                      top: kDefaultPadding * 2.0),
+                                  child: Container(
+                                    child: Text(
+                                      "Unread messages",
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                          color: Color.fromRGBO(226, 98, 98, 1),
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'Roboto',
+                                          fontSize: 12),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: kDefaultPadding * 2.0),
+                                  child: Container(
+                                    child: Flexible(
+                                      child: Padding(
+                                          padding: const EdgeInsets.all(10),
+                                          child: Stack(
+                                              alignment:
+                                                  AlignmentDirectional.center,
+                                              children: <Widget>[
+                                                CircleAvatar(
+                                                  radius: 10,
+                                                  backgroundColor:
+                                                      Color.fromRGBO(
+                                                          226, 98, 98, 1),
+                                                ),
+                                                Text(
+                                                  "9+",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                      color: Color.fromRGBO(
+                                                          30, 35, 41, 1),
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontFamily: 'Roboto',
+                                                      fontSize: 8),
+                                                ),
+                                              ])),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        Expanded(
+                          child: ListView(
+                            scrollDirection: Axis.vertical,
+                            children: <Widget>[
+                              // CreateChatCard(
+                              //     "path/to/image",
+                              //     "contact name",
+                              //     "12:30",
+                              //     "Hey stan! Just checking to make sure that you're",
+                              //     false,
+                              //     true),
+                            ],
+                          ),
+                        )
                       ],
-                    ))
-
-                //circular search bar
-                //new messages section
-
-                //section tabs within a scroll is something chase really wanted
-                //today
-                //yesterday
-                //this week
-                //last week
-
-                //dribble:https://dribbble.com/shots/10907381--20-ChatApp-MobileApp-Concept
-                //[rest of messages after spacer (don't label thsi one)]
-
-                )));
+                    )))));
   }
 }
 
-//extracted widget classes here
-//full profile card widget
-//preview profile card widget
+// ignore: must_be_immutable
+class CreateChatCard extends StatelessWidget {
+  String _resourcePath;
+  String _name;
+  String _timeSent;
+  String _chatPreview;
+  bool _messageRead;
+  bool _contactOnline;
+
+  CreateChatCard(String resourcePath, String name, String timeSent,
+      String chatPreview, bool messageRead, bool contactOnline) {
+    _resourcePath = resourcePath;
+    _name = name;
+    _timeSent = timeSent;
+    _chatPreview = chatPreview;
+    _messageRead = messageRead;
+    _contactOnline = contactOnline;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Flexible(
+      child: Padding(
+        padding: const EdgeInsets.only(left: kDefaultPadding, top: kDefaultPadding),
+        child: Container(
+          child: Text(_name),
+          //main card that's gray shade depending on seen
+          //row of 3 elements: stack to make profile view with indicator dot, column for row of text, column for time shifted up
+        ),
+      ),
+    );
+  }
+
+  //trim name if too long
+  //trim chat preview if too long
+}
+
+class CreateContactCircle extends StatelessWidget {
+  CreateContactCircle();
+
+  @override
+  Widget build(BuildContext context) {
+    return Flexible(
+      child: Padding(
+          padding: const EdgeInsets.all(10),
+          child:
+              Stack(alignment: AlignmentDirectional.center, children: <Widget>[
+            CircleAvatar(
+              radius: 20,
+              backgroundColor: Colors.white,
+            ),
+            CircleAvatar(
+              radius: 18,
+              backgroundColor: Color.fromRGBO(30, 35, 41, 1),
+            ),
+            Icon(
+              Icons.add,
+              color: Colors.white,
+              size: 26,
+            ),
+          ])),
+    );
+  }
+}
 
 // ignore: must_be_immutable
 class CreateProfileCircle extends StatelessWidget {

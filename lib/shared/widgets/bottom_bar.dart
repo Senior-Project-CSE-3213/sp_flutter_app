@@ -105,14 +105,14 @@ class _BottomNavBarState extends State<BottomNavBar> {
                         gradient: new RadialGradient(
                             colors: [
                               Color.fromRGBO(213, 92, 5, 1),
-                              Color.fromRGBO(25, 28, 35, 1)
+                              _NBID == 0 ? Color.fromRGBO(25, 28, 35, 1) : Color.fromRGBO(30, 35, 41, 1) 
                             ],
                             center: Alignment(0, 0.7),
                             radius: 0.12,
                             tileMode: TileMode.clamp,
                             stops: [0.3, 0.7]),
                       )
-                    : null)),
+                    : null)), //Color.fromRGBO(30, 35, 41, 1)
             //NOTE: these are not IconButtons so that we can have this indicator dot
             child: (_NBID == 0
                 ?
