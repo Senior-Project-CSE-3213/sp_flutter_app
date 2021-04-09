@@ -53,7 +53,7 @@ class _ChatListViewState extends State<ChatListView> {
                             children: [
                               CreateProfileCircle(
                                   "assets/profile_pictures/a_retired_legend.jpg",
-                                  "SL"),
+                                  ""),
                               Container(
                                 child: Text(
                                   "Messages",
@@ -222,7 +222,7 @@ class _ChatListViewState extends State<ChatListView> {
                                                           226, 98, 98, 1),
                                                 ),
                                                 Text(
-                                                  "9+",
+                                                  "69",
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
                                                       color: Color.fromRGBO(
@@ -244,13 +244,13 @@ class _ChatListViewState extends State<ChatListView> {
                           child: ListView(
                             scrollDirection: Axis.vertical,
                             children: <Widget>[
-                              // CreateChatCard(
-                              //     "path/to/image",
-                              //     "contact name",
-                              //     "12:30",
-                              //     "Hey stan! Just checking to make sure that you're",
-                              //     false,
-                              //     true),
+                              CreateChatCard(
+                                  "assets/profile_pictures/chris_evans.jpg",
+                                  "Chris Evans",
+                                  "12:36",
+                                  "Hey stan! Just checking to make sure that you're doing good",
+                                  false,
+                                  true),
                             ],
                           ),
                         )
@@ -282,11 +282,64 @@ class CreateChatCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Flexible(
       child: Padding(
-        padding: const EdgeInsets.only(left: kDefaultPadding, top: kDefaultPadding),
-        child: Container(
-          child: Text(_name),
-          //main card that's gray shade depending on seen
-          //row of 3 elements: stack to make profile view with indicator dot, column for row of text, column for time shifted up
+        padding:
+            const EdgeInsets.only(left: kDefaultPadding, top: kDefaultPadding),
+        child: Stack(
+          alignment: Alignment.centerRight,
+          children: [
+            Container(
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(45.0),
+                    child: Container(
+                        color: (_messageRead
+                            ? Color.fromRGBO(42, 46, 55, 1)
+                            : Color.fromRGBO(62, 66, 75, 1)),
+                        height: 80,
+                        width: 400,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(width: 10),
+                            Stack(
+                              alignment: Alignment.bottomRight,
+                              children: [
+                                CreateProfileCircle(_resourcePath, ""),
+                                Positioned(
+                                  bottom: 10,
+                                  right: 10,
+                                  child: CircleAvatar(
+                                    radius: 5,
+                                    backgroundColor: (_contactOnline
+                                        ? Colors.white
+                                        : Color.fromRGBO(117, 127, 146, 1)),
+                                  ),
+                                ),
+                              ],
+                            ),
+
+                            Column(
+                              children: [
+                                //contact name
+                                //message preview
+                              ],
+                            ),
+
+                            Column(
+                              children: [
+                                //time
+                                //spacer to make time at the top
+                              ],
+                            ),
+                          ],
+                        )))),
+            Container(
+              color: (_messageRead
+                  ? Color.fromRGBO(42, 46, 55, 1)
+                  : Color.fromRGBO(62, 66, 75, 1)),
+              height: 80,
+              width: 40,
+            )
+          ],
         ),
       ),
     );
