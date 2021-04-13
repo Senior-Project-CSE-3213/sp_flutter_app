@@ -13,11 +13,11 @@ const textInputDecoration = InputDecoration(
 
 const mainColor = Colors.indigoAccent;
 const kPrimaryColor = Color(0xFF6C63FF);
+const Color secondaryColor = Color(0xFF7B61FF);
 const kPrimaryLightColor = Color(0xFFDEDEDE);
 const kDefaultPadding = 16.0;
 
 const Color primaryColor = Color(0xFF191A21);
-const Color secondaryColor = Color(0xFF7B61FF);
 const Color blueColor = Color(0xFF246BFD);
 const Color primaryLightColor = Color(0xFFDEDEDE);
 const Color labelTextColor = Color(0xffadadb2);
