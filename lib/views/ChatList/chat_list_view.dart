@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sp_flutter_app/shared/constants.dart';
 import 'package:sp_flutter_app/shared/widgets/bottom_bar.dart';
+import 'package:sp_flutter_app/shared/widgets/simple_text_input_field.dart';
 
 class ChatListView extends StatefulWidget {
   @override
@@ -22,7 +23,13 @@ class _ChatListViewState extends State<ChatListView> {
               defaultSelectedIndex: 0,
               onChange: (val) {
                 setState(() {
-                  //val -> bottom bar in dex
+                  if (val == 0) {
+                    //main dm list page
+                  } else if (val == 1) {
+                    //profile view same as top left corner
+                  } else if (val == 2) {
+                    createChatDialog(context);
+                  }
                 });
               },
               iconList: [
@@ -51,6 +58,7 @@ class _ChatListViewState extends State<ChatListView> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
+                              //TODO be able to click this to change status
                               CreateProfileCircle(
                                   "assets/profile_pictures/a_retired_legend.jpg",
                                   ""),
@@ -222,7 +230,7 @@ class _ChatListViewState extends State<ChatListView> {
                                                           226, 98, 98, 1),
                                                 ),
                                                 Text(
-                                                  "69",
+                                                  "2",
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
                                                       color: Color.fromRGBO(
@@ -243,13 +251,35 @@ class _ChatListViewState extends State<ChatListView> {
                         Expanded(
                           child: ListView(
                             scrollDirection: Axis.vertical,
+                            physics: BouncingScrollPhysics(),
                             children: <Widget>[
                               CreateChatCard(
                                   "assets/profile_pictures/chris_evans.jpg",
                                   "Chris Evans",
-                                  "12:36",
+                                  "4:36PM",
                                   "Hey stan! Just checking to make sure that you're doing good",
                                   false,
+                                  true),
+                              CreateChatCard(
+                                  "assets/profile_pictures/james_spader.jpg",
+                                  "James Spader",
+                                  "11:36PM",
+                                  "Yo yo yo, you got that stuff I asked for?",
+                                  false,
+                                  false),
+                              CreateChatCard(
+                                  "assets/profile_pictures/kayleigh_mcenany.jpg",
+                                  "Kayleigh Mcenany",
+                                  "1:42AM",
+                                  "Stan: have you gotten your speech ready for the awards night?",
+                                  true,
+                                  false),
+                              CreateChatCard(
+                                  "assets/profile_pictures/chris_pratt.jpg",
+                                  "Chris Pratt",
+                                  "7:01AM",
+                                  "The brother's said they need you ASAP for your cameo; get down here now!",
+                                  true,
                                   true),
                             ],
                           ),
@@ -316,28 +346,56 @@ class CreateChatCard extends StatelessWidget {
                                 ),
                               ],
                             ),
-
+                            SizedBox(width: 5),
                             Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                //contact name
-                                //message preview
-                              ],
-                            ),
-
-                            Column(
-                              children: [
-                                //time
-                                //spacer to make time at the top
+                                Text(
+                                  _nameLengthCheck(_name),
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Roboto',
+                                      fontSize: 14),
+                                ),
+                                Text(
+                                  _previewLengthCheck(_chatPreview),
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'Roboto',
+                                      fontSize: 12),
+                                ),
                               ],
                             ),
                           ],
                         )))),
-            Container(
-              color: (_messageRead
-                  ? Color.fromRGBO(42, 46, 55, 1)
-                  : Color.fromRGBO(62, 66, 75, 1)),
-              height: 80,
-              width: 40,
+            Stack(
+              children: [
+                Container(
+                  color: (_messageRead
+                      ? Color.fromRGBO(42, 46, 55, 1)
+                      : Color.fromRGBO(62, 66, 75, 1)),
+                  height: 80,
+                  width: 70,
+                ),
+                Positioned(
+                  top: 20,
+                  left: 10,
+                  child: Text(
+                    _timeLengthCheck(_timeSent),
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Roboto',
+                        fontSize: 12),
+                  ),
+                ),
+              ],
             )
           ],
         ),
@@ -345,8 +403,19 @@ class CreateChatCard extends StatelessWidget {
     );
   }
 
-  //trim name if too long
-  //trim chat preview if too long
+  String _previewLengthCheck(String chatPreview) {
+    return (chatPreview.length > 42
+        ? chatPreview.substring(0, 39) + "..."
+        : chatPreview);
+  }
+
+  String _nameLengthCheck(String name) {
+    return (name.length > 30 ? name.substring(0, 27) + "..." : name);
+  }
+
+  String _timeLengthCheck(String time) {
+    return (time.length > 7 ? time.substring(0, 7) : time);
+  }
 }
 
 class CreateContactCircle extends StatelessWidget {
@@ -409,4 +478,109 @@ class CreateProfileCircle extends StatelessWidget {
           )),
     );
   }
+}
+
+Future<void> _inform(BuildContext context, String title, String mainText,
+    String secondaryText) async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+    builder: (BuildContext context) {
+      return AlertDialog(
+        backgroundColor: Color.fromRGBO(30, 35, 41, 1),
+        title: Text(
+          title,
+          textAlign: TextAlign.left,
+          style: TextStyle(
+            fontSize: 26.0,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: <Widget>[
+              SizedBox(height: 20),
+              Text(
+                mainText,
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.grey[500],
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                secondaryText,
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.grey[500],
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: Text('Sounds good'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
+Future createChatDialog(BuildContext context) async {
+  return await showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(builder: (context, setState) {
+          return AlertDialog(
+            backgroundColor: Color.fromRGBO(25, 28, 35, 1),
+            content: Container(
+              child: Flexible(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Create a group chat",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        "Group name",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SimpleTextInputField(
+                        error: false,
+                        handleChange: (val) {},
+                        handleSubmit: () {},
+                      ),
+                      SizedBox(height: 10),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            actions: [],
+          );
+        });
+      });
 }
