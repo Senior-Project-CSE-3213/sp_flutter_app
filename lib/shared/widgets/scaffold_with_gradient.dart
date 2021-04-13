@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sp_flutter_app/shared/widgets/bottom_bar.dart';
+import 'package:sp_flutter_app/shared/widgets/create_event_dialog.dart';
 import 'package:sp_flutter_app/shared/widgets/main_drawer.dart';
 
 import '../constants.dart';
@@ -42,12 +43,9 @@ class ScaffoldWithGradient extends StatelessWidget {
           ? BottomNavBar(
               defaultSelectedIndex: 1,
               onChange: (val) {
-                // setState(() {
-                // if (val == 0) {
-                //TODO get event details from user and confirm
-                //now sam will make an event in the database with the returned data
-                //   }
-                // });
+                if (val == 0) {
+                  createEventDialog(context);
+                }
               },
               iconList: [
                 Icons.add_circle,
